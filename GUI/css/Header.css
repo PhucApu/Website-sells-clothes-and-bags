@@ -1,0 +1,63 @@
+@import url('../css/reset.css');
+@import url('../css/font.css');
+
+:root{
+       --color-main : #A0D2D8;
+}
+body{
+       margin: 0;
+}
+header{
+       display: flex;
+       justify-content: space-around;
+       height: 86px;
+}
+header .logo{
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       padding-right: 30px;
+}
+header .menubar ul{
+       display: flex;
+       width: 500px;
+       height: 86px;
+       justify-content: space-evenly;
+       align-items: center;
+}
+header .menubar ul li a{
+       font-family: "robotoMedium";
+       font-size: 14px;
+       text-decoration: none;
+       color: black;
+       line-height: 24px;
+       font-weight: 500;
+       transition: 0.25s;
+}
+header .menubar ul li a:hover{
+       color: var(--color-main);
+}
+header .cart{
+       position: relative;
+}
+header .number-cart{
+       font-family: "robotoMedium";
+       font-size: 14px;
+       color: aliceblue;
+       position: absolute;
+       top: -5px;
+       right: -13px;
+       display: flex;
+       background-color: var(--color-main);
+       padding: 3px;
+       height: 13px;
+       border-radius: 100px;
+       justify-content: center;
+       align-items: center;
+}
+
+
+
+
+
+
