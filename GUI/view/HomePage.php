@@ -13,9 +13,9 @@
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
        <style>
               <?php
-              require('../css/Header.css');
-              require('../css/Footer.css');
-              require('../css/HomePage.css');
+                     require('../css/Header.css');
+                     require('../css/Footer.css');
+                     require('../css/HomePage.css');
               ?>
        </style>
 
