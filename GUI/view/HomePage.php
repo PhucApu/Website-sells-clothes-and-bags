@@ -13,9 +13,9 @@
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
        <style>
               <?php
-                     require('../css/Header.css');
-                     require('../css/Footer.css');
-                     require('../css/HomePage.css');
+              require('../css/Header.css');
+              require('../css/Footer.css');
+              require('../css/HomePage.css');
               ?>
        </style>
 
@@ -70,14 +70,18 @@
                             <div class="product">
                                    <div class="product-item text">
                                           <div class="image-item">
-                                                 <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                 <a href="./ProductDetail.php">
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                         <div class="discount">
                                                                <span>20%</span>
                                                         </div>
@@ -95,13 +99,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -116,13 +124,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -137,13 +149,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -158,13 +174,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -229,13 +249,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                         <div class="discount">
                                                                <span>20%</span>
                                                         </div>
@@ -253,13 +277,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -274,13 +302,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -295,13 +327,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -316,13 +352,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">
@@ -337,13 +377,17 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/1-5-312x390.png" alt="">
-                                                        <div class="add-to-cart">
-                                                               <span><i class="fas fa-shopping-bag"></i></span>
-                                                        </div>
-                                                        <div class="see-more">
-                                                               <span><i class="far fa-eye"></i></span>
-                                                        </div>
+                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <a href="./Cart.php">
+                                                               <div class="add-to-cart">
+                                                                      <span><i class="fas fa-shopping-bag"></i></span>
+                                                               </div>
+                                                        </a>
+                                                        <a href="./ProductDetail.php">
+                                                               <div class="see-more">
+                                                                      <span><i class="far fa-eye"></i></span>
+                                                               </div>
+                                                        </a>
                                                  </a>
                                           </div>
                                           <div class="name-item">

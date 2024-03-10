@@ -5,13 +5,13 @@
               <div class="menubar">
                      <ul>
                             <li>
-                                   <a href="">HOME</a>
+                                   <a href="./HomePage.php">HOME</a>
                             </li>
                             <li>
                                    <a href="">SHOP</a>
                             </li>
                             <li>
-                                   <a href="">CONTACTS</a>
+                                   <a href="./contacts.php">CONTACTS</a>
                             </li>
                             <li>
                                    <!-- icon search -->
@@ -19,7 +19,7 @@
                             </li>
                             <li>
                                    <!-- icon vo cart -->
-                                   <a href="">
+                                   <a href="./Cart.php">
                                           <div class="cart">
                                                  <i class="fas fa-shopping-bag"></i>
                                                  <span class="number-cart">0</span>
