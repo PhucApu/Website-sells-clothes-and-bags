@@ -59,5 +59,6 @@
 
 - ## Giao việc:
   - **Tìm kiếm và đề xuất hình ảnh về form đăng nhập, đăng ký và giao diện** : Phát, Sang, Dũng, Trí.
+  - **Code form đăng nhập, đăng ký**: ?
   - **Thiết kế cơ bản DTO, DAO + CSDL**: Apu  
 
