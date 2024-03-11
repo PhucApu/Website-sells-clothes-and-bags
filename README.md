@@ -40,7 +40,7 @@
   - Nếu có lỡ đẩy code lên làm thư mục gốc bị lỗi thì báo mình để mình reset lại nha.
 
 - ## Kết quả hoàn thành task 1: một số lưu ý 
-  - Trang **cart**, **chi tiết sản phẩm**, **contacts us** đã hoàn thành tốt. Riêng trang **shop** chưa giống mẫu nên phải làm lại, **thời gian làm lại đến 23h59p thứ 3 ngày 12/03/2024**.
+  - Trang **cart**, **chi tiết sản phẩm**, **contacts us**,**shop** đã hoàn thành tốt
   - Trong quá trình làm **có hình ảnh**, mấy phen **nên tải ảnh đó về lưu vào đúng thư mục trong thư mục image** để tiện thao tác chứ **không nên link ảnh đến trang web đó** dễ bị lỗi.
   - Tớ **đã push toàn bộ file các trang hoàn thành tốt lên githud**. Các bạn có thể pull về để kiểm tra xem có sai sót gì không.
   - **Nếu có sai xót gì các bạn nhớ báo tớ trong nhóm zalo nha.**

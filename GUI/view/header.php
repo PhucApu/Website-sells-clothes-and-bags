@@ -8,7 +8,7 @@
                                    <a href="./HomePage.php">HOME</a>
                             </li>
                             <li>
-                                   <a href="">SHOP</a>
+                                   <a href="./Shop.php">SHOP</a>
                             </li>
                             <li>
                                    <a href="./contacts.php">CONTACTS</a>
