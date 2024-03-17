@@ -13,11 +13,35 @@
                             <li>
                                    <a href="./contacts.php">CONTACTS</a>
                             </li>
-                            <li>
+                            <li class="search">
                                    <!-- icon search -->
-                                   <a href=""><i class="fas fa-search"></i></a>
+                                   <a href="" id="search-icon" onclick="search(event)"><i class="fas fa-search"></i></a>
+
+                                   <div class="box-search active-box-search">
+                                          <input type="text" placeholder="input name product">
+                                          <div class="result-search">
+                                                 <div class="item">
+                                                        <a href="">
+                                                               <img src="../image/product/product1/product-detail-1.png" alt="">
+                                                               <span>đầm hồng</span>
+                                                        </a>
+                                                 </div>
+                                                 <div class="item">
+                                                        <a href="">
+                                                               <img src="../image/product/product1/product-detail-1.png" alt="">
+                                                               <span>đầm hồng</span>
+                                                        </a>
+                                                 </div>
+                                                 <div class="item">
+                                                        <a href="">
+                                                               <img src="../image/product/product1/product-detail-1.png" alt="">
+                                                               <span>đầm hồng</span>
+                                                        </a>
+                                                 </div>
+                                          </div>
+                                   </div>
                             </li>
-                            <li>
+                            <li >
                                    <!-- icon vo cart -->
                                    <a href="./Cart.php">
                                           <div class="cart">

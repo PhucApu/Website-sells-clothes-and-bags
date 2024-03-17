@@ -71,7 +71,7 @@
                                    <div class="product-item text">
                                           <div class="image-item">
                                                  <a href="./ProductDetail.php">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -99,7 +99,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -124,7 +124,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -149,7 +149,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -174,7 +174,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -249,7 +249,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -277,7 +277,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -302,7 +302,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -327,7 +327,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -352,7 +352,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -377,7 +377,7 @@
                                    <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
-                                                        <img src="../image/product/product_5/1-5-312x390.png" alt="">
+                                                        <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
                                                                       <span><i class="fas fa-shopping-bag"></i></span>
@@ -425,6 +425,7 @@
        <!-- footer -->
        <?php require('./footer.php'); ?>
 
+       <script src="../Js/Header.js"></script>
        <script src="../Js/HomePage.js"></script>
 </body>
 

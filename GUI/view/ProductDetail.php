@@ -233,6 +233,7 @@
     <!-- footer -->
     <?php require('./footer.php'); ?>
 
+    <script src="../Js/Header.js"></script>
     <script src="../Js/ProductDetail.js"></script>
 </body>
 

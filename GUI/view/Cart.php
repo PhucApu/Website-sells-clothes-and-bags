@@ -19,6 +19,7 @@
               ?>
        </style>
        <script src="https://kit.fontawesome.com/fc3c5402e6.js" crossorigin="anonymous"></script>
+       
 </head>
 
 <body>
@@ -75,7 +76,7 @@
                                                                <div class="product_name_img" >
                                                                       <!-- link tới chi tiết sản phẩm -->
                                                                       <a href="https://minimal.crv.vn/product/cotton-t-shirt/">
-                                                                             <img src="../image/product/product_5/1-5-312x390.png" alt="Cart">
+                                                                             <img src="../image/product/product_4/product-detail-1.png" alt="Cart">
                                                                       </a>
                                                                </div>
                                                                <div class="product_name_text">
@@ -134,7 +135,7 @@
 
        <!-- footer -->
        <?php require('./footer.php'); ?>
-
+       <script src="../Js/Header.js"></script>
 </body>
 
 </html>

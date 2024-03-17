@@ -7,24 +7,24 @@
 
 -  Trang **shop**:
    
-   ![](minimal.crv.vn_shop_.png)
+   ![](./Photo_diary/minimal.crv.vn_shop_.png)
 
    - **Lưu ý**: bỏ phần được đánh dấu màu xanh, còn lại code y như mẫu rên web (bao gồm hiệu ứng đầy đủ)
    - Làm thêm phần "**phân trang**" (lên youtube tìm hiểu)
 
 - Trang **chi tiết sản phẩm**:
-   ![](minimal.crv.vn_product_super-soft-wrap-jumpsuit_.png)
+   ![](./Photo_diary/minimal.crv.vn_product_super-soft-wrap-jumpsuit_.png)
 
    - **Lưu ý**: bỏ phần được đánh dấu màu xanh, còn lại code y như mẫu rên web (bao gồm hiệu ứng đầy đủ). **Kéo toàn bộ nội dung chi tiết sản phẩm ra luôn phần bị xóa.**.
    - Làm cả phần **Description** và phần **Review** nha. (được đánh dấu màu xanh lá cây á).
 
 - Trang **contacts**:
-  ![](minimal.crv.vn_contacts_.png)
+  ![](./Photo_diary/minimal.crv.vn_contacts_.png)
 
   - **Lưu ý**: làm y như mẫu trên web.
 
 - Trang **cart**:
-  ![](minimal.crv.vn_cart_.png)
+  ![](./Photo_diary/minimal.crv.vn_cart_.png)
 
   - **Lưu ý**: làm y như mẫu trên web. Khi làm nên lên web thêm một sản phẩm bất kỳ vào vỏ hàng để làm theo cấu trúc. **Lúc có sản phẩm và lúc không có sản phẩm.**
 
@@ -53,12 +53,22 @@
 - Sau khi kiếm được mẫu sẽ code sau.
 
 - Đây là hình ảnh sơ đồ cở sở dữ liệu của nhóm (đã được thầy Sang tư vấn): 
-  ![](./CSDL.png) 
+  ![](./Photo_diary/CSDL.png) 
+  ![](./Photo_diary/CSDL_mySQL.jpg)
 
 - Có gì tớ thiết kế sơ đối tượng trong lớp DTO với lớp DAO rồi push lên để anh em tham khảo nha, có gì góp ý chung.
 
 - ## Giao việc:
   - **Tìm kiếm và đề xuất hình ảnh về form đăng nhập, đăng ký và giao diện** : Phát, Sang, Dũng, Trí.
-  - **Code form đăng nhập, đăng ký**: ?
+  - **Code form đăng nhập, đăng ký**: Sang
   - **Thiết kế cơ bản DTO, DAO + CSDL**: Apu  
 
+- ## Kết quả hoàn thành task 2: một số lưu ý
+  - Đã kiếm được form đăng nhập đăng ký và đã code: 
+  ![](./Photo_diary/Login_form.jpg)
+  ![](./Photo_diary/signup_form.jpg)
+  - Đã tạo xong các đối tượng trong lớp DTO, file tạo bảng và mối liên kết giữa các bảng trong mySQL trong XAMPP.
+  - Chưa hoàn thành việc ghi các câu lệnh truy suất trong lớp DAL.
+
+
+## Task 3 (): ??  

@@ -55,6 +55,43 @@ header .number-cart{
        justify-content: center;
        align-items: center;
 }
+header .search{
+       position: relative;
+}
+header .search .box-search{
+       display: none;
+       position: absolute;
+       z-index: 100;
+       right: 0;
+       width: 250px;
+       background-color: white;
+       top: 30px;
+       opacity: 1;
+       transition: 0.5s;
+}
+header .search .box-search input{
+       font-family: "robotoMedium";
+       height: 30px;
+       width: 250px;
+}
+header .search .box-search .result-search .item a{
+       display: flex;
+       align-items: center;
+       margin-bottom: 8px;
+       padding-bottom: 5px;
+       border-bottom: 1px solid grey;
+}
+header .search .box-search .result-search .item img{
+       width: 50px;
+       margin-right: 20px;
+}
+header .search .box-search .result-search{
+       overflow: scroll;
+       overflow-x: hidden;
+       /* height: 140px; */
+       scrollbar-width: thin; /* Kích thước của thanh cuộn */
+       scrollbar-color: #888 #f4f4f4; /* Màu sắc của thanh cuộn */
+}
 
 
 

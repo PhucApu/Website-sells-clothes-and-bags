@@ -739,9 +739,10 @@
 
     <!-- footer -->
     <?php require('./footer.php'); ?>
+
+    <script src="../Js/Header.js"></script>
     <script src="../Js/shop.js"></script>
     <script src="../Js/pricesidebar.js"></script>
-
 </body>
 
 </html>
