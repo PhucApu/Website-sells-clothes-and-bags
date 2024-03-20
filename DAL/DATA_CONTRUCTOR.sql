@@ -119,7 +119,7 @@ FROM supplier
 -- data table product
 USE  website_sells_clothes_and_bags;
 INSERT INTO Product
-       (productCode, imgProduct, nameProduct, supplierCode, quantity, describeProduct, status, color, targetGender, price)
+       (productCode, imgProduct, nameProduct, supplierCode, quantity, describeProduct, status, color, targetGender, price, promotion)
 VALUES
        (
               'P001', -- mã sãn phẩm
@@ -141,7 +141,8 @@ VALUES
               '1', -- trạng thái 
               'pink', -- màu
               'Male', -- đối tượng hướng đến
-              39.99   -- giá
+              39.99,   -- giá
+              20 -- giảm giá
        ),
        (
               'P002', -- mã sãn phẩm
@@ -161,7 +162,8 @@ VALUES
               '1', -- trạng thái 
               'blue', -- màu
               'Male', -- đối tượng hướng đến
-              25.00   -- giá
+              39.99,   -- giá
+              0 -- giảm giá
        ),
        (
               'P003', -- mã sãn phẩm
@@ -181,7 +183,8 @@ VALUES
               '1', -- trạng thái 
               'black', -- màu
               'Male', -- đối tượng hướng đến
-              25.00   -- giá
+              39.99,   -- giá
+              0 -- giảm giá
        );
 
 -- check data table product
