@@ -29,32 +29,21 @@ CREATE TABLE feedback
 );
 
 -- Tạo đối tượng Comment
-
-CREATE TABLE comment
-(
-       -- Username of the person providing feedback 
-       -- thuộc tính khóa ngoại
-       userName VARCHAR(255),
-
-       -- Date when the feedback was sent
-       sentDate DATE,
-
-       -- Email associated with the feedback
-       email VARCHAR(255),
-
-       -- Content of the feedback message
-       content VARCHAR(255),
-       -- Adjust the data type based on your database system (e.g., VARCHAR(MAX) for SQL Server, TEXT for MySQL)
-
-       -- State of the feedback (e.g., 'Pending', 'Approved', 'Rejected', etc.)
-       state VARCHAR(255),
-
-       -- Number of likes received for the feedback
-       likeNumber INT,
-
-       -- Number of dislikes received for the feedback
-       dislikeNumber INT
+USE  website_sells_clothes_and_bags;
+CREATE TABLE Comment (
+    productCode VARCHAR(255),
+    userNameComment VARCHAR(255),
+    userNameRepComment VARCHAR(255),
+    sentDate DATE,
+    content TEXT,
+    state VARCHAR(255),
+    likeNumber INT,
+    dislikeNumber INT
 );
+-- USE  website_sells_clothes_and_bags;
+-- DROP TABLE IF EXISTS comment;
+
+
 
 -- Tạo đối tượng Permissions
 
@@ -165,12 +154,16 @@ CREATE TABLE Product
        nameProduct VARCHAR(255),
        supplierCode VARCHAR(255),
        quantity INT,
-       describeProduct VARCHAR(255),
+       describeProduct TEXT,
        status VARCHAR(255),
        color VARCHAR(255),
        targetGender VARCHAR(255),
-       price FLOAT
+       price FLOAT,
+       promotion FLOAT
 );
+
+
+
 
 -- Tạo bảng đối tượng HandbagProduct
 
@@ -246,8 +239,12 @@ ALTER TABLE feedback
 ADD FOREIGN KEY (userName) REFERENCES accounts(userName);
 
 -- comment --> account
+USE  website_sells_clothes_and_bags;
 ALTER TABLE comment
-ADD FOREIGN KEY (userName) REFERENCES accounts(userName);
+ADD FOREIGN KEY (userNameComment) REFERENCES accounts(userName);
+
+ALTER TABLE comment
+ADD FOREIGN KEY (userNameRepComment) REFERENCES accounts(userName);
 
 -- account --> permission
 ALTER TABLE accounts
