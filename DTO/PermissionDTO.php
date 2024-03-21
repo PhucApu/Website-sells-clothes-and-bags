@@ -1,6 +1,6 @@
 <?php
 
-class PermissionsDTO {
+class PermissionDTO {
        private $codePermission;
        private $namePermission;
    

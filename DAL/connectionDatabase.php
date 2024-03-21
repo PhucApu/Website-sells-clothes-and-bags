@@ -6,7 +6,7 @@ class ConnectionDatabase
        private $servername = "localhost";
        private $username = "root";
        private $password = "";
-       private $databaseName = "test8";
+       private $databaseName = "website_sells_clothes_and_bags";
 
        private $conn = null;
 

@@ -8,7 +8,7 @@ class EnterBallotDTO {
        private $date;
    
        // Thuộc tính cho tên người dùng thực hiện nhập phiếu
-       private $userAccount;
+       private $userName;
    
        // Thuộc tính cho tổng số tiền trong phiếu nhập
        private $sumMoney;
@@ -23,10 +23,10 @@ class EnterBallotDTO {
        private $note;
    
        // Constructor
-       public function __construct($codeBallot, $date, $userAccount, $sumMoney, $codeSupplier, $state, $note) {
+       public function __construct($codeBallot, $date, $userName, $sumMoney, $codeSupplier, $state, $note) {
            $this->codeBallot = $codeBallot;
            $this->date = $date;
-           $this->userAccount = $userAccount;
+           $this->userName = $userName;
            $this->sumMoney = $sumMoney;
            $this->codeSupplier = $codeSupplier;
            $this->state = $state;
@@ -51,13 +51,13 @@ class EnterBallotDTO {
            $this->date = $date;
        }
    
-       // Getter và Setter cho $userAccount
-       public function getUserAccount() {
-           return $this->userAccount;
+       // Getter và Setter cho $userName
+       public function getUserName() {
+           return $this->userName;
        }
    
-       public function setUserAccount($userAccount) {
-           $this->userAccount = $userAccount;
+       public function setUserName($userName) {
+           $this->userName = $userName;
        }
    
        // Getter và Setter cho $sumMoney

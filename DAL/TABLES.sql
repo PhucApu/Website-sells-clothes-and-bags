@@ -17,28 +17,34 @@ CREATE TABLE accounts
 );
 
 -- Tạo đối tượng Feedback 
-
+USE  website_sells_clothes_and_bags;
 CREATE TABLE feedback
 (
+       codeFeedback VARCHAR(255) PRIMARY KEY NOT NULL,
        userName VARCHAR(255),
        sentDate DATE,
        email VARCHAR(255),
-       content VARCHAR(255),
+       content TEXT,
        -- Adjust the data type based on your database system (e.g., VARCHAR(MAX) for SQL Server, TEXT for MySQL)
        state VARCHAR(255)
 );
 
+-- USE  website_sells_clothes_and_bags;
+-- DROP TABLE IF EXISTS feedback;
+
 -- Tạo đối tượng Comment
 USE  website_sells_clothes_and_bags;
-CREATE TABLE Comment (
-    productCode VARCHAR(255),
-    userNameComment VARCHAR(255),
-    userNameRepComment VARCHAR(255),
-    sentDate DATE,
-    content TEXT,
-    state VARCHAR(255),
-    likeNumber INT,
-    dislikeNumber INT
+CREATE TABLE Comment
+(
+       codeComment VARCHAR(255) PRIMARY KEY NOT NULL,
+       productCode VARCHAR(255),
+       userNameComment VARCHAR(255),
+       userNameRepComment VARCHAR(255),
+       sentDate DATE,
+       content TEXT,
+       state VARCHAR(255),
+       likeNumber INT,
+       dislikeNumber INT
 );
 -- USE  website_sells_clothes_and_bags;
 -- DROP TABLE IF EXISTS comment;
@@ -179,7 +185,6 @@ CREATE TABLE ShirtProduct
 (
        productCode VARCHAR(255),
        shirtMaterial VARCHAR(255),
-       sizeCode VARCHAR(255),
        shirtStyle VARCHAR(255)
 );
 
@@ -189,52 +194,58 @@ CREATE TABLE ShirtSize
 (
        -- thuọc tính kháo ngoại
        sizeCode VARCHAR(255),
-       productCode VARCHAR(255)
+       productCode VARCHAR(255),
+       quanity INT
 );
 
 -- Tạo đối tượng Size
 
-CREATE TABLE Size (
-    sizeCode VARCHAR(255) PRIMARY KEY NOT NULL,
-    sizeName VARCHAR(255)
+CREATE TABLE Size
+(
+       sizeCode VARCHAR(255) PRIMARY KEY NOT NULL,
+       sizeName VARCHAR(255)
 );
 
 -- Tạo đối tượng EnterBallot
 
-CREATE TABLE EnterBallot (
-    codeBallot VARCHAR(255) PRIMARY KEY NOT NULL,
-    date DATE,
-    userAccount VARCHAR(255),
-    sumMoney FLOAT,
-    codeSupplier VARCHAR(255),
-    state VARCHAR(255),
-    note VARCHAR(255)
+CREATE TABLE EnterBallot
+(
+       codeBallot VARCHAR(255) PRIMARY KEY NOT NULL,
+       date DATE,
+       userName VARCHAR(255),
+       sumMoney FLOAT,
+       codeSupplier VARCHAR(255),
+       state VARCHAR(255),
+       note VARCHAR(255)
 );
 
 -- Tạo đối tượng BallotDetail
 
-CREATE TABLE BallotDetail (
-    codeBallot VARCHAR(255),
-    productCode VARCHAR(255),
-    quantity INT,
-    priceProduct FLOAT,
-    sumMoney INT
+CREATE TABLE BallotDetail
+(
+       codeBallot VARCHAR(255),
+       productCode VARCHAR(255),
+       quantity INT,
+       priceProduct FLOAT,
+       sumMoney INT
 );
 
 -- Tạo đối tượng Supplier
 
-CREATE TABLE Supplier (
-    codeSupplier VARCHAR(255) PRIMARY KEY NOT NULL,
-    nameSupplier VARCHAR(255),
-    address VARCHAR(255),
-    email VARCHAR(255),
-    brandSupplier VARCHAR(255),
-    phoneNumber VARCHAR(255)
+CREATE TABLE Supplier
+(
+       codeSupplier VARCHAR(255) PRIMARY KEY NOT NULL,
+       nameSupplier VARCHAR(255),
+       address VARCHAR(255),
+       email VARCHAR(255),
+       brandSupplier VARCHAR(255),
+       phoneNumber VARCHAR(255)
 );
 
 -- Tạo các liên kết giữa các bảng với nhau
 
 -- feedback --> account
+USE  website_sells_clothes_and_bags;
 ALTER TABLE feedback
 ADD FOREIGN KEY (userName) REFERENCES accounts(userName);
 
@@ -243,8 +254,8 @@ USE  website_sells_clothes_and_bags;
 ALTER TABLE comment
 ADD FOREIGN KEY (userNameComment) REFERENCES accounts(userName);
 
-ALTER TABLE comment
-ADD FOREIGN KEY (userNameRepComment) REFERENCES accounts(userName);
+-- ALTER TABLE comment
+-- ADD FOREIGN KEY (userNameRepComment) REFERENCES accounts(userName);
 
 -- account --> permission
 ALTER TABLE accounts

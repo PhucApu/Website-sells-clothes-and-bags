@@ -1,5 +1,7 @@
 <?php
 
+require('./connectionDatabase.php');
+
 abstract class AbstractionDAL
 {
        public $conn = null;
@@ -7,6 +9,9 @@ abstract class AbstractionDAL
        {
               $conectionDATA = new ConnectionDatabase();
               $this->conn = $conectionDATA->getConn();
+       }
+       public function getConn(){
+              return $this->conn;
        }
 
        // xóa một đối tượng bởi mã đối tượng 
@@ -22,8 +27,8 @@ abstract class AbstractionDAL
        abstract function getObj($code);
 
        // thêm một đối tượng 
-       abstract function addObj($Obj);
+       abstract function addObj($obj);
 
        // sửa một đối tượng
-       abstract function upadateObj($Obj);
+       abstract function upadateObj($obj);
 }

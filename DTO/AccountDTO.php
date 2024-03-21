@@ -149,4 +149,22 @@ class AccountDTO
        {
               $this->codePermission = $codePermission;
        }
+
+       public function __toString()
+       {
+              return sprintf(
+                     "Username: %s\nPassword: %s\nDate Created: %s\nAccount Status: %s\nName: %s\nAddress: %s\nEmail: %s\nPhone Number: %s\nBirth: %s\nSex: %s\nCode Permission: %s\n",
+                     $this->userName,
+                     $this->passWord,
+                     $this->dateCreate,
+                     $this->accountStatus,
+                     $this->name,
+                     $this->address,
+                     $this->email,
+                     $this->phoneNumber,
+                     $this->birth,
+                     $this->sex,
+                     $this->codePermission
+              );
+       }
 }

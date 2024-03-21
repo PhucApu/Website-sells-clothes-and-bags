@@ -17,12 +17,12 @@ class BallotDetailDTO {
        private $sumMoney;
    
        // Constructor
-       public function __construct($codeBallot, $productCode, $quantity,$priceProduct) {
+       public function __construct($codeBallot, $productCode, $quantity,$priceProduct,$sumMoney) {
            $this->codeBallot = $codeBallot;
            $this->productCode = $productCode;
            $this->quantity = $quantity;
            $this->priceProduct = $priceProduct;
-           $this->sumMoney = 0;
+           $this->sumMoney = $sumMoney;
        }
 
        // tinh tong tien
@@ -65,5 +65,14 @@ class BallotDetailDTO {
        public function setSumMoney($sumMoney) {
            $this->sumMoney = $sumMoney;
        }
+
+       // Getter và Setter cho $priceProduct
+       public function getPriceProduct() {
+        return $this->priceProduct;
+    }
+
+    public function setPriceProduct($priceProduct) {
+        $this->priceProduct = $priceProduct;
+    }
    }
    

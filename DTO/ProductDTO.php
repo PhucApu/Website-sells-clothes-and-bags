@@ -32,8 +32,10 @@ class ProductDTO
     // Thuộc tính cho giá sản phẩm
     private $price;
 
+    private $promotion;
+
     // Constructor
-    public function __construct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price)
+    public function __construct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price,$promotion)
     {
         $this->productCode = $productCode;
         $this->imgProduct = $imgProduct;
@@ -45,6 +47,7 @@ class ProductDTO
         $this->color = $color;
         $this->targetGender = $targetGender;
         $this->price = $price;
+        $this->promotion = $promotion;
     }
 
     // Getter và Setter cho $productCode
@@ -151,9 +154,23 @@ class ProductDTO
     {
         return $this->color;
     }
-
     public function setColor($color)
     {
         $this->color = $color;
     }
+
+    
+
+    // Getter và Setter cho $promotion
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
+
+    public function setPromotion($promotion)
+    {
+        $this->promotion = $promotion;
+    }
+
+    
 }

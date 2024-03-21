@@ -1,114 +1,155 @@
 <?php
 
-class CommentDTO {
-       // Thuộc tính cho tên người dùng
-       private $userName;
-   
-       // Thuộc tính cho ngày gửi
-       private $sentDate;
-   
-       // Thuộc tính cho địa chỉ email
-       private $email;
-   
-       // Thuộc tính cho nội dung comment
-       private $content;
-   
-       // Thuộc tính cho trạng thái comment (approved, pending, rejected, etc.)
-       private $state;
-   
-       // Thuộc tính cho số lượt thích
-       private $likeNumber;
-   
-       // Thuộc tính cho số lượt không thích
-       private $dislikeNumber;
-   
-       // Constructor
-       public function __construct($userName, $sentDate, $email, $content, $state, $likeNumber, $dislikeNumber) {
-           $this->userName = $userName;
-           $this->sentDate = $sentDate;
-           $this->email = $email;
-           $this->content = $content;
-           $this->state = $state;
-           $this->likeNumber = $likeNumber;
-           $this->dislikeNumber = $dislikeNumber;
-       }
-   
-       // Getter và Setter cho $userName
-       public function getUserName() {
-           return $this->userName;
-       }
-   
-       public function setUserName($userName) {
-           $this->userName = $userName;
-       }
-   
-       // Getter và Setter cho $sentDate
-       public function getSentDate() {
-           return $this->sentDate;
-       }
-   
-       public function setSentDate($sentDate) {
-           $this->sentDate = $sentDate;
-       }
-   
-       // Getter và Setter cho $email
-       public function getEmail() {
-           return $this->email;
-       }
-   
-       public function setEmail($email) {
-           $this->email = $email;
-       }
-   
-       // Getter và Setter cho $content
-       public function getContent() {
-           return $this->content;
-       }
-   
-       public function setContent($content) {
-           $this->content = $content;
-       }
-   
-       // Getter và Setter cho $state
-       public function getState() {
-           return $this->state;
-       }
-   
-       public function setState($state) {
-           $this->state = $state;
-       }
-   
-       // Getter và Setter cho $likeNumber
-       public function getLikeNumber() {
-           return $this->likeNumber;
-       }
-   
-       public function setLikeNumber($likeNumber) {
-           $this->likeNumber = $likeNumber;
-       }
-   
-       // Getter và Setter cho $dislikeNumber
-       public function getDislikeNumber() {
-           return $this->dislikeNumber;
-       }
-   
-       public function setDislikeNumber($dislikeNumber) {
-           $this->dislikeNumber = $dislikeNumber;
-       }
-   
-       // Phương thức tăng số lượt thích
-       public function increaseLike() {
-           $this->likeNumber++;
-       }
-   
-       // Phương thức tăng số lượt không thích
-       public function increaseDislike() {
-           $this->dislikeNumber++;
-       }
-   
-       // Phương thức tính tổng số lượt đánh giá (thích và không thích)
-       public function getTotalRating() {
-           return $this->likeNumber + $this->dislikeNumber;
-       }
-   }
-   
+class CommentDTO
+{
+
+    // Thuộc tính
+    private $codeComment;
+    private $productCode;
+    private $userNameComment;
+    private $userNameRepComment;
+    private $sentDate;
+    private $content;
+    private $state;
+    private $likeNumber;
+    private $dislikeNumber;
+
+    // Hàm khởi tạo
+    public function __construct($codeComment, $productCode, $userNameComment, $userNameRepComment, $sentDate, $content, $state, $likeNumber, $dislikeNumber)
+    {
+        $this->codeComment = $codeComment;
+        $this->productCode = $productCode;
+        $this->userNameComment = $userNameComment;
+        $this->userNameRepComment = $userNameRepComment;
+        $this->sentDate = $sentDate;
+        $this->content = $content;
+        $this->state = $state;
+        $this->likeNumber = $likeNumber;
+        $this->dislikeNumber = $dislikeNumber;
+    }
+
+    // Hàm lấy mã bình luận
+    public function getCodeComment()
+    {
+        return $this->codeComment;
+    }
+
+    // Hàm đặt mã bình luận
+    public function setCodeComment($codeComment)
+    {
+        $this->codeComment = $codeComment;
+    }
+
+    // Hàm lấy mã sản phẩm
+    public function getProductCode()
+    {
+        return $this->productCode;
+    }
+
+    // Hàm đặt mã sản phẩm
+    public function setProductCode($productCode)
+    {
+        $this->productCode = $productCode;
+    }
+
+    // Hàm lấy tên người bình luận
+    public function getUserNameComment()
+    {
+        return $this->userNameComment;
+    }
+
+    // Hàm đặt tên người bình luận
+    public function setUserNameComment($userNameComment)
+    {
+        $this->userNameComment = $userNameComment;
+    }
+
+    // Hàm lấy tên người trả lời bình luận
+    public function getUserNameRepComment()
+    {
+        return $this->userNameRepComment;
+    }
+
+    // Hàm đặt tên người trả lời bình luận
+    public function setUserNameRepComment($userNameRepComment)
+    {
+        $this->userNameRepComment = $userNameRepComment;
+    }
+
+    // Hàm lấy ngày gửi
+    public function getSentDate()
+    {
+        return $this->sentDate;
+    }
+
+    // Hàm đặt ngày gửi
+    public function setSentDate($sentDate)
+    {
+        $this->sentDate = $sentDate;
+    }
+
+    // Hàm lấy nội dung bình luận
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    // Hàm đặt nội dung bình luận
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+    // Hàm lấy trạng thái bình luận
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    // Hàm đặt trạng thái bình luận
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    // Hàm lấy số lượt thích
+    public function getLikeNumber()
+    {
+        return $this->likeNumber;
+    }
+
+    // Hàm lấy số lượt ko thích
+    public function getDislikeNumber()
+    {
+        return $this->dislikeNumber;
+    }
+
+    // Phương thức tăng số lượt thích
+    public function increaseLike()
+    {
+        $this->likeNumber++;
+    }
+
+    // Phương thức tăng số lượt không thích
+    public function increaseDislike()
+    {
+        $this->dislikeNumber++;
+    }
+
+    // Phương thức tính tổng số lượt đánh giá (thích và không thích)
+    public function getTotalRating()
+    {
+        return $this->likeNumber + $this->dislikeNumber;
+    }
+    public function __toString() {
+        return "Bình luận: " . $this->content . "\n" .
+            "Mã bình luận: " . $this->codeComment . "\n" .
+            "Mã sản phẩm: " . $this->productCode . "\n" .
+            "Người bình luận: " . $this->userNameComment . "\n" .
+            "Ngày gửi: " . $this->sentDate . "\n" .
+            "Trạng thái: " . $this->state . "\n" .
+            "Số lượt thích: " . $this->likeNumber . "\n" .
+            "Số lượt không thích: " . $this->dislikeNumber;
+    }
+    
+}
