@@ -25,13 +25,13 @@ class PermissionsDetailDAL extends AbstractionDAL
        // xóa một đối tượng bằng cách truyền đối tượng vào
        function delete($obj)
        {
-              if($obj != null){
+              if ($obj != null) {
                      $codePermissions = $obj->getCodePermissions();
                      $functionCode = $obj->getFunctionCode();
                      $string = "DELETE FROM permissionsDetail WHERE codePermissions = '$codePermissions' AND functionCode = '$functionCode'";
 
                      return $this->actionSQL->query($string);
-              }else{
+              } else {
                      return false;
               }
        }
@@ -152,23 +152,27 @@ class PermissionsDetailDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codePermissions = $obj->getCodePermissions();
-              $functionCode = $obj->getFunctionCode();
+              if ($obj != null) {
+                     $codePermissions = $obj->getCodePermissions();
+                     $functionCode = $obj->getFunctionCode();
 
-              $check = "SELECT * FROM permissionsDetail WHERE codePermissions = '$codePermissions' AND functionCode = '$functionCode'";
-              $resultCheck = $this->actionSQL->query($check);
+                     $check = "SELECT * FROM permissionsDetail WHERE codePermissions = '$codePermissions' AND functionCode = '$functionCode'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $addPermission = $obj->getAddPermission();
-                     $seePermission = $obj->getSeePermission();
-                     $deletePermission = $obj->getDeletePermission();
-                     $fixPermission = $obj->getFixPermission();
+                     if ($resultCheck->num_rows < 1) {
+                            $addPermission = $obj->getAddPermission();
+                            $seePermission = $obj->getSeePermission();
+                            $deletePermission = $obj->getDeletePermission();
+                            $fixPermission = $obj->getFixPermission();
 
-                     // Câu lệnh truy vấn để thêm dữ liệu mới
-                     $query = "INSERT INTO permissionsDetail (codePermissions, functionCode, addPermission, seePermission, deletePermission, fixPermission) VALUES ('$codePermissions', '$functionCode', '$addPermission', '$seePermission', '$deletePermission', '$fixPermission')";
+                            // Câu lệnh truy vấn để thêm dữ liệu mới
+                            $query = "INSERT INTO permissionsDetail (codePermissions, functionCode, addPermission, seePermission, deletePermission, fixPermission) VALUES ('$codePermissions', '$functionCode', '$addPermission', '$seePermission', '$deletePermission', '$fixPermission')";
 
-                     // Thực thi câu lệnh truy vấn và trả về kết quả
-                     return $this->actionSQL->query($query);
+                            // Thực thi câu lệnh truy vấn và trả về kết quả
+                            return $this->actionSQL->query($query);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }
@@ -215,7 +219,7 @@ $check = new PermissionsDetailDAL();
 // $data2 = $check->getByFunctionCode('supplier');
 // print_r($data2);
 
-$permissionsDeatail = new PermissionsDetailDTO('user','test',0,1,0,0);
+$permissionsDeatail = new PermissionsDetailDTO('user', 'test', 0, 1, 0, 0);
 
 echo $check->addObj($permissionsDeatail);
 

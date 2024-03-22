@@ -32,7 +32,7 @@ class TranSportDAL extends AbstractionDAL
                      $string = "DELETE FROM transport WHERE codeTransport = '$code'";
 
                      return $this->actionSQL->query($string);
-              }else{
+              } else {
                      return false;
               }
        }
@@ -53,7 +53,7 @@ class TranSportDAL extends AbstractionDAL
                             $string = "DELETE FROM transport WHERE codeTransport = '$code'";
 
                             return $this->actionSQL->query($string);
-                     }else{
+                     } else {
                             return false;
                      }
               }
@@ -119,19 +119,23 @@ class TranSportDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codeTransport = $obj->getCodeTransport();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM Transport WHERE codeTransport = '$codeTransport'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $codeTransport = $obj->getCodeTransport();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM Transport WHERE codeTransport = '$codeTransport'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $nameTransport = $obj->getNameTransport();
-                     $affiliatedCompany = $obj->getAffiliatedCompany();
+                     if ($obj != null && $resultCheck->num_rows < 1) {
+                            $nameTransport = $obj->getNameTransport();
+                            $affiliatedCompany = $obj->getAffiliatedCompany();
 
-                     // Câu lệnh truy vấn
-                     $string = "INSERT INTO Transport (nameTransport, codeTransport, affiliatedCompany) VALUES ('$nameTransport', '$codeTransport', '$affiliatedCompany')";
+                            // Câu lệnh truy vấn
+                            $string = "INSERT INTO Transport (nameTransport, codeTransport, affiliatedCompany) VALUES ('$nameTransport', '$codeTransport', '$affiliatedCompany')";
 
-                     return $this->actionSQL->query($string);
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }

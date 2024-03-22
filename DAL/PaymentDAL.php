@@ -32,7 +32,7 @@ class PaymentDAL extends AbstractionDAL
                      $string = "DELETE FROM payment WHERE codePayments = '$code'";
 
                      return $this->actionSQL->query($string);
-              }else{
+              } else {
                      return false;
               }
        }
@@ -53,10 +53,10 @@ class PaymentDAL extends AbstractionDAL
                             $string = "DELETE FROM payment WHERE codePayments = '$code'";
 
                             return $this->actionSQL->query($string);
-                     }else{
+                     } else {
                             return false;
                      }
-              }else{
+              } else {
                      return false;
               }
        }
@@ -121,19 +121,23 @@ class PaymentDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codePayments = $obj->getCodePayments();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM payment WHERE codePayments = '$codePayments'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $codePayments = $obj->getCodePayments();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM payment WHERE codePayments = '$codePayments'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $namePayment = $obj->getNamePayment();
-                     $affiliatedBank = $obj->getAffiliatedBank();
+                     if ($resultCheck->num_rows < 1) {
+                            $namePayment = $obj->getNamePayment();
+                            $affiliatedBank = $obj->getAffiliatedBank();
 
-                     // Câu lệnh truy vấn
-                     $string = "INSERT INTO payment (namePayment, codePayments, affiliatedBank) VALUES ('$namePayment', '$codePayments', '$affiliatedBank')";
+                            // Câu lệnh truy vấn
+                            $string = "INSERT INTO payment (namePayment, codePayments, affiliatedBank) VALUES ('$namePayment', '$codePayments', '$affiliatedBank')";
 
-                     return $this->actionSQL->query($string);
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }

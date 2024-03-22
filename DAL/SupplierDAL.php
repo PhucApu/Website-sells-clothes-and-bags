@@ -128,22 +128,26 @@ class SupplierDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codeSupplier = $obj->getCodeSupplier();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM Supplier WHERE codeSupplier = '$codeSupplier'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $codeSupplier = $obj->getCodeSupplier();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM Supplier WHERE codeSupplier = '$codeSupplier'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $nameSupplier = $obj->getNameSupplier();
-                     $address = $obj->getAddress();
-                     $email = $obj->getEmail();
-                     $brandSupplier = $obj->getBrandSupplier();
-                     $phoneNumber = $obj->getPhoneNumber();
+                     if ($resultCheck->num_rows < 1) {
+                            $nameSupplier = $obj->getNameSupplier();
+                            $address = $obj->getAddress();
+                            $email = $obj->getEmail();
+                            $brandSupplier = $obj->getBrandSupplier();
+                            $phoneNumber = $obj->getPhoneNumber();
 
-                     // Câu lệnh truy vấn
-                     $string = "INSERT INTO Supplier (codeSupplier, nameSupplier, address, email, brandSupplier, phoneNumber) VALUES ('$codeSupplier', '$nameSupplier', '$address', '$email', '$brandSupplier', '$phoneNumber')";
+                            // Câu lệnh truy vấn
+                            $string = "INSERT INTO Supplier (codeSupplier, nameSupplier, address, email, brandSupplier, phoneNumber) VALUES ('$codeSupplier', '$nameSupplier', '$address', '$email', '$brandSupplier', '$phoneNumber')";
 
-                     return $this->actionSQL->query($string);
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }

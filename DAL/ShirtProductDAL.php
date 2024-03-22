@@ -1,9 +1,9 @@
 <?php
 // import
 require('./AbstractionDAL.php');
-require('../DTO/HandbagProductDTO.php');
+require('../DTO/ShirtProductDTO.php');
 
-class HandbagProductDAL extends AbstractionDAL
+class ShirtProductDAL extends AbstractionDAL
 {
 
        private $actionSQL = null;
@@ -22,7 +22,7 @@ class HandbagProductDAL extends AbstractionDAL
        {
               // Do bảng orderDetail, ballotDetail có khóa ngọai tham chiếu đến thuộc tính khóa productCode của bảng product. Nên phải kiểm tra trước xem có khóa ngoại nào tham chiếu đến không, nếu không mới cho xóa.
 
-              // xóa dữ liệu trong bảng handbagproduct trước rồi đến product.
+              // xóa dữ liệu trong bảng shirtproduct, shirtsize trước rồi đến product. Tại do sản phẩm áo có size, nên khi ta xóa sản phẩm áo thì size liên quan đến áo đó cũng mất.
 
               $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
               $check_data_ballotDetail = "SELECT * FROM ballotDetail WHERE productCode = '$code'";
@@ -31,16 +31,21 @@ class HandbagProductDAL extends AbstractionDAL
               $result_check2 = $this->actionSQL->query($check_data_ballotDetail);
 
               if ($result_check1->num_rows < 1 && $result_check2->num_rows < 1) {
-                     // xóa dữ liệu trong bảng handbagproduct trước
-                     $string1 = "DELETE FROM handbagproduct WHERE productCode = '$code'";
+
+                     // xóa dữ liệu trong bảng shirtsize
+                     $string1 = "DELETE FROM shirtsize WHERE productCode = '$code'";
+
+                     // xóa dữ liệu trong bảng shirtproduct trước
+                     $string2 = "DELETE FROM shirtproduct WHERE productCode = '$code'";
 
                      // xóa dữ liệu trong bảng prodcut sau
-                     $string2 = "DELETE FROM product WHERE productCode = '$code'";
+                     $string3 = "DELETE FROM product WHERE productCode = '$code'";
 
                      $result1 = $this->actionSQL->query($string1);
                      $result2 = $this->actionSQL->query($string2);
+                     $result3 = $this->actionSQL->query($string3);
 
-                     return $result1 === $result2;
+                     return $result1 === $result2 && $result2 === $result3;
               } else {
                      return false;
               }
@@ -53,7 +58,7 @@ class HandbagProductDAL extends AbstractionDAL
                      $code = $obj->getProductCode();
                      // Do bảng orderDetail, ballotDetail có khóa ngọai tham chiếu đến thuộc tính khóa productCode của bảng product. Nên phải kiểm tra trước xem có khóa ngoại nào tham chiếu đến không, nếu không mới cho xóa.
 
-                     // xóa dữ liệu trong bảng handbagproduct trước rồi đến product.
+                     // xóa dữ liệu trong bảng shirtproduct, shirtsize trước rồi đến product. Tại do sản phẩm áo có size, nên khi ta xóa sản phẩm áo thì size liên quan đến áo đó cũng mất.
 
                      $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
                      $check_data_ballotDetail = "SELECT * FROM ballotDetail WHERE productCode = '$code'";
@@ -62,21 +67,24 @@ class HandbagProductDAL extends AbstractionDAL
                      $result_check2 = $this->actionSQL->query($check_data_ballotDetail);
 
                      if ($result_check1->num_rows < 1 && $result_check2->num_rows < 1) {
-                            // xóa dữ liệu trong bảng handbagproduct trước
-                            $string1 = "DELETE FROM handbagproduct WHERE productCode = '$code'";
+
+                            // xóa dữ liệu trong bảng shirtsize
+                            $string1 = "DELETE FROM shirtsize WHERE productCode = '$code'";
+
+                            // xóa dữ liệu trong bảng shirtproduct trước
+                            $string2 = "DELETE FROM shirtproduct WHERE productCode = '$code'";
 
                             // xóa dữ liệu trong bảng prodcut sau
-                            $string2 = "DELETE FROM product WHERE productCode = '$code'";
+                            $string3 = "DELETE FROM product WHERE productCode = '$code'";
 
                             $result1 = $this->actionSQL->query($string1);
                             $result2 = $this->actionSQL->query($string2);
+                            $result3 = $this->actionSQL->query($string3);
 
-                            return $result1 === $result2;
+                            return $result1 === $result2 && $result2 === $result3;
                      } else {
                             return false;
                      }
-              } else {
-                     return false;
               }
        }
 
@@ -87,7 +95,7 @@ class HandbagProductDAL extends AbstractionDAL
               $product_list = array();
 
               // Câu lệnh truy vấn
-              $query = 'SELECT * FROM product INNER JOIN handbagproduct ON product.productCode = handbagproduct.productCode';
+              $query = 'SELECT * FROM product INNER JOIN shirtproduct ON product.productCode = shirtproduct.productCode';
 
               // Thực hiện truy vấn
               $result = $this->actionSQL->query($query);
@@ -108,11 +116,13 @@ class HandbagProductDAL extends AbstractionDAL
                             $targetGender = $data["targetGender"];
                             $price = $data["price"];
                             $promotion = $data["promotion"];
-                            $bagMaterial = $data["bagMaterial"];
+
+                            $shirtMaterial = $data["shirtMaterial"];
+                            $shirtStyle = $data["shirtStyle"];
 
                             // Tạo đối tượng HandbagProductDTO từ dữ liệu lấy được và thêm vào mảng
-                            $handbagProduct = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $bagMaterial);
-                            array_push($product_list, $handbagProduct);
+                            $shirtProduct = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle);
+                            array_push($product_list, $shirtProduct);
                      }
                      // Trả về danh sách đối tượng
                      return $product_list;
@@ -126,7 +136,7 @@ class HandbagProductDAL extends AbstractionDAL
        function getObj($code)
        {
               // Câu lệnh truy vấn
-              $query = "SELECT * FROM product,handbagproduct WHERE product.productCode = handbagproduct.productCode AND product.productCode = '$code' ";
+              $query = "SELECT * FROM product,shirtproduct WHERE product.productCode = shirtproduct.productCode AND product.productCode = '$code' ";
 
               // Thực hiện truy vấn
               $result = $this->actionSQL->query($query);
@@ -146,11 +156,12 @@ class HandbagProductDAL extends AbstractionDAL
                      $targetGender = $data["targetGender"];
                      $price = $data["price"];
                      $promotion = $data["promotion"];
-                     $bagMaterial = $data["bagMaterial"];
+                     $shirtMaterial = $data["shirtMaterial"];
+                     $shirtStyle = $data["shirtStyle"];
 
                      // Tạo đối tượng HandbagProductDTO và trả về
-                     $handbagProduct = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $bagMaterial);
-                     return $handbagProduct;
+                     $shirtProduct = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle);
+                     return $shirtProduct;
               } else {
                      // Trường hợp không có dữ liệu trả về
                      return null;
@@ -160,11 +171,11 @@ class HandbagProductDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              // thêm dữ liệu vào bảng product trước rồi mới đến hanbbagproduct
+              // thêm dữ liệu vào bảng product trước rồi mới đến shirtproduct
               // Câu lệnh truy vấn kiểm tra khóa
               if ($obj != null) {
                      $productCode = $obj->getProductCode();
-                     $query = "SELECT * FROM product,handbagproduct WHERE product.productCode = handbagproduct.productCode AND product.productCode = '$productCode' ";
+                     $query = "SELECT * FROM product,shirtproduct WHERE product.productCode = shirtproduct.productCode AND product.productCode = '$productCode' ";
                      $resultCheck = $this->actionSQL->query($query);
                      if ($resultCheck->num_rows < 1) {
                             $imgProduct = $obj->getImgProduct();
@@ -177,14 +188,15 @@ class HandbagProductDAL extends AbstractionDAL
                             $targetGender = $obj->getTargetGender();
                             $price = $obj->getPrice();
                             $promotion = $obj->getPromotion();
-                            $bagMaterial = $obj->getBagMaterial();
+                            $shirtMaterial = $obj->getShirtMaterial();
+                            $shirtStyle = $obj->getShirtStyle();
 
                             $string1 = "INSERT INTO Product (productCode, imgProduct, nameProduct, supplierCode, quantity, describeProduct, status, color, targetGender, price, promotion)
                             VALUES ('$productCode', '$imgProduct', '$nameProduct', '$supplierCode', $quantity, '$describeProduct', '$status', '$color', '$targetGender', $price, $promotion)";
 
-                            $string2 = "INSERT INTO handbagproduct (productCode,bagMaterial)
+                            $string2 = "INSERT INTO shirtproduct (productCode,shirtMaterial,shirtStyle)
                             VALUES 
-                                   ('$productCode','$bagMaterial')";
+                                   ('$productCode','$shirtMaterial','$shirtStyle')";
 
                             $result1 = $this->actionSQL->query($string1);
                             $result2 = $this->actionSQL->query($string2);
@@ -213,7 +225,8 @@ class HandbagProductDAL extends AbstractionDAL
                      $targetGender = $obj->getTargetGender();
                      $price = $obj->getPrice();
                      $promotion = $obj->getPromotion();
-                     $bagMaterial = $obj->getBagMaterial();
+                     $shirtMaterial = $obj->getShirtMaterial();
+                     $shirtStyle = $obj->getShirtStyle();
 
                      // Câu lệnh SQL để cập nhật dữ liệu trong bảng Product nếu mã sản phẩm đã tồn tại
                      $queryProduct = "UPDATE Product 
@@ -233,8 +246,8 @@ class HandbagProductDAL extends AbstractionDAL
                      $resultProduct = $this->actionSQL->query($queryProduct);
 
                      // Câu lệnh SQL để cập nhật dữ liệu trong bảng HandbagProduct nếu mã sản phẩm đã tồn tại
-                     $queryHandbagProduct = "UPDATE HandbagProduct 
-                                             SET bagMaterial = '$bagMaterial'
+                     $queryHandbagProduct = "UPDATE shirtproduct 
+                                             SET shirtMaterial = '$shirtMaterial',shirtStyle = '$shirtStyle'
                                              WHERE productCode = '$productCode'";
 
                      // Thực hiện truy vấn
@@ -249,15 +262,16 @@ class HandbagProductDAL extends AbstractionDAL
        }
 }
 
+
 // check
 
-// $check = new HandbagProductDAL();
+// $check = new ShirtProductDAL();
 
 // print_r($check->getListObj());
 
-// echo $check->getObj('P019')->getNameProduct();
+// echo $check->getObj('P001')->getNameProduct();
 
-// $product = new HandbagProductDTO(
+// $product = new ShirtProductDTO(
 //        'P111', // productCode
 //        'image_url', // imgProduct
 //        'Product Name', // nameProduct
@@ -269,7 +283,8 @@ class HandbagProductDAL extends AbstractionDAL
 //        'Male', // targetGender
 //        50.99, // price
 //        10, // promotion
-//        'Leather' // bagMaterial
+//        'test',
+//        'null' // bagMaterial
 // );
 
 // echo $check->addObj($product);

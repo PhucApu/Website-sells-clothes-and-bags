@@ -28,11 +28,11 @@ class BallotDetailDAL extends AbstractionDAL
               if ($obj != null) {
                      $codeBallot = $obj->getCodeBallot();
                      $productCode = $obj->getProductCode();
-                     
+
                      $check = "DELETE FROM BallotDetail WHERE codeBallot = '$codeBallot' AND productCode = '$productCode'";
 
                      return $this->actionSQL->query($check);
-              }else{
+              } else {
                      return false;
               }
        }
@@ -117,22 +117,26 @@ class BallotDetailDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codeBallot = $obj->getCodeBallot();
-              $productCode = $obj->getProductCode();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM BallotDetail WHERE codeBallot = '$codeBallot' AND productCode = '$productCode'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $codeBallot = $obj->getCodeBallot();
+                     $productCode = $obj->getProductCode();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM BallotDetail WHERE codeBallot = '$codeBallot' AND productCode = '$productCode'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
+                     if ($obj != null && $resultCheck->num_rows < 1) {
 
-                     $quantity = $obj->getQuantity();
-                     $priceProduct = $obj->getPriceProduct();
-                     $sumMoney = $obj->getSumMoney();
+                            $quantity = $obj->getQuantity();
+                            $priceProduct = $obj->getPriceProduct();
+                            $sumMoney = $obj->getSumMoney();
 
-                     // Câu lệnh truy vấn
-                     $query = "INSERT INTO BallotDetail (codeBallot, productCode, quantity, priceProduct, sumMoney) VALUES ('$codeBallot', '$productCode', $quantity, $priceProduct, $sumMoney)";
+                            // Câu lệnh truy vấn
+                            $query = "INSERT INTO BallotDetail (codeBallot, productCode, quantity, priceProduct, sumMoney) VALUES ('$codeBallot', '$productCode', $quantity, $priceProduct, $sumMoney)";
 
-                     return $this->actionSQL->query($query);
+                            return $this->actionSQL->query($query);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }

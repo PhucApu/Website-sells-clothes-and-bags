@@ -8,14 +8,14 @@ class ShirtSizeDTO
     // Thuộc tính cho mã sản phẩm của áo sơ mi
     private $productCode;
 
-    private $quanity;
+    private $quantity;
 
     // Constructor
-    public function __construct($sizeCode, $productCode, $quanity)
+    public function __construct($sizeCode, $productCode, $quantity)
     {
         $this->sizeCode = $sizeCode;
         $this->productCode = $productCode;
-        $this->quanity = $quanity;
+        $this->quantity = $quantity;
     }
 
     // Getter và Setter cho $sizeCode
@@ -41,13 +41,13 @@ class ShirtSizeDTO
     }
 
     // Getter và Setter cho $productCode
-    public function getQuanity()
+    public function getQuantity()
     {
-        return $this->quanity;
+        return $this->quantity;
     }
 
-    public function setQuanity($quanity)
+    public function setQuantity($quantity)
     {
-        $this->quanity = $quanity;
+        $this->quantity = $quantity;
     }
 }

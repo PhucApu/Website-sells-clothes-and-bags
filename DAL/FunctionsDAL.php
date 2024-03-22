@@ -114,23 +114,27 @@ class FunctionsDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              // Lấy các thuộc tính từ đối tượng
-              $functionCode = $obj->getFunctionCode();
-              $functionName = $obj->getFunctionName();
+              if ($obj != null) {
+                     // Lấy các thuộc tính từ đối tượng
+                     $functionCode = $obj->getFunctionCode();
+                     $functionName = $obj->getFunctionName();
 
-              // Kiểm tra xem mã chức năng đã tồn tại trong cơ sở dữ liệu chưa
-              $checkQuery = "SELECT * FROM functions WHERE functionCode = '$functionCode'";
-              $resultCheck = $this->actionSQL->query($checkQuery);
+                     // Kiểm tra xem mã chức năng đã tồn tại trong cơ sở dữ liệu chưa
+                     $checkQuery = "SELECT * FROM functions WHERE functionCode = '$functionCode'";
+                     $resultCheck = $this->actionSQL->query($checkQuery);
 
-              // Nếu đối tượng không rỗng và mã chức năng chưa tồn tại
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     // Câu lệnh truy vấn để thêm đối tượng vào bảng functions
-                     $insertQuery = "INSERT INTO functions (functionCode, functionName) VALUES ('$functionCode', '$functionName')";
+                     // Nếu đối tượng không rỗng và mã chức năng chưa tồn tại
+                     if ($obj != null && $resultCheck->num_rows < 1) {
+                            // Câu lệnh truy vấn để thêm đối tượng vào bảng functions
+                            $insertQuery = "INSERT INTO functions (functionCode, functionName) VALUES ('$functionCode', '$functionName')";
 
-                     // Thực hiện truy vấn
-                     return $this->actionSQL->query($insertQuery);
+                            // Thực hiện truy vấn
+                            return $this->actionSQL->query($insertQuery);
+                     } else {
+                            // Trả về false nếu đối tượng rỗng hoặc mã chức năng đã tồn tại
+                            return false;
+                     }
               } else {
-                     // Trả về false nếu đối tượng rỗng hoặc mã chức năng đã tồn tại
                      return false;
               }
        }

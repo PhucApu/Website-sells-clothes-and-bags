@@ -1,6 +1,6 @@
 <?php
 
-require('./ProductDTO.php');
+require('../DTO/ProductDTO.php');
 class ShirtProductDTO extends ProductDTO {
        // Thuộc tính cho chất liệu của áo sơ mi
        private $shirtMaterial;

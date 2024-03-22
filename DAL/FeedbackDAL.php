@@ -104,22 +104,26 @@ class FeedbackDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codeFeedback = $obj->getCodeFeedback();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM feedback WHERE codeFeedback = '$codeFeedback'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $codeFeedback = $obj->getCodeFeedback();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM feedback WHERE codeFeedback = '$codeFeedback'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $userName = $obj->getUsername();
-                     $sentDate = $obj->getSentDate();
-                     $email = $obj->getEmail();
-                     $content = $obj->getContent();
-                     $state = $obj->getState();
+                     if ($resultCheck->num_rows < 1) {
+                            $userName = $obj->getUsername();
+                            $sentDate = $obj->getSentDate();
+                            $email = $obj->getEmail();
+                            $content = $obj->getContent();
+                            $state = $obj->getState();
 
-                     // Câu lệnh truy vấn
-                     $string = "INSERT INTO feedback (codeFeedback, userName, sentDate, email, content, state) VALUES ('$codeFeedback', '$userName', '$sentDate', '$email', '$content', '$state')";
+                            // Câu lệnh truy vấn
+                            $string = "INSERT INTO feedback (codeFeedback, userName, sentDate, email, content, state) VALUES ('$codeFeedback', '$userName', '$sentDate', '$email', '$content', '$state')";
 
-                     return $this->actionSQL->query($string);
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }

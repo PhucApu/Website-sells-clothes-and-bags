@@ -141,23 +141,27 @@ class PermissionDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              // Lấy các thuộc tính từ đối tượng
-              $codePermission = $obj->getCodePermission();
-              $namePermission = $obj->getNamePermission();
+              if ($obj != null) {
+                     // Lấy các thuộc tính từ đối tượng
+                     $codePermission = $obj->getCodePermission();
+                     $namePermission = $obj->getNamePermission();
 
-              // Kiểm tra xem mã quyền đã tồn tại trong cơ sở dữ liệu chưa
-              $checkQuery = "SELECT * FROM permissions WHERE codePermissions = '$codePermission'";
-              $resultCheck = $this->actionSQL->query($checkQuery);
+                     // Kiểm tra xem mã quyền đã tồn tại trong cơ sở dữ liệu chưa
+                     $checkQuery = "SELECT * FROM permissions WHERE codePermissions = '$codePermission'";
+                     $resultCheck = $this->actionSQL->query($checkQuery);
 
-              // Nếu đối tượng không rỗng và mã quyền chưa tồn tại
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     // Câu lệnh truy vấn để thêm đối tượng vào bảng permissions
-                     $insertQuery = "INSERT INTO permissions (codePermissions, namePermissions) VALUES ('$codePermission', '$namePermission')";
+                     // Nếu đối tượng không rỗng và mã quyền chưa tồn tại
+                     if ($obj != null && $resultCheck->num_rows < 1) {
+                            // Câu lệnh truy vấn để thêm đối tượng vào bảng permissions
+                            $insertQuery = "INSERT INTO permissions (codePermissions, namePermissions) VALUES ('$codePermission', '$namePermission')";
 
-                     // Thực hiện truy vấn
-                     return $this->actionSQL->query($insertQuery);
+                            // Thực hiện truy vấn
+                            return $this->actionSQL->query($insertQuery);
+                     } else {
+                            // Trả về false nếu đối tượng rỗng hoặc mã quyền đã tồn tại
+                            return false;
+                     }
               } else {
-                     // Trả về false nếu đối tượng rỗng hoặc mã quyền đã tồn tại
                      return false;
               }
        }

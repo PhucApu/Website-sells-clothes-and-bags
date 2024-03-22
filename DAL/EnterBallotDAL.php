@@ -127,23 +127,27 @@ class EnterBallotDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codeBallot = $obj->getCodeBallot();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM EnterBallot WHERE codeBallot = '$codeBallot'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $codeBallot = $obj->getCodeBallot();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM EnterBallot WHERE codeBallot = '$codeBallot'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $date = $obj->getDate();
-                     $userName = $obj->getUserName();
-                     $sumMoney = $obj->getSumMoney();
-                     $codeSupplier = $obj->getCodeSupplier();
-                     $state = $obj->getState();
-                     $note = $obj->getNote();
+                     if ($resultCheck->num_rows < 1) {
+                            $date = $obj->getDate();
+                            $userName = $obj->getUserName();
+                            $sumMoney = $obj->getSumMoney();
+                            $codeSupplier = $obj->getCodeSupplier();
+                            $state = $obj->getState();
+                            $note = $obj->getNote();
 
-                     // Câu lệnh truy vấn
-                     $string = "INSERT INTO EnterBallot (codeBallot, date, userName, sumMoney, codeSupplier, state, note) VALUES ('$codeBallot', '$date', '$userName', '$sumMoney', '$codeSupplier', '$state', '$note')";
+                            // Câu lệnh truy vấn
+                            $string = "INSERT INTO EnterBallot (codeBallot, date, userName, sumMoney, codeSupplier, state, note) VALUES ('$codeBallot', '$date', '$userName', '$sumMoney', '$codeSupplier', '$state', '$note')";
 
-                     return $this->actionSQL->query($string);
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }

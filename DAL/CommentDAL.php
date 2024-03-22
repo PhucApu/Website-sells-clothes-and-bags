@@ -111,27 +111,31 @@ class CommentDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $codeComment = $obj->getCodeComment();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM comment WHERE codeComment = '$codeComment'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $codeComment = $obj->getCodeComment();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM comment WHERE codeComment = '$codeComment'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $productCode = $obj->getProductCode();
-                     $userNameComment = $obj->getUserNameComment();
-                     $userNameRepComment = $obj->getUserNameRepComment();
-                     $sentDate = $obj->getSentDate();
-                     $content = $obj->getContent();
-                     $state = $obj->getState();
-                     $likeNumber = $obj->getLikeNumber();
-                     $dislikeNumber = $obj->getDislikeNumber();
+                     if ($resultCheck->num_rows < 1) {
+                            $productCode = $obj->getProductCode();
+                            $userNameComment = $obj->getUserNameComment();
+                            $userNameRepComment = $obj->getUserNameRepComment();
+                            $sentDate = $obj->getSentDate();
+                            $content = $obj->getContent();
+                            $state = $obj->getState();
+                            $likeNumber = $obj->getLikeNumber();
+                            $dislikeNumber = $obj->getDislikeNumber();
 
-                     // Câu lệnh truy vấn
-                     $string = "INSERT INTO Comment (codeComment, productCode, userNameComment, userNameRepComment, sentDate, content, state, likeNumber, dislikeNumber) 
-                       VALUES ('$codeComment', '$productCode', '$userNameComment', '$userNameRepComment', '$sentDate', '$content', '$state', $likeNumber, $dislikeNumber)";
+                            // Câu lệnh truy vấn
+                            $string = "INSERT INTO Comment (codeComment, productCode, userNameComment, userNameRepComment, sentDate, content, state, likeNumber, dislikeNumber) 
+                              VALUES ('$codeComment', '$productCode', '$userNameComment', '$userNameRepComment', '$sentDate', '$content', '$state', $likeNumber, $dislikeNumber)";
 
-                     return $this->actionSQL->query($string);
-              } else {
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
+              }else{
                      return false;
               }
        }

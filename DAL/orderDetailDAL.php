@@ -27,13 +27,13 @@ class OrderDetailDAL extends AbstractionDAL
        // xóa một đối tượng bằng cách truyền đối tượng vào
        function delete($obj)
        {
-              if($obj != null){
+              if ($obj != null) {
                      $orderCode = $obj->getOrderCode();
                      $productCode = $obj->getProductCode();
                      $string = "DELETE FROM orderDetail WHERE orderCode = '$orderCode' AND productCode = '$productCode'";
 
                      return $this->actionSQL->query($string);
-              }else{
+              } else {
                      return false;
               }
        }
@@ -144,22 +144,26 @@ class OrderDetailDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addObj($obj)
        {
-              $orderCode = $obj->getOrderCode();
-              $productCode = $obj->getProductCode();
-              // Kiểm tra xem có bị trùng thuộc tính khóa không
-              $check = "SELECT * FROM orderDetail WHERE orderCode = '$orderCode' AND productCode = '$productCode'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $orderCode = $obj->getOrderCode();
+                     $productCode = $obj->getProductCode();
+                     // Kiểm tra xem có bị trùng thuộc tính khóa không
+                     $check = "SELECT * FROM orderDetail WHERE orderCode = '$orderCode' AND productCode = '$productCode'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $nameProduct = $obj->getNameProduct();
-                     $priceProduct = $obj->getPriceProduct();
-                     $quantity = $obj->getQuantity();
-                     $totalMoney = $obj->getTotalMoney();
+                     if ($resultCheck->num_rows < 1) {
+                            $nameProduct = $obj->getNameProduct();
+                            $priceProduct = $obj->getPriceProduct();
+                            $quantity = $obj->getQuantity();
+                            $totalMoney = $obj->getTotalMoney();
 
-                     // Câu lệnh truy vấn
-                     $string = "INSERT INTO orderDetail (orderCode, productCode, nameProduct, priceProduct, quantity, totalMoney) VALUES ('$orderCode', '$productCode', '$nameProduct', $priceProduct, $quantity, $totalMoney)";
+                            // Câu lệnh truy vấn
+                            $string = "INSERT INTO orderDetail (orderCode, productCode, nameProduct, priceProduct, quantity, totalMoney) VALUES ('$orderCode', '$productCode', '$nameProduct', $priceProduct, $quantity, $totalMoney)";
 
-                     return $this->actionSQL->query($string);
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
               } else {
                      return false;
               }
@@ -206,6 +210,3 @@ class OrderDetailDAL extends AbstractionDAL
 // echo $check->upadateObj(new OrderDetailDTO('ORD003', 'P001', '', 0, 0, 0));
 
 // echo $check->delete(new OrderDetailDTO('ORD003', 'P001', '', 0, 0, 0));
-
-
-

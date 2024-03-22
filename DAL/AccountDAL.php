@@ -69,7 +69,7 @@ class AccountDAL extends AbstractionDAL
                      } else {
                             return false;
                      }
-              }else{
+              } else {
                      return false;
               }
        }
@@ -147,29 +147,33 @@ class AccountDAL extends AbstractionDAL
        // thêm một đối tượng 
        function addobj($obj)
        {
-              $userName = $obj->getUsername();
-              // kiểm tra xem có bị trùng thuọc tính khóa không
-              $check = "SELECT * FROM accounts WHERE userName = '$userName'";
-              $resultCheck = $this->actionSQL->query($check);
+              if ($obj != null) {
+                     $userName = $obj->getUsername();
+                     // kiểm tra xem có bị trùng thuọc tính khóa không
+                     $check = "SELECT * FROM accounts WHERE userName = '$userName'";
+                     $resultCheck = $this->actionSQL->query($check);
 
-              if ($obj != null && $resultCheck->num_rows < 1) {
-                     $passWord = $obj->getPassword();
-                     $dateCreate = $obj->getDateCreate();
-                     $accountStatus = $obj->getAccountStatus();
-                     $name = $obj->getName();
-                     $address = $obj->getAddress();
-                     $email = $obj->getEmail();
-                     $phoneNumber = $obj->getPhoneNumber();
-                     $birth = $obj->getBirth();
-                     $sex = $obj->getSex();
-                     $codePermission = $obj->getCodePermission();
+                     if ($resultCheck->num_rows < 1) {
+                            $passWord = $obj->getPassword();
+                            $dateCreate = $obj->getDateCreate();
+                            $accountStatus = $obj->getAccountStatus();
+                            $name = $obj->getName();
+                            $address = $obj->getAddress();
+                            $email = $obj->getEmail();
+                            $phoneNumber = $obj->getPhoneNumber();
+                            $birth = $obj->getBirth();
+                            $sex = $obj->getSex();
+                            $codePermission = $obj->getCodePermission();
 
-                     // cau lenh truy vấn
-                     // INSERT IGNORE: nếu gặp trùng lắp khóa chính thì nó sẽ không thêm dữ liệu vào 
-                     $string = "INSERT INTO accounts (userName, passWord, dateCreated, accountStatus, name, address, email, phoneNumber, birth, sex, codePermissions) VALUES ('$userName', '$passWord', '$dateCreate', '$accountStatus', '$name', '$address', '$email', '$phoneNumber', '$birth', '$sex', '$codePermission')";
+                            // cau lenh truy vấn
+                            // INSERT IGNORE: nếu gặp trùng lắp khóa chính thì nó sẽ không thêm dữ liệu vào 
+                            $string = "INSERT INTO accounts (userName, passWord, dateCreated, accountStatus, name, address, email, phoneNumber, birth, sex, codePermissions) VALUES ('$userName', '$passWord', '$dateCreate', '$accountStatus', '$name', '$address', '$email', '$phoneNumber', '$birth', '$sex', '$codePermission')";
 
-                     return $this->actionSQL->query($string);
-              } else {
+                            return $this->actionSQL->query($string);
+                     } else {
+                            return false;
+                     }
+              }else{
                      return false;
               }
        }
