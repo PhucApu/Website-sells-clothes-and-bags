@@ -57,10 +57,10 @@
               </div>
               <div class="content-product">
                      <div class="product-feature">
-                            <div class="pre-button" onclick="preButton()">
+                            <div class="pre-button" >
                                    <span><i class="fas fa-chevron-left"></i></span>
                             </div>
-                            <div class="next-button" onclick="nextButton()">
+                            <div class="next-button">
                                    <span><i class="fas fa-chevron-right"></i></span>
                             </div>
                             <div class="widget-title">
@@ -68,9 +68,9 @@
                                    <span><i class="far fa-star"></i></span>
                             </div>
                             <div class="product">
-                                   <div class="product-item text">
+                                   <div class="product-item">
                                           <div class="image-item">
-                                                 <a href="./ProductDetail.php">
+                                                 <a href='./ProductDetail.php'>
                                                         <img src="../image/product/product1/product-detail-1.png" alt="">
                                                         <a href="./Cart.php">
                                                                <div class="add-to-cart">
@@ -240,7 +240,7 @@
                             <div class="widget-title">
                                    <div>
                                           <a href=""><span class="is-active">NEW ARRIVAL</span></a>
-                                          <a href=""><span>SALE PRODUCT</span></a>
+                                          <a href=""><span class="is-active">SALE PRODUCT</span></a>
                                           <a href=""><span>BEST SELLING PRODUCTS</span></a>
                                    </div>
                                    <span><i class="far fa-star"></i></span>

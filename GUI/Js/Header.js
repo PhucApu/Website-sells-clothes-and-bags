@@ -1,33 +1,205 @@
+// ------------------------------------------- AJAX kiểm tra đăng nhập -----------------------------------------------
+async function checkLogin() {
+       try {
+              const response = await fetch('../../BLL/AccountBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body:
+                            'function=' + encodeURIComponent('checkLogin')
+              });
+              const data = await response.json();
+              console.log(data);
+              let result = data[0];
+              if (result.result == 'success') {
+                     setLogin(result.userName);
+              }else{
+                     setLogin('');
+              }
+              // for (let i of data) {
+              //        console.log(i);
+              // }
+              // showProductItem(data);
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+checkLogin();
+// hàm tự động xóa thông tin đăng nhập khi thoát trang bất ngờ
+window.addEventListener('unload', async function (event) {
+       try {
+              const response = await fetch('../../BLL/AccountBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body: 'function=' + encodeURIComponent('logout_whenExitPage')
+              });
+              const data = await response.json();
+              console.log(data);
+       } catch (error) {
+              console.error('Error:', error);
+       }
+});
+function setLogin(username) {
+       let loginContainer = document.querySelector('header .menubar .user');
+       if (username != '') {
+              let string = `
+                     <a href="./login.php">
+                            <div class="user-infor">
+                                   <i class="fas fa-user"></i>
+                                   <span class="user-name">Hi, ${username}</span>
+                            </div>
+                     </a>
+                     `;
+              loginContainer.innerHTML = string;
+       }else{
+              let string = `
+                     <a href="./login.php">
+                            <div class="user-infor">
+                                   <i class="fas fa-user"></i>
+                            </div>
+                     </a>
+                     `;
+              loginContainer.innerHTML = string;
+       }
+}
 
-function showSearchBox(){
+// ------------------------------------------- DÙNG AJAX ĐỂ LOAD DỮ LIỆU LÊN -------------------------
+
+// load du lieu trong ô tiềm kiếm 
+function searchProduct() {
+       let search = document.querySelector('header .search .box-search input');
+       // khi người dùng gõ ký tự thì nó sẽ tự động gọi AJAX
+       search.oninput = async function getProduct() {
+              console.log(search.value);
+              try {
+                     let keyword = 'null';
+                     if (search.value !== '') {
+                            keyword = search.value;
+                     }
+                     const response = await fetch('../../BLL/ProductBLL.php', {
+                            method: 'POST',
+                            headers: {
+                                   'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body:
+                                   'function=' + encodeURIComponent('searchProduct') + '&keyword=' + encodeURIComponent(keyword)
+                     });
+                     const data = await response.json();
+                     console.log(data);
+                     showSearchResult(data);
+                     showSearchBox();
+
+                     // showProductItem(data);
+              } catch (error) {
+                     console.error('Error:', error);
+              }
+       }
+}
+searchProduct();
+
+// show kết quả truy suất
+function showSearchResult(data) {
+       let result = '';
+       let container = document.querySelector('header .search .box-search .result-search');
+       for (let item of data) {
+              // tim thay san pham
+              if (item.productCode != '') {
+
+                     let productCode = item.productCode;
+                     let type = item.type;
+                     // ma hoa
+                     let mahoaProductCode = btoa(productCode);
+                     let mahoaType = btoa(type);
+
+                     // img
+                     let stringImg = item.imgProduct;
+                     let arrImg = stringImg.split(' ');
+                     let firstImg = arrImg[0];
+
+                     // name product
+                     let nameProduct = item.nameProduct;
+
+                     // path DetailProduct
+                     let pathDetaiProduct = `./ProductDetail.php?code=${mahoaProductCode}&type=${mahoaType}`;
+
+                     let string = `
+                     <div class="item">
+                            <a href="${pathDetaiProduct}">
+                                   <img src="${firstImg}" alt="">
+                                   <span>${nameProduct}</span>
+                            </a>
+                     </div>
+                     
+                     `;
+                     result += string;
+              }
+       }
+       // khong tim thay san pham
+       if (result === '') {
+              let string = `
+              <div class="not-found-item">
+                     <span>NOT FOUND</span>
+                     <span><i class="fas fa-search"></i></span>
+              </div>
+              `;
+              result += string;
+       }
+       container.innerHTML = result;
+}
+
+
+
+
+
+
+function showSearchBox() {
        let box = document.querySelector('header .search .box-search .result-search');
        let itemSearch = document.querySelectorAll('header .search .box-search .result-search .item');
 
        // neu ket qua tra ve > 2 product
-       if(itemSearch.length > 2){
+       if (itemSearch.length > 2) {
               box.style.height = '140px';
        }
-       else{
+       else {
               box.style.height = 'auto'; // Sử dụng giá trị mặc định cho height
        }
 }
-showSearchBox();
+// showSearchBox();
 
-function search(){
-       // event.preventDefault();
+function search() {
        let box = document.querySelector('header .search .box-search');
-       let icon_seacrh = document.getElementById('search-icon');
+       let icon_search = document.getElementById('search-icon');
        let input_search = document.querySelector('header .search .box-search input');
-       // console.log(box);
-       // console.log(icon_seacrh);
-       // box.style.display = 'block';
-       icon_seacrh.onclick = function(event){
+
+       // Thêm sự kiện click cho icon_search
+       icon_search.addEventListener('click', function (event) {
+              // Ngăn chặn sự lan truyền của sự kiện click để tránh kích hoạt sự kiện click của document
               event.preventDefault();
+              event.stopPropagation();
+
+              // Hiển thị phần tử box
               box.style.display = 'block';
+
+              // Tự động focus vào input_search
               input_search.focus();
-       }
-       input_search.onblur = function(){
-              box.style.display = 'none';
-       }
+       });
+
+       // Thêm sự kiện click cho toàn bộ tài liệu (document)
+       document.addEventListener('click', function (event) {
+              // Ẩn box nếu người dùng click ra ngoài box hoặc icon_search
+              if (event.target !== box && event.target !== icon_search) {
+                     box.style.display = 'none';
+              }
+       });
+
+       // Ngăn chặn sự kiện click từ việc lan truyền đến document khi click vào box
+       box.addEventListener('click', function (event) {
+              event.stopPropagation();
+       });
+
+
 }
 search();

@@ -523,9 +523,11 @@ FROM product
 
 -- data table HandbagProduct
 USE  website_sells_clothes_and_bags;
-INSERT INTO handbagproduct (productCode,bagMaterial)
-VALUES 
-       ('P018','skin');
+INSERT INTO handbagproduct
+       (productCode,bagMaterial,descriptionMaterial)
+VALUES
+       ('P018', 'skin', "Skin is a remarkable material, a testament to the intricate craftsmanship of nature itself. It serves as the protective barrier between the body and the outside world, offering resilience, flexibility, and sensitivity in equal measure. Composed of layers intricately woven together, skin is both durable and delicate, capable of withstanding the rigors of everyday life while also transmitting the gentlest of touches. At a closer glance, skin reveals a complex network of cells, fibers, and glands, each playing a crucial role in its function. The outermost layer, the epidermis, acts as a shield against harmful elements, while the dermis underneath provides structural support and houses an array of nerves, blood vessels, and sweat glands. Together, these layers form a dynamic system that regulates temperature, moisture, and sensation, adapting seamlessly to the body's needs."),
+       ('P019', 'skin', "Skin is a remarkable material, a testament to the intricate craftsmanship of nature itself. It serves as the protective barrier between the body and the outside world, offering resilience, flexibility, and sensitivity in equal measure. Composed of layers intricately woven together, skin is both durable and delicate, capable of withstanding the rigors of everyday life while also transmitting the gentlest of touches. At a closer glance, skin reveals a complex network of cells, fibers, and glands, each playing a crucial role in its function. The outermost layer, the epidermis, acts as a shield against harmful elements, while the dermis underneath provides structural support and houses an array of nerves, blood vessels, and sweat glands. Together, these layers form a dynamic system that regulates temperature, moisture, and sensation, adapting seamlessly to the body's needs.");
 
 -- check data table HandbagProduct
 USE  website_sells_clothes_and_bags;
@@ -534,24 +536,26 @@ FROM handbagproduct
 
 -- data table shirtproduct
 USE  website_sells_clothes_and_bags;
-INSERT INTO ShirtProduct (productCode, shirtMaterial, shirtStyle) VALUES
-('P001', 'Cotton', 'Dress'),
-('P002', 'Fabric', 'Halter'),
-('P003', 'Cotton', 'Halter'),
-('P004', 'Fabric', 'Halter'),
-('P005', 'Cotton', 'T-shirt'),
-('P006', 'Cotton', 'T-shirt'),
-('P007', 'Polyester', 'T-shirt'),
-('P008', 'Polyester', 'T-shirt'),
-('P009', 'Fabric', 'T-shirt'),
-('P010', 'Polyester', 'T-shirt'),
-('P011', 'Polyester', 'T-shirt'),
-('P012', 'Polyester', 'T-shirt'),
-('P013', 'Cotton', 'T-shirt'),
-('P014', 'Polyester', 'Polo'),
-('P015', 'Cotton', 'Trouser'),
-('P016', 'Cotton', 'Polo'),
-('P017', 'Polyester', 'Trouser');
+INSERT INTO ShirtProduct
+       (productCode, shirtMaterial, shirtStyle,descriptionMaterial)
+VALUES
+       ('P001', 'Cotton', 'Dress', 'Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products.'),
+       ('P002', 'Fabric', 'Halter', "Fabric is a wondrous material, woven from threads of imagination and craftsmanship. Its texture tells stories of meticulous care and artistry. Each thread intertwines with another, creating a tapestry of possibilities. From the soft caress of silk to the rugged resilience of denim, fabric embodies versatility. In the gentle embrace of cotton, there's a whisper of comfort, a promise of warmth on a chilly day. Its fibers breathe life into clothing, making every movement effortless and every touch soothing. Linen, with its natural elegance, brings a sense of airy sophistication, draping gracefully with every fold."),
+       ('P003', 'Cotton', 'Halter', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
+       ('P004', 'Fabric', 'Halter', "Fabric is a wondrous material, woven from threads of imagination and craftsmanship. Its texture tells stories of meticulous care and artistry. Each thread intertwines with another, creating a tapestry of possibilities. From the soft caress of silk to the rugged resilience of denim, fabric embodies versatility. In the gentle embrace of cotton, there's a whisper of comfort, a promise of warmth on a chilly day. Its fibers breathe life into clothing, making every movement effortless and every touch soothing. Linen, with its natural elegance, brings a sense of airy sophistication, draping gracefully with every fold."),
+       ('P005', 'Cotton', 'T-shirt', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
+       ('P006', 'Cotton', 'T-shirt', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
+       ('P007', 'Polyester', 'T-shirt', "	Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries."),
+       ('P008', 'Polyester', 'T-shirt', "Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries."),
+       ('P009', 'Fabric', 'T-shirt', "Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries."),
+       ('P010', 'Polyester', 'T-shirt', "Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries."),
+       ('P011', 'Polyester', 'T-shirt', "Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries."),
+       ('P012', 'Polyester', 'T-shirt', "Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries."),
+       ('P013', 'Cotton', 'T-shirt', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
+       ('P014', 'Polyester', 'Polo', "Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries"),
+       ('P015', 'Cotton', 'Trouser', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
+       ('P016', 'Cotton', 'Polo', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products"),
+       ('P017', 'Polyester', 'Trouser', "Polyester is a versatile and widely used synthetic fabric renowned for its durability and resistance to wrinkles and shrinkage. Composed of long-chain polymers, it offers excellent strength and resilience, making it ideal for a multitude of applications. Its smooth texture provides a comfortable feel against the skin, while its lightweight nature ensures ease of wear. Polyester fabrics are often praised for their quick-drying properties, making them a popular choice for sportswear and outdoor gear. Additionally, polyester's ability to retain color vibrancy over time makes it a preferred option for vibrant and long-lasting garments. Whether in clothing, upholstery, or home furnishings, polyester continues to be valued for its reliability and adaptability across various industries.");
 
 -- check data table ShirtProduct
 USE  website_sells_clothes_and_bags;
@@ -689,59 +693,60 @@ FROM size
 
 -- data ShirtSize
 USE  website_sells_clothes_and_bags;
-INSERT INTO ShirtSize (productCode, sizeCode, quantity)
+INSERT INTO ShirtSize
+       (productCode, sizeCode, quantity)
 VALUES
-    ('P001', 'S001', 17),
-    ('P001', 'S002', 18),
-    ('P001', 'S003', 15),
-    ('P002', 'S001', 16),
-    ('P002', 'S002', 17),
-    ('P002', 'S003', 17),
-    ('P003', 'S001', 18),
-    ('P003', 'S002', 16),
-    ('P003', 'S003', 16),
-    ('P004', 'S001', 19),
-    ('P004', 'S002', 15),
-    ('P004', 'S003', 16),
-    ('P005', 'S001', 18),
-    ('P005', 'S002', 17),
-    ('P005', 'S003', 15),
-    ('P006', 'S001', 19),
-    ('P006', 'S002', 16),
-    ('P006', 'S003', 15),
-    ('P007', 'S001', 17),
-    ('P007', 'S002', 18),
-    ('P007', 'S003', 15),
-    ('P008', 'S001', 16),
-    ('P008', 'S002', 17),
-    ('P008', 'S003', 17),
-    ('P009', 'S001', 18),
-    ('P009', 'S002', 16),
-    ('P009', 'S003', 16),
-    ('P010', 'S001', 19),
-    ('P010', 'S002', 15),
-    ('P010', 'S003', 16),
-    ('P011', 'S001', 18),
-    ('P011', 'S002', 17),
-    ('P011', 'S003', 15),
-    ('P012', 'S001', 19),
-    ('P012', 'S002', 16),
-    ('P012', 'S003', 15),
-    ('P013', 'S001', 17),
-    ('P013', 'S002', 18),
-    ('P013', 'S003', 15),
-    ('P014', 'S001', 16),
-    ('P014', 'S002', 17),
-    ('P014', 'S003', 17),
-    ('P015', 'S001', 18),
-    ('P015', 'S002', 16),
-    ('P015', 'S003', 16),
-    ('P016', 'S001', 19),
-    ('P016', 'S002', 15),
-    ('P016', 'S003', 16),
-    ('P017', 'S001', 18),
-    ('P017', 'S002', 17),
-    ('P017', 'S003', 15);
+       ('P001', 'S001', 17),
+       ('P001', 'S002', 18),
+       ('P001', 'S003', 15),
+       ('P002', 'S001', 16),
+       ('P002', 'S002', 17),
+       ('P002', 'S003', 17),
+       ('P003', 'S001', 18),
+       ('P003', 'S002', 16),
+       ('P003', 'S003', 16),
+       ('P004', 'S001', 19),
+       ('P004', 'S002', 15),
+       ('P004', 'S003', 16),
+       ('P005', 'S001', 18),
+       ('P005', 'S002', 17),
+       ('P005', 'S003', 15),
+       ('P006', 'S001', 19),
+       ('P006', 'S002', 16),
+       ('P006', 'S003', 15),
+       ('P007', 'S001', 17),
+       ('P007', 'S002', 18),
+       ('P007', 'S003', 15),
+       ('P008', 'S001', 16),
+       ('P008', 'S002', 17),
+       ('P008', 'S003', 17),
+       ('P009', 'S001', 18),
+       ('P009', 'S002', 16),
+       ('P009', 'S003', 16),
+       ('P010', 'S001', 19),
+       ('P010', 'S002', 15),
+       ('P010', 'S003', 16),
+       ('P011', 'S001', 18),
+       ('P011', 'S002', 17),
+       ('P011', 'S003', 15),
+       ('P012', 'S001', 19),
+       ('P012', 'S002', 16),
+       ('P012', 'S003', 15),
+       ('P013', 'S001', 17),
+       ('P013', 'S002', 18),
+       ('P013', 'S003', 15),
+       ('P014', 'S001', 16),
+       ('P014', 'S002', 17),
+       ('P014', 'S003', 17),
+       ('P015', 'S001', 18),
+       ('P015', 'S002', 16),
+       ('P015', 'S003', 16),
+       ('P016', 'S001', 19),
+       ('P016', 'S002', 15),
+       ('P016', 'S003', 16),
+       ('P017', 'S001', 18),
+       ('P017', 'S002', 17),
+       ('P017', 'S003', 15);
 
 -- check data table ShirtSize
 USE  website_sells_clothes_and_bags;

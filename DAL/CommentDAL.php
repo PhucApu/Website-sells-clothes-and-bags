@@ -1,7 +1,7 @@
 <?php
 
 // import
-require('./AbstractionDAL.php');
+require('../DAL/AbstractionDAL.php');
 require('../DTO/CommentDTO.php');
 
 class CommentDAL extends AbstractionDAL

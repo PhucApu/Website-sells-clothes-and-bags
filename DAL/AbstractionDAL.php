@@ -1,6 +1,6 @@
 <?php
 
-require('./connectionDatabase.php');
+// require('../DAL/connectionDatabase.php');
 
 abstract class AbstractionDAL
 {

@@ -1,7 +1,7 @@
 <?php
 // import
-require('./AbstractionDAL.php');
-require('../DTO/ShirtProductDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/ShirtProductDTO.php');
 
 class ShirtProductDAL extends AbstractionDAL
 {
@@ -119,9 +119,10 @@ class ShirtProductDAL extends AbstractionDAL
 
                             $shirtMaterial = $data["shirtMaterial"];
                             $shirtStyle = $data["shirtStyle"];
+                            $descriptionMaterial = $data["descriptionMaterial"];
 
                             // Tạo đối tượng HandbagProductDTO từ dữ liệu lấy được và thêm vào mảng
-                            $shirtProduct = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle);
+                            $shirtProduct = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial);
                             array_push($product_list, $shirtProduct);
                      }
                      // Trả về danh sách đối tượng
@@ -158,9 +159,10 @@ class ShirtProductDAL extends AbstractionDAL
                      $promotion = $data["promotion"];
                      $shirtMaterial = $data["shirtMaterial"];
                      $shirtStyle = $data["shirtStyle"];
+                     $descriptionMaterial = $data["descriptionMaterial"];
 
                      // Tạo đối tượng HandbagProductDTO và trả về
-                     $shirtProduct = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle);
+                     $shirtProduct = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial);
                      return $shirtProduct;
               } else {
                      // Trường hợp không có dữ liệu trả về
@@ -190,13 +192,14 @@ class ShirtProductDAL extends AbstractionDAL
                             $promotion = $obj->getPromotion();
                             $shirtMaterial = $obj->getShirtMaterial();
                             $shirtStyle = $obj->getShirtStyle();
+                            $descriptionMaterial = $obj->getDescriptionMaterial();
 
                             $string1 = "INSERT INTO Product (productCode, imgProduct, nameProduct, supplierCode, quantity, describeProduct, status, color, targetGender, price, promotion)
                             VALUES ('$productCode', '$imgProduct', '$nameProduct', '$supplierCode', $quantity, '$describeProduct', '$status', '$color', '$targetGender', $price, $promotion)";
 
-                            $string2 = "INSERT INTO shirtproduct (productCode,shirtMaterial,shirtStyle)
+                            $string2 = "INSERT INTO shirtproduct (productCode,shirtMaterial,shirtStyle,descriptionMaterial)
                             VALUES 
-                                   ('$productCode','$shirtMaterial','$shirtStyle')";
+                                   ('$productCode','$shirtMaterial','$shirtStyle','$descriptionMaterial')";
 
                             $result1 = $this->actionSQL->query($string1);
                             $result2 = $this->actionSQL->query($string2);
@@ -227,6 +230,7 @@ class ShirtProductDAL extends AbstractionDAL
                      $promotion = $obj->getPromotion();
                      $shirtMaterial = $obj->getShirtMaterial();
                      $shirtStyle = $obj->getShirtStyle();
+                     $descriptionMaterial = $obj->getDescriptionMaterial();
 
                      // Câu lệnh SQL để cập nhật dữ liệu trong bảng Product nếu mã sản phẩm đã tồn tại
                      $queryProduct = "UPDATE Product 
@@ -247,7 +251,7 @@ class ShirtProductDAL extends AbstractionDAL
 
                      // Câu lệnh SQL để cập nhật dữ liệu trong bảng HandbagProduct nếu mã sản phẩm đã tồn tại
                      $queryHandbagProduct = "UPDATE shirtproduct 
-                                             SET shirtMaterial = '$shirtMaterial',shirtStyle = '$shirtStyle'
+                                             SET shirtMaterial = '$shirtMaterial',shirtStyle = '$shirtStyle',descriptionMaterial = '$descriptionMaterial'
                                              WHERE productCode = '$productCode'";
 
                      // Thực hiện truy vấn
@@ -258,6 +262,51 @@ class ShirtProductDAL extends AbstractionDAL
               } else {
                      // Nếu đối tượng truyền vào là null
                      return false;
+              }
+       }
+
+       // lay data product
+       function getProductDATA()
+       {
+              // Khởi tạo mảng để lưu danh sách đối tượng
+              $product_list = array();
+
+              // Câu lệnh truy vấn
+              $query = 'SELECT * FROM product INNER JOIN shirtproduct ON product.productCode = shirtproduct.productCode';
+
+              // Thực hiện truy vấn
+              $result = $this->actionSQL->query($query);
+
+              // Kiểm tra số hàng được trả về
+              if ($result->num_rows > 0) {
+                     // Lặp qua từng hàng kết quả
+                     while ($data = $result->fetch_assoc()) {
+                            // Lấy dữ liệu từ hàng kết quả
+                            $productCode = $data["productCode"];
+                            $imgProduct = $data["imgProduct"];
+                            $nameProduct = $data["nameProduct"];
+                            $supplierCode = $data["supplierCode"];
+                            $quantity = $data["quantity"];
+                            $describeProduct = $data["describeProduct"];
+                            $status = $data["status"];
+                            $color = $data["color"];
+                            $targetGender = $data["targetGender"];
+                            $price = $data["price"];
+                            $promotion = $data["promotion"];
+
+                            // $shirtMaterial = $data["shirtMaterial"];
+                            // $shirtStyle = $data["shirtStyle"];
+                            // $descriptionMaterial = $data["descriptionMaterial"];
+
+                            // Tạo đối tượng HandbagProductDTO từ dữ liệu lấy được và thêm vào mảng
+                            $Product = new ProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion);
+                            array_push($product_list, $Product);
+                     }
+                     // Trả về danh sách đối tượng
+                     return $product_list;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     return null;
               }
        }
 }

@@ -156,7 +156,7 @@ CREATE TABLE Transport
 CREATE TABLE Product
 (
        productCode VARCHAR(255) PRIMARY KEY NOT NULL,
-       imgProduct VARCHAR(255),
+       imgProduct TEXT,
        nameProduct VARCHAR(255),
        supplierCode VARCHAR(255),
        quantity INT,
@@ -176,7 +176,8 @@ CREATE TABLE Product
 CREATE TABLE HandbagProduct
 (
        productCode VARCHAR(255),
-       bagMaterial VARCHAR(255)
+       bagMaterial VARCHAR(255),
+       descriptionMaterial TEXT
 );
 
 -- Tao đối tượng ShirtProduct
@@ -185,7 +186,8 @@ CREATE TABLE ShirtProduct
 (
        productCode VARCHAR(255),
        shirtMaterial VARCHAR(255),
-       shirtStyle VARCHAR(255)
+       shirtStyle VARCHAR(255),
+       descriptionMaterial TEXT
 );
 
 -- Tạo đối tượng ShirtSize

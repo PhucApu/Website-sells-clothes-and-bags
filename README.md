@@ -54,7 +54,6 @@
 
 - Đây là hình ảnh sơ đồ cở sở dữ liệu của nhóm (đã được thầy Sang tư vấn): 
   ![](./Photo_diary/CSDL.png) 
-  ![](./Photo_diary/CSDL_mySQL.jpg)
 
 - Có gì tớ thiết kế sơ đối tượng trong lớp DTO với lớp DAO rồi push lên để anh em tham khảo nha, có gì góp ý chung.
 
@@ -71,4 +70,49 @@
   - Chưa hoàn thành việc ghi các câu lệnh truy suất trong lớp DAL.
 
 
-## Task 3 (): ??  
+## Task 3 (18/3/2024 -> 1/4/2024): Chỉnh sửa một số thứ trong CSDL, hoàn thành cơ bản các chức năng trên web phía người dùng
+
+- Về việc chỉnh sửa cơ sở dữ liệu: thêm thuộc tính descriptionMaterial trong sản phẩm Shirt và Handbag.
+
+- Mấy phen nên tạo lại cơ sở dữ liệu mới trong file **"TABLES.sql"** ở lớp DAL và khởi tạo lại dữ liệu trong file **"DATA_CONTRUCTOR.sql"** trước khi chạy web, vì web chưa có cái check xem đã khởi chạy kết nối với database chưa nên nhớ bật **XAMPP** trước khi chạy nha.
+
+
+- Các chức năng phía người dùng:
+  - **Đăng nhập**: cơ bản hoàn thành nhưng chưa kiểm tra dữ liệu đầu vào bằng Js.
+  - **Đăng ký**: chưa hoàn thành.
+  - **Tìm kiếm sản phẩm theo từ khóa, sử dụng AJAX khi click vào biểu tượng kính lup trên Header**: đã hoàn thành.
+  - **Các chức năng ở trang Home**:
+    - **Show danh sách các sản phẩm dưới dạng slide bằng AJAX ở phần "Feature"**: đã hoàn thành.
+    - **Show danh sách các sản phẩm "New Arrival" bằng AJAX**: chưa hoàn thành
+    - **Show danh sách các sản phẩm "Sale Product" bằng AJAX**: chưa hoàn thành
+    - **Show danh sách các sản phẩm "New Beslling Product" bằng AJAX**: chưa hoàn thành
+    - **Phân loại sản phẩm cho "Men,Woment,Kids", khi click vào sẽ dẫn đến trang shop với giá trị lọc tương ứng**: chưa hoàn thành.
+  - **Các chức năng ở trang Shop**:
+    - **Phân trang bằng AJAX**: đã hoàn thành.
+    - **Các chức năng lọc sản phẩm bằng AJAX**: chưa hoàn thành.
+  - **Các chức năng ở trang Chi tiết sản phẩm**:
+    - **Xem chi tiết một sản phẩm bằng cách dùng AJAX load dữ liệu lên**: đã hoàn thành.
+    - **Load sản phẩm ở phần "Related products" dùng AJAX**: đã hoàn thành.
+    - **Load các đánh giá bình luận về sản phẩm bằng AJAX**: chưa hoàn thành.
+  - **Các chức năng ở trang Liên hệ**:
+    - **Chức năng xác nhận gửi liên hệ bằng AJAX**: chưa hoàn thành.
+  - **Các chức năng ở trang Vỏ hàng**:
+    - **Chức năng thêm vào vỏ hàng**: chưa hoàn thành.
+    - **Chức năng xác nhận mua hàng**: chưa hoàn thành.
+  - **Các chức năng ở trang Thông tin người dùng**: 
+    - **Show dữ liệu người dùng bằng AJAX**: chưa hoàn thành.
+    - **Cho phép chỉnh sửa thông tin người dùng**: chưa hoàn thành.
+    - **Show các đơn hàng đã xác nhận và tình trạng của đơn hàng**: chưa hoàn thành.
+    - **Chức năng xác nhận thanh toán để hoàn tất một đơn hàng khi bấm xác nhận mua hàng bên trang Vỏ hàng qua**: chưa hoàn thành.
+
+- ## Giao việc:
+  - **Code demo một vài chức năng sử dụng AJAX, tạo dựng lơp BLL**: Apu.
+
+- ## Kết quả hoàn thành task 3: một số lưu ý
+  - Tuy một số chức năng đã hoàn thành nhưng có thể còn Bug.
+  - **Chưa có trang để xem thông tin người dùng, các đơn hàng đã đặt, tình trạng các đơn hàng,...**
+  - Cơ sở dũ liệu chưa ổn, có thể chỉnh sửa thêm trong tương lai.
+  - **Thiếu phần admin**.
+
+## Task 4 (2/4/2024 -> //2024): 
+

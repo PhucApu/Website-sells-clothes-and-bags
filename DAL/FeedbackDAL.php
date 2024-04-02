@@ -1,7 +1,7 @@
 <?php
 
 // import
-require('./AbstractionDAL.php');
+require('../DAL/AbstractionDAL.php');
 require('../DTO/FeedbackDTO.php');
 
 class FeedbackDAL extends AbstractionDAL

@@ -1,6 +1,6 @@
 <?php
 // import
-require('./AbstractionDAL.php');
+require('../DAL/AbstractionDAL.php');
 require('../DTO/ShirtSizeDTO.php');
 
 class ShirtSizeDAL extends AbstractionDAL

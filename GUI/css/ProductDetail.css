@@ -92,7 +92,8 @@
        margin-top: 5px;
        display: flex;
        gap: 5px;
-       justify-content: space-between;
+       /* justify-content: space-between; */
+       flex-wrap: wrap;
    }
    
    .list-img > img {

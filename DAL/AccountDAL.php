@@ -1,7 +1,7 @@
 <?php
 // import
-require('./AbstractionDAL.php');
-require('../DTO/AccountDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/AccountDTO.php');
 
 class AccountDAL extends AbstractionDAL
 {
@@ -139,7 +139,7 @@ class AccountDAL extends AbstractionDAL
                      return $account;
               } else {
                      // Trường hợp không có dữ liệu trả về
-                     echo "Không có dữ liệu được trả về từ truy vấn.";
+                     // echo "Không có dữ liệu được trả về từ truy vấn.";
                      return null;
               }
        }

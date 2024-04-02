@@ -92,6 +92,42 @@ header .search .box-search .result-search{
        scrollbar-width: thin; /* Kích thước của thanh cuộn */
        scrollbar-color: #888 #f4f4f4; /* Màu sắc của thanh cuộn */
 }
+header .search .box-search .not-found-item{
+       box-sizing: border-box;
+       position: relative;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       padding-top: 10px;
+       padding-bottom: 10px;
+}
+
+header .search .box-search .not-found-item span:nth-child(1){
+       font-family: 'robotoMedium';
+       color: darkgrey;
+       opacity: 0.5;
+}
+header .search .box-search .not-found-item span:nth-child(2){
+       padding-top: 10px;
+       opacity: 0.2;
+       font-size: 50px;
+       
+}
+
+header .menubar .user:hover .user-name{
+       color: var(--color-main);
+}
+
+header .menubar .user-infor{
+       margin-left: 30px;
+}
+header .menubar .user-infor .user-name{
+       padding-left: 10px;
+}
+
+
+
 
 
 

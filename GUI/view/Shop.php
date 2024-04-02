@@ -302,7 +302,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product1/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -330,14 +330,14 @@
                                     <!-- thong tin gia san pham -->
                                     <div class="price">
                                         <div itemprop="offers" class="pricelist"></div>
-                                        <ins class="giamoi">$39.99</ins>
+                                        <ins class="giamoi"><span class="price-sale">$22.00</span> $14.99</ins>
                                     </div>
                                 </div>
                                 <div class="product-container">
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product2/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -372,7 +372,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product3/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -407,7 +407,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product4/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -442,7 +442,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product5/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -477,19 +477,23 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product6/product-detail-1.png" alt="">
                                         </a>
+                                        <!-- discount -->
+                                        <div class="discount">
+                                            <span>31%</span>
+                                        </div>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
                                             <!--cart-->
                                             <div class="add-to-cart">
-                                                <a href="" class="" title="add cart">
+                                                <a href="./Cart.php" class="" title="add cart">
                                                     <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                                                 </a>
                                             </div>
                                             <!--read-more-->
                                             <div class="readmore">
-                                                <a href="" title="Detail">
+                                                <a href="./ProductDetail.php" title="Detail">
                                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                                 </a>
                                             </div>
@@ -512,8 +516,12 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product7/product-detail-1.png" alt="">
                                         </a>
+                                        <!-- discount -->
+                                        <div class="discount">
+                                            <span>25%</span>
+                                        </div>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
                                             <!--cart-->
@@ -547,7 +555,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product8/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -582,7 +590,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product9/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -617,7 +625,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product10/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -652,8 +660,12 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product11/product-detail-1.png" alt="">
                                         </a>
+                                        <!-- discount -->
+                                        <div class="discount">
+                                            <span>20%</span>
+                                        </div>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
                                             <!--cart-->
@@ -687,7 +699,7 @@
                                     <!--khung chứa ảnh-->
                                     <div class="image">
                                         <a href="" class="">
-                                            <img src="../image/product/product_1/1-2-312x390.png" alt="">
+                                            <img src="../image/product/product12/product-detail-1.png" alt="">
                                         </a>
                                         <!--cart và xem chi tiết sp trong ảnh-->
                                         <div class="action-custom">
@@ -723,12 +735,12 @@
                         </div>
                         <!--chuyển trang sản phẩm 1->2 -->
                         <div class="list-page">
-                            <div class="item">
-                                <a href="#">1</a>
+                            <div class="item-active">
+                                1
                             </div>
                             ...
-                            <div class="item 2">
-                                <a href="#">2</a>
+                            <div>
+                                2
                             </div>
                         </div>
                     </div>

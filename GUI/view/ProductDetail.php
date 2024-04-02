@@ -46,13 +46,13 @@
                 <div class="container">
                     <div class="img-product">
                         <div class="show-img">
-                            <img src="../image/product/product_4/product-detail-1.png" alt="">
+                            <img src="../image/product/product1/product-detail-1.png" alt="">
                         </div>
                         <div class="list-img">
-                            <img src="../image/product/product_4/product-detail-1.png" alt="" class="opacity">
-                            <img src="../image/product/product_4/product-detail-2.png" alt="">
-                            <img src="../image/product/product_4/product-detail-3.png" alt="">
-                            <img src="../image/product/product_4/product-detail-4.png" alt="">
+                            <img src="../image/product/product1/product-detail-1.png" alt="" class="opacity">
+                            <img src="../image/product/product1/product-detail-2.png" alt="">
+                            <img src="../image/product/product1/product-detail-3.png" alt="">
+                            <img src="../image/product/product1/product-detail-4.png" alt="">
                         </div>
                     </div>
                     <div class="action-img disappear">
@@ -62,28 +62,31 @@
                         <i class="fas fa-times"></i>
                         <i class="fas fa-expand" id="fullscreen"></i>
                         <i class="fas fa-compress disappear" id="exitfullscreen"></i>
-                        <img src="../image/product/product_4/product-detail-1.png" alt="">
+                        <img src="../image/product/product1/product-detail-1.png" alt="">
                     </div>
                     <div class="desc-product">
-                        <h2>Super-soft wrap jumpsuit</h2>
-                        <p class="price">$39.99</p>
+                        <h2 class="name-product">Super-soft wrap jumpsuit</h2>
+                        <div class="price">$39.99</div>
                         <h3>Composition</h3>
-                        <p>Modal 72%, Polyester 28%</p>
+                        <p class="composition">Modal 72%, Polyester 28%</p>
+                        <h3 class="style-title">Style</h3>
+                        <p class="sytle">T-Shirt</p>
                         <h3>Additional material information</h3>
-                        <p>The total weight of this product contains: <br> <br>
+                        <p class="descriptionMaterial">The total weight of this product contains: <br> <br>
                             28% Recycled polyester <br> <br>
                             We exclude the weight of minor components such as, but not exclusively: threads, buttons, zippers, embellishments and prints.<br>
                             <br>
                             The total weight of the product is calculated by adding the weight of all layers and main components together. Based on that, we calculate how much of that weight is made out by each material. For sets & multipacks all pieces are counted together as one product in calculations.
                         </p>
-                        <h3>Materials in this product explained</h3>
+                        <!-- <h3>Materials in this product explained</h3>
                         <p>ModalModal is a regenerated cellulose fibre commonly made from wood, but the raw material could also consist of other cellulosic materials.
                             PolyesterPolyester is a synthetic fibre made from crude oil (a fossil resource). <br>
-                            Recycled polyesterRecycled polyester is polyester made from PET bottles or end-of-life textile waste. The PET bottles or textile waste is mechanically recycled and processed into new yarn.</p>
+                            Recycled polyesterRecycled polyester is polyester made from PET bottles or end-of-life textile waste. The PET bottles or textile waste is mechanically recycled and processed into new yarn.</p> -->
                         <div class="add-to-cart">
                             <div class="quantity">
                                 <label>Quantity</label>
-                                <input type="number" step="1" min="1" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
+                                <input type="number" step="1" min="1" max="10" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
+                                <div style="margin-top:10px;">(Quantity left in store: 10)</div>
                             </div>
                             <button>add to cart</button>
                         </div>
@@ -115,16 +118,16 @@
                         </div>
                         <hr>
                         <div class="container-des-re">
-                            <div class="content-desc ">
+                            <div class="content-desc">
                                 <h3>Description</h3>
-                                <p>A super-soft jumpsuit with adjustable spaghetti straps, an elasticated waist, and hidden pockets. Super-soft material. Wrap front. Wide leg. Cropped length. Elastic waist. Adjustable shoulder straps. In a size S the inseam is 54 cm.</p>
-                                <p>Size: The model is 175cm/5’9″ and wears a size S</p>
+                                <p class="description">A super-soft jumpsuit with adjustable spaghetti straps, an elasticated waist, and hidden pockets. Super-soft material. Wrap front. Wide leg. Cropped length. Elastic waist. Adjustable shoulder straps. In a size S the inseam is 54 cm.</p>
+                                <!-- <p>Size: The model is 175cm/5’9″ and wears a size S</p>
                                 <p>Length: Ankle length</p>
                                 <p>Sleeve Length: Sleeveless</p>
                                 <p>Fit: Regular fit</p>
                                 <p>Style: Draped, Wide, Wrapover</p>
                                 <p>Neckline: V-neck</p>
-                                <p>Description: Burgundy, Solid colour</p>
+                                <p>Description: Burgundy, Solid colour</p> -->
                             </div>
                             <div class="content-rev hiddenP">
                                 <h3>Review</h3>
@@ -162,8 +165,19 @@
                         <h3>Related products</h3>
                         <div class="list-item-related">
                             <div class="item-product">
+                                <a href="">
+                                    <div class="img-product-related">
+                                        <img src="../image/product/product1/product-detail-1.png" alt="">
+                                        <p>Sale!</p>
+                                    </div>
+                                    <p class="title-product">Suspendisse na pretium 2</p>
+                                    <p class="price-product"><span class="sale-price">$22.00</span> $14.99</p>
+                                </a>
+                                <a href="#!" class="add-product">Add to cart</a>
+                            </div>
+                            <div class="item-product">
                                 <div class="img-product-related">
-                                    <img src="../image/product/related_product/related-product-1.jpg" alt="">
+                                    <img src="../image/product/product1/product-detail-1.png" alt="">
                                     <p>Sale!</p>
                                 </div>
                                 <p class="title-product">Suspendisse na pretium 2</p>
@@ -172,7 +186,7 @@
                             </div>
                             <div class="item-product">
                                 <div class="img-product-related">
-                                    <img src="../image/product/related_product/related-product-1.jpg" alt="">
+                                    <img src="../image/product/product1/product-detail-1.png" alt="">
                                     <p>Sale!</p>
                                 </div>
                                 <p class="title-product">Suspendisse na pretium 2</p>
@@ -181,16 +195,7 @@
                             </div>
                             <div class="item-product">
                                 <div class="img-product-related">
-                                    <img src="../image/product/related_product/related-product-1.jpg" alt="">
-                                    <p>Sale!</p>
-                                </div>
-                                <p class="title-product">Suspendisse na pretium 2</p>
-                                <p class="price-product"><span class="sale-price">$22.00</span> $14.99</p>
-                                <a href="#!" class="add-product">Add to cart</a>
-                            </div>
-                            <div class="item-product">
-                                <div class="img-product-related">
-                                    <img src="../image/product/related_product/related-product-1.jpg" alt="">
+                                    <img src="../image/product/product1/product-detail-1.png" alt="">
                                     <p>Sale!</p>
                                 </div>
                                 <p class="title-product">Suspendisse na pretium 2</p>
@@ -199,7 +204,7 @@
                             </div>
                             <div class="item-product">
                                 <div class="img-product-related">
-                                    <img src="../image/product/related_product/related-product-1.jpg" alt="">
+                                    <img src="../image/product/product1/product-detail-1.png" alt="">
                                     <p>Sale!</p>
                                 </div>
                                 <p class="title-product">Suspendisse na pretium 2</p>
@@ -208,7 +213,7 @@
                             </div>
                             <div class="item-product">
                                 <div class="img-product-related">
-                                    <img src="../image/product/related_product/related-product-1.jpg" alt="">
+                                    <img src="../image/product/product1/product-detail-1.png" alt="">
                                     <p>Sale!</p>
                                 </div>
                                 <p class="title-product">Suspendisse na pretium 2</p>
@@ -217,7 +222,7 @@
                             </div>
                             <div class="item-product">
                                 <div class="img-product-related">
-                                    <img src="../image/product/related_product/related-product-1.jpg" alt="">
+                                    <img src="../image/product/product1/product-detail-1.png" alt="">
                                     <p>Sale!</p>
                                 </div>
                                 <p class="title-product">Suspendisse na pretium 2</p>
