@@ -14,7 +14,6 @@ VALUES
        ('size', 'Quản lý kích thước sản phẩm áo'),
        ('payment', 'Quản lý hình thức thanh toán'),
        ('transport', 'Quản lý hình thức vận chuyển'),
-       ('enterballot', 'Quản lý phiếu nhập'),
        ('supplier', 'Quản lý nhà cung cấp');
 
 -- check data table function
@@ -57,7 +56,6 @@ VALUES
        ('user', 'size', 0, 1, 0, 0),
        ('user', 'payment', 0, 1, 0, 0),
        ('user', 'transport', 0, 1, 0, 0),
-       ('user', 'enterballot', 0, 1, 0, 0),
        ('user', 'supplier', 0, 1, 0, 0),
 
        -- admin: có quyền toàn hệ thống
@@ -69,7 +67,6 @@ VALUES
        ('admin', 'size', 1, 1, 1, 1),
        ('admin', 'payment', 1, 1, 1, 1),
        ('admin', 'transport', 1, 1, 1, 1),
-       ('admin', 'enterballot', 1, 1, 1, 1),
        ('admin', 'supplier', 1, 1, 1, 1);
 
 -- staff partime: nhân viên partime chỉ có thể: order(xem,sửa), comment(xem,thêm,xóa,sửa)
@@ -515,7 +512,7 @@ VALUES
 
 -- check data table product
 USE  website_sells_clothes_and_bags;
-SELECT *
+SELECT productCode,nameProduct
 FROM product
 
 
@@ -664,13 +661,83 @@ FROM orders
 -- data table orderDetail
 USE  website_sells_clothes_and_bags;
 INSERT INTO orderDetail
-       (orderCode, productCode, nameProduct, priceProduct, quantity, totalMoney)
+       (orderCode, productCode, nameProduct, priceProduct, quantity, sizeCode, totalMoney)
 VALUES
-       ('ORD001', 'P001', 'Product 1', 40.00, 2, 80.00),
-       ('ORD001', 'P002', 'Product 2', 35.00, 2, 70.00),
-       ('ORD002', 'P003', 'Product 3', 50.00, 2, 100.00),
-       ('ORD002', 'P002', 'Product 4', 35.00, 2, 70.00),
-       ('ORD003', 'P002', 'Product 5', 35.00, 2, 70.00);
+       ('ORD001', 'P001', 'Jumpsuit quấn siêu mềm', 20.00, 17,'S001', 340.0),
+       ('ORD001', 'P001', 'Jumpsuit quấn siêu mềm', 20.00, 18,'S002', 360.00),
+       ('ORD001', 'P001', 'Jumpsuit quấn siêu mềm', 20.00, 15,'S003', 300.00),
+
+       ('ORD001', 'P002', 'JDenim playsuit', 20.00, 16,'S001', 16*20.00),
+       ('ORD001', 'P002', 'JDenim playsuit', 20.00, 17,'S002', 17*20.00),
+       ('ORD001', 'P002', 'JDenim playsuit', 20.00, 17,'S003', 17*20.00),
+
+       ('ORD001', 'P003', 'Halterneck jumpsuit', 20.00, 18,'S001', 18*20.00),
+       ('ORD001', 'P003', 'Halterneck jumpsuit', 20.00, 16,'S002', 16*20.00),
+       ('ORD001', 'P003', 'Halterneck jumpsuit', 20.00, 18,'S003', 18*20.00),
+
+       ('ORD001', 'P004', 'Denim jumpsuit', 20.00, 19,'S001', 19*20.00),
+       ('ORD001', 'P004', 'Denim jumpsuit', 20.00, 15,'S002', 15*20.00),
+       ('ORD001', 'P004', 'Denim jumpsuit', 20.00, 16,'S003', 16*20.00),
+
+       ('ORD001', 'P005', 'Linen T-Shirt', 20.00, 18,'S001', 18*20.00),
+       ('ORD001', 'P005', 'Linen T-Shirt', 20.00, 17,'S002', 17*20.00),
+       ('ORD001', 'P005', 'Linen T-Shirt', 20.00, 18,'S003', 15*20.00),
+
+       ('ORD001', 'P006', 'Oversized printed T-shirt', 20.00, 19,'S001', 19*20.00),
+       ('ORD001', 'P006', 'Oversized printed T-shirt', 20.00, 16,'S002', 16*20.00),
+       ('ORD001', 'P006', 'Oversized printed T-shirt', 20.00, 15,'S003', 15*20.00),
+
+       ('ORD001', 'P007', 'Printed T-shirt', 20.00, 17,'S001', 17*20.00),
+       ('ORD001', 'P007', 'Printed T-shirt', 20.00, 18,'S002', 18*20.00),
+       ('ORD001', 'P007', 'Printed T-shirt', 20.00, 15,'S003', 15*20.00),
+
+       ('ORD001', 'P008', 'Cotton T-Shirt', 20.00, 16,'S001', 16*20.00),
+       ('ORD001', 'P008', 'Cotton T-Shirt', 20.00, 17,'S002', 17*20.00),
+       ('ORD001', 'P008', 'Cotton T-Shirt', 20.00, 17,'S003', 17*20.00),
+
+       ('ORD001', 'P009', 'Oversized crinkled shirt', 20.00, 18,'S001', 18*20.00),
+       ('ORD001', 'P009', 'Oversized crinkled shirt', 20.00, 16,'S002', 16*20.00),
+       ('ORD001', 'P009', 'Oversized crinkled shirt', 20.00, 16,'S003', 16*20.00),
+
+       ('ORD001', 'P010', 'Linen-blend pop-over shirt', 20.00, 19,'S001', 19*20.00),
+       ('ORD001', 'P010', 'Linen-blend pop-over shirt', 20.00, 15,'S002', 15*20.00),
+       ('ORD001', 'P010', 'Linen-blend pop-over shirt', 20.00, 16,'S003', 16*20.00),
+
+       ('ORD001', 'P011', 'V-neck blouse', 20.00, 18,'S001', 18*20.00),
+       ('ORD001', 'P011', 'V-neck blouse', 20.00, 17,'S002', 17*20.00),
+       ('ORD001', 'P011', 'V-neck blouse', 20.00, 15,'S003', 15*20.00),
+
+       ('ORD001', 'P012', 'Oxford shirt', 20.00, 19,'S001', 19*20.00),
+       ('ORD001', 'P012', 'Oxford shirt', 20.00, 16,'S002', 16*20.00),
+       ('ORD001', 'P012', 'Oxford shirt', 20.00, 15,'S003', 15*20.00),
+
+       ('ORD001', 'P013', 'Women’s Double Gauze Long Sleeve Button Down Shirt', 20.00, 17,'S001', 17*20.00),
+       ('ORD001', 'P013', 'Women’s Double Gauze Long Sleeve Button Down Shirt', 20.00, 18,'S002', 18*20.00),
+       ('ORD001', 'P013', 'Women’s Double Gauze Long Sleeve Button Down Shirt', 20.00, 15,'S003', 15*20.00),
+
+       ('ORD001', 'P014', 'Poloman Shirt', 20.00, 16,'S001', 16*20.00),
+       ('ORD001', 'P014', 'Poloman Shirt', 20.00, 17,'S002', 17*20.00),
+       ('ORD001', 'P014', 'Poloman Shirt', 20.00, 17,'S003', 17*20.00),
+
+       ('ORD001', 'P015', 'Trouser Man', 20.00, 18,'S001', 18*20.00),
+       ('ORD001', 'P015', 'Trouser Man', 20.00, 16,'S002', 16*20.00),
+       ('ORD001', 'P015', 'Trouser Man', 20.00, 16,'S003', 16*20.00),
+
+       ('ORD001', 'P016', 'Short Denim', 20.00, 19,'S001', 19*20.00),
+       ('ORD001', 'P016', 'Short Denim', 20.00, 15,'S002', 15*20.00),
+       ('ORD001', 'P016', 'Short Denim', 20.00, 16,'S003', 16*20.00),
+
+       ('ORD001', 'P017', 'Wide-leg pants', 20.00, 18,'S001', 18*20.00),
+       ('ORD001', 'P017', 'Wide-leg pants', 20.00, 17,'S002', 17*20.00),
+       ('ORD001', 'P017', 'Wide-leg pants', 20.00, 15,'S003', 15*20.00),
+
+       ('ORD002', 'P018', 'Heaven Handbag', 20.00, 50,'null', 50*20.00),
+
+       ('ORD003', 'P019', 'Laika Handbag', 20.00, 50,'null', 50*20.00);
+
+       
+       
+       
 
 -- check data table orderDetail
 USE  website_sells_clothes_and_bags;
@@ -755,37 +822,9 @@ FROM ShirtSize
 
 
 
--- data table EnterBallot
-USE  website_sells_clothes_and_bags;
-INSERT INTO EnterBallot
-       (codeBallot, date, userName, sumMoney, codeSupplier, state, note)
-VALUES
-       ('EB001', '2024-03-01', 'PhucApuTruong', 500.00, 'NCC001', 'completed', 'Received goods from supplier.'),
-       ('EB002', '2024-03-02', 'PhucApuTruong', 700.00, 'NCC001', 'completed', 'Some items are damaged.'),
-       ('EB003', '2024-03-03', 'PhucApuTruong', 900.00, 'NCC001', 'processing', 'All items are in good condition.');
-
--- check data table EnterBallot
-USE  website_sells_clothes_and_bags;
-SELECT *
-FROM EnterBallot
 
 
 
--- data table BallotDetail
-USE  website_sells_clothes_and_bags;
-INSERT INTO BallotDetail
-       (codeBallot, productCode, quantity, priceProduct, sumMoney)
-VALUES
-       ('EB001', 'P001', 10, 20.00, 200.00),
-       ('EB001', 'P002', 5, 15.00, 75.00),
-       ('EB002', 'P003', 8, 25.00, 200.00),
-       ('EB002', 'P003', 3, 30.00, 90.00),
-       ('EB003', 'P003', 15, 10.00, 150.00);
-
--- check data table BallotDetail
-USE  website_sells_clothes_and_bags;
-SELECT *
-FROM BallotDetail
 
 
 
@@ -801,6 +840,176 @@ FROM BallotDetail
        -- ('AliceJohnson', 'abcdef', '2024-03-16', 'active', 'Alice Johnson', '1010 Pine St', 'alice@example.com', '0823072871', '1995-02-15', 'Female', 'user'),
        -- ('BobBrown', 'hello123', '2024-03-16', 'active', 'Bob Brown', '1212 Maple St', 'bob@example.com', '0823072871', '1988-11-25', 'Male', 'user'),
        -- ('EmilyDavis', 'ilovecats', '2024-03-17', 'active', 'Emily Davis', '1414 Cedar St', 'emily@example.com', '0823072871', '1992-04-30', 'Female', 'user')
+
+
+-- data table filter
+USE  website_sells_clothes_and_bags;
+INSERT INTO filter
+       (filterParent, filterChild)
+VALUES
+       ('supplierCode', 'Gucci store branch 2'),
+       ('supplierCode', 'Nike store branch SaiGon'),
+       ('supplierCode', 'Adidas store branch SaiGon'),
+       ('supplierCode', 'Chanel store branch LongAn'),
+       ('EB003', 'P003');
+
+
+-- text filter
+
+
+-- lọc sản phẩm theo sản phẩm được mua nhiều (bán chạy nhất) nhất
+-- Input: các bảng (product, orderdetail)
+-- Output: mảng chứa mã sản phẩm được sắp xếp theo số lượng được mua nhiều nhất trong chi tiết đơn hàng  
+-- kiểm tra:
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.nameProduct , SUM(odt.quantity) AS NumberOfBuying
+FROM product pr, orderdetail odt
+WHERE pr.productCode = odt.productCode
+GROUP BY pr.productCode
+ORDER BY NumberOfBuying DESC
+
+
+
+
+
+-- lọc sản phẩm đang được giảm giá nhiều nhất
+-- Input: bảng (product)
+-- Output: mảng chứa mã sản phẩm sắp xếp giảm dần từ giảm giá cao nhất đến thấp nhất.
+-- Kiểm tra:
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.promotion
+FROM product pr
+ORDER BY pr.promotion DESC 
+
+-- lọc sản phẩm dựa theo giá từ thấp đến cao
+-- Input: bảng (product)
+-- Output: mảng sản phẩm có giá từ thấp đến đến cao
+-- Kiểm tra:
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.price
+FROM product pr
+ORDER BY pr.price ASC
+
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.price
+FROM product pr
+ORDER BY pr.price DESC      
+
+-- lọc sản phẩm dựa theo giá từ khoảng A đến khoảng B
+-- Input: bảng (product) và 2 giá trị A,B
+-- Output: mảng sản phẩm có giá từ A đến B và sắp xếp giá nó từ thấp đến cao
+-- Kiểm tra:
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.price
+FROM product pr
+WHERE pr.price BETWEEN 0 AND 30   
+ORDER BY pr.price
+---------------- Lấy giá trị price max
+USE  website_sells_clothes_and_bags;
+SELECT MAX(pr.price) as priceMax
+FROM product pr
+
+
+-- lọc sản phẩm theo đối tượng sử dụng 
+-- Input: bảng(product) và đối tượng sử dụng
+-- Output: mảng chứa sản phẩm được dùng cho đối tượng được truyền vào.
+-- Kiểm tra:
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.targetGender
+FROM product pr
+WHERE pr.targetGender = 'male'
+
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.targetGender
+FROM product pr
+WHERE pr.targetGender = 'female'
+
+------ Lấy danh sách các đối tượng sử dụng sản phẩm
+USE  website_sells_clothes_and_bags;
+SELECT pr.targetGender
+FROM product pr
+GROUP BY pr.targetGender
+
+-- lọc sản phẩm dựa theo màu sắc
+-- Input: bảng(product) và màu sắc
+-- Output: mảng chứa sản phẩm có màu sắc được truyền vào.
+-- Kiểm tra:
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.color
+FROM product pr
+WHERE pr.color = 'blue'
+
+------ Lấy danh sách màu sắc có trong sản phẩm
+USE  website_sells_clothes_and_bags;
+SELECT pr.color
+FROM product pr
+GROUP BY pr.color
+
+
+-- lọc sản phẩm túi sách dựa theo chất liệu túi
+-- Input: bảng (product, handbagproduct) và chất liệu
+-- Output: mảng chứa sản phẩm túi có chất liệu giống giá trị truyền vào
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, hbpd.bagMaterial
+FROM product pr, handbagproduct hbpd
+WHERE pr.productCode = hbpd.productCode AND hbpd.bagMaterial = 'skin'
+---------- Lấy danh sách chất liệu sản phẩm túi
+USE  website_sells_clothes_and_bags;
+SELECT hbpd.bagMaterial
+FROM handbagproduct hbpd
+GROUP BY hbpd.bagMaterial
+
+-- lọc sản phẩm áo dựa theo chất liệu được truyền vào
+-- Input: bange (product, shirtproduct) và chất liệu
+-- Output: mảng chứa sản phẩm túi có chất liệu giống giá trị truyền vào
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, sp.shirtMaterial
+FROM product pr, shirtproduct sp
+WHERE pr.productCode = sp.productCode AND sp.shirtMaterial = 'Cotton'
+
+------------ Lấy danh sách chất liệu áo được truyền vào
+USE  website_sells_clothes_and_bags;
+SELECT sp.shirtMaterial
+FROM shirtproduct sp
+GROUP BY sp.shirtMaterial
+
+-- lọc sản phẩm áo dựa theo style được truyền vào
+-- Input: bange (product, shirtproduct) và style áo
+-- Output: mảng chứa sản phẩm túi có style giống giá trị truyền vào
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, sp.shirtStyle
+FROM product pr, shirtproduct sp
+WHERE pr.productCode = sp.productCode AND sp.shirtStyle = 'Polo'
+
+-------------- Lấy danh sách style áo được truyền vào
+USE  website_sells_clothes_and_bags;
+SELECT sp.shirtStyle
+FROM shirtproduct sp
+GROUP BY sp.shirtStyle
+
+
+-- Lấy danh sách mã productCode
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode
+FROM product pr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

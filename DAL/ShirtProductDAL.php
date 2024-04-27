@@ -25,12 +25,12 @@ class ShirtProductDAL extends AbstractionDAL
               // xóa dữ liệu trong bảng shirtproduct, shirtsize trước rồi đến product. Tại do sản phẩm áo có size, nên khi ta xóa sản phẩm áo thì size liên quan đến áo đó cũng mất.
 
               $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
-              $check_data_ballotDetail = "SELECT * FROM ballotDetail WHERE productCode = '$code'";
+              
 
               $result_check1 = $this->actionSQL->query($check_data_orderDetail);
-              $result_check2 = $this->actionSQL->query($check_data_ballotDetail);
+              
 
-              if ($result_check1->num_rows < 1 && $result_check2->num_rows < 1) {
+              if ($result_check1->num_rows < 1) {
 
                      // xóa dữ liệu trong bảng shirtsize
                      $string1 = "DELETE FROM shirtsize WHERE productCode = '$code'";
@@ -61,12 +61,12 @@ class ShirtProductDAL extends AbstractionDAL
                      // xóa dữ liệu trong bảng shirtproduct, shirtsize trước rồi đến product. Tại do sản phẩm áo có size, nên khi ta xóa sản phẩm áo thì size liên quan đến áo đó cũng mất.
 
                      $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
-                     $check_data_ballotDetail = "SELECT * FROM ballotDetail WHERE productCode = '$code'";
+                     
 
                      $result_check1 = $this->actionSQL->query($check_data_orderDetail);
-                     $result_check2 = $this->actionSQL->query($check_data_ballotDetail);
+                    
 
-                     if ($result_check1->num_rows < 1 && $result_check2->num_rows < 1) {
+                     if ($result_check1->num_rows < 1) {
 
                             // xóa dữ liệu trong bảng shirtsize
                             $string1 = "DELETE FROM shirtsize WHERE productCode = '$code'";
@@ -304,6 +304,51 @@ class ShirtProductDAL extends AbstractionDAL
                      }
                      // Trả về danh sách đối tượng
                      return $product_list;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     return null;
+              }
+       }
+
+       function getListTargetGenderShirtProducts($sex)
+       {
+              // Khởi tạo mảng để lưu danh sách sản phẩm áo cho nam
+              $male_shirt_products = array();
+
+              // Câu lệnh truy vấn
+              $query = "SELECT * FROM product 
+              INNER JOIN shirtproduct ON product.productCode = shirtproduct.productCode
+              WHERE targetGender = $sex";
+
+              // Thực hiện truy vấn
+              $result = $this->actionSQL->query($query);
+
+              // Kiểm tra số hàng được trả về
+              if ($result->num_rows > 0) {
+                     // Lặp qua từng hàng kết quả
+                     while ($data = $result->fetch_assoc()) {
+                            // Lấy dữ liệu từ hàng kết quả
+                            $productCode = $data["productCode"];
+                            $imgProduct = $data["imgProduct"];
+                            $nameProduct = $data["nameProduct"];
+                            $supplierCode = $data["supplierCode"];
+                            $quantity = $data["quantity"];
+                            $describeProduct = $data["describeProduct"];
+                            $status = $data["status"];
+                            $color = $data["color"];
+                            $targetGender = $data["targetGender"];
+                            $price = $data["price"];
+                            $promotion = $data["promotion"];
+                            $shirtMaterial = $data["shirtMaterial"];
+                            $shirtStyle = $data["shirtStyle"];
+                            $descriptionMaterial = $data["descriptionMaterial"];
+
+                            // Tạo đối tượng ShirtProductDTO từ dữ liệu lấy được và thêm vào mảng
+                            $shirtProduct = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial);
+                            array_push($male_shirt_products, $shirtProduct);
+                     }
+                     // Trả về danh sách sản phẩm áo cho nam
+                     return $male_shirt_products;
               } else {
                      // Trường hợp không có dữ liệu trả về
                      return null;

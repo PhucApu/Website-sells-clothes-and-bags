@@ -14,7 +14,7 @@ async function checkLogin() {
               let result = data[0];
               if (result.result == 'success') {
                      setLogin(result.userName);
-              }else{
+              } else {
                      setLogin('');
               }
               // for (let i of data) {
@@ -25,7 +25,7 @@ async function checkLogin() {
               console.error('Error:', error);
        }
 }
-checkLogin();
+// checkLogin();
 // hàm tự động xóa thông tin đăng nhập khi thoát trang bất ngờ
 window.addEventListener('unload', async function (event) {
        try {
@@ -54,7 +54,7 @@ function setLogin(username) {
                      </a>
                      `;
               loginContainer.innerHTML = string;
-       }else{
+       } else {
               let string = `
                      <a href="./login.php">
                             <div class="user-infor">
@@ -98,7 +98,7 @@ function searchProduct() {
               }
        }
 }
-searchProduct();
+// searchProduct();
 
 // show kết quả truy suất
 function showSearchResult(data) {
@@ -151,10 +151,6 @@ function showSearchResult(data) {
 }
 
 
-
-
-
-
 function showSearchBox() {
        let box = document.querySelector('header .search .box-search .result-search');
        let itemSearch = document.querySelectorAll('header .search .box-search .result-search .item');
@@ -202,4 +198,67 @@ function search() {
 
 
 }
-search();
+// search();
+function cart() {
+       let cartContainer = document.getElementById('cart-icon');
+
+       // Lấy giá trị của tham số 'code' từ URL hiện tại
+       let codeValue = btoa('P000');
+       let typeValue = btoa('handbagProduct');
+       let quantityBuyCode = btoa('0');
+       let addCartCode = btoa('true');
+       let sizeCode = btoa('S000');
+
+
+       let string = `
+       <a href="./Cart.php?code=${codeValue}&type=${typeValue}&quantityBuy=${quantityBuyCode}&addCart=${addCartCode}&sizeCode=${sizeCode}">
+              <div class="cart">
+                     <i class="fas fa-shopping-bag"></i>
+                     <span id="number-cart" class="number-cart">0</span>
+              </div>
+       </a>
+       `;
+       cartContainer.innerHTML = string;
+}
+
+async function showCart_header() {
+       try {
+              let response = await fetch('../../BLL/OrderBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body:
+                            'function=' + encodeURIComponent('getArrCart')
+              });
+              let data = await response.json();
+              if (data != null) {
+                     console.log(data);
+                     let count = 0;
+                     for (let i of data) {
+                            if (i.productCode != '') {
+                                   count++;
+                            }
+                     }
+                     let numberItemCart = document.getElementById('number-cart');
+                     console.log(numberItemCart);
+                     numberItemCart.innerHTML = count;
+              }
+              else {
+                     // window.location.href = "../../error.php";
+                     console.log('loi khong co du lieu tra ve ben ham show')
+              }
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+
+window.addEventListener('load', function () {
+       // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
+       console.log('Header đã load hoàn toàn');
+       search();
+       searchProduct();
+       cart();
+       checkLogin();
+       showCart_header();
+});

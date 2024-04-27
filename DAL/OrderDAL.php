@@ -1,7 +1,7 @@
 <?php
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/OrderDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/OrderDTO.php');
 
 class OrderDAL extends AbstractionDAL
 {

@@ -1,7 +1,7 @@
 <?php
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/ShirtSizeDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/ShirtSizeDTO.php');
 
 class ShirtSizeDAL extends AbstractionDAL
 {
@@ -28,15 +28,14 @@ class ShirtSizeDAL extends AbstractionDAL
        function delete($obj)
        {
               // xóa dựa theo khóa giữa mã sản phẩm và mã size
-              if($obj != null){
+              if ($obj != null) {
                      $sizeCode = $obj->getSizeCode();
                      $productCode = $obj->getProductCode();
 
                      $string = "DELETE FROM shirtsize WHERE sizeCode = '$sizeCode' AND productCode = '$productCode'";
 
                      return $this->actionSQL->query($string);
-              }
-              else{
+              } else {
                      return false;
               }
        }
@@ -77,6 +76,29 @@ class ShirtSizeDAL extends AbstractionDAL
        function getObj($code)
        {
               // không thể lấy vì bảng không có kháo chính
+       }
+
+       function getObjByProductCodeAndSizeCode($productCode, $sizeCode)
+       {
+              // Câu lệnh truy vấn
+              $query = "SELECT * FROM ShirtSize WHERE productCode = '$productCode' AND sizeCode = '$sizeCode'";
+
+              // Thực hiện truy vấn
+              $result = $this->actionSQL->query($query);
+
+              if ($result->num_rows > 0) {
+                     $data = $result->fetch_assoc();
+                     $sizeCode = $data["sizeCode"];
+                     $productCode = $data["productCode"];
+                     $quantity = $data["quantity"];
+
+                     // Tạo đối tượng ShirtSizeDTO và thêm vào mảng
+                     $shirtSize = new ShirtSizeDTO($sizeCode, $productCode, $quantity);
+
+                     return $shirtSize;
+              }else{
+                     return null;
+              }
        }
 
        function getArrByProductCode($code)

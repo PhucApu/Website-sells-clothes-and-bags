@@ -130,6 +130,7 @@ CREATE TABLE orderDetail
        nameProduct VARCHAR(255),
        priceProduct FLOAT,
        quantity INT,
+       sizeCode VARCHAR(255),
        totalMoney FLOAT
 );
 
@@ -197,7 +198,7 @@ CREATE TABLE ShirtSize
        -- thuọc tính kháo ngoại
        sizeCode VARCHAR(255),
        productCode VARCHAR(255),
-       quanity INT
+       quantity INT
 );
 
 -- Tạo đối tượng Size
@@ -208,29 +209,6 @@ CREATE TABLE Size
        sizeName VARCHAR(255)
 );
 
--- Tạo đối tượng EnterBallot
-
-CREATE TABLE EnterBallot
-(
-       codeBallot VARCHAR(255) PRIMARY KEY NOT NULL,
-       date DATE,
-       userName VARCHAR(255),
-       sumMoney FLOAT,
-       codeSupplier VARCHAR(255),
-       state VARCHAR(255),
-       note VARCHAR(255)
-);
-
--- Tạo đối tượng BallotDetail
-
-CREATE TABLE BallotDetail
-(
-       codeBallot VARCHAR(255),
-       productCode VARCHAR(255),
-       quantity INT,
-       priceProduct FLOAT,
-       sumMoney INT
-);
 
 -- Tạo đối tượng Supplier
 
@@ -291,6 +269,7 @@ ADD FOREIGN KEY (productCode) REFERENCES product(productCode);
 ALTER TABLE shirtproduct
 ADD FOREIGN KEY (productCode) REFERENCES product(productCode);
 
+
 -- shirtsize --> shirtproduct
 ALTER TABLE shirtsize
 ADD FOREIGN KEY (productCode) REFERENCES shirtproduct(productCode);
@@ -308,25 +287,22 @@ ADD FOREIGN KEY (codePayments) REFERENCES payment(codePayments);
 ALTER TABLE orders
 ADD FOREIGN KEY (codeTransport) REFERENCES transport(codeTransport);
 
--- enterballot --> accounts
-ALTER TABLE enterballot
-ADD FOREIGN KEY (userName) REFERENCES accounts(userName);
 
--- ballotdetail --> enterballot
-ALTER TABLE ballotdetail
-ADD FOREIGN KEY (codeBallot) REFERENCES enterballot(codeBallot);
-
--- ballotdetail --> product
-ALTER TABLE ballotdetail
-ADD FOREIGN KEY (productCode) REFERENCES product(productCode);
-
--- enterballot --> supplier
-ALTER TABLE enterballot
-ADD FOREIGN KEY (codeSupplier) REFERENCES supplier(codeSupplier);
+-- supplier --> product
+USE  website_sells_clothes_and_bags;
+ALTER TABLE product
+ADD FOREIGN KEY (supplierCode) REFERENCES supplier(codeSupplier);
 
 
 
+-- filter table
 
+USE  website_sells_clothes_and_bags;
+CREATE TABLE filter
+(
+       filterParent VARCHAR(255),
+       filterChild VARCHAR(255)
+);
 
 
 

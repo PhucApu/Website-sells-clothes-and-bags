@@ -7,9 +7,14 @@ require('../DAL/AbstractionDAL.php');
 require('../DTO/ProductDTO.php');
 require('../DTO/HandbagProductDTO.php');
 require('../DTO/ShirtProductDTO.php');
+require('../DTO/ShirtSizeDTO.php');
+require('../DTO/SizeDTO.php');
 
 require('../DAL/HandbagProductDAL.php');
 require('../DAL/ShirtProductDAL.php');
+require('../DAL/ShirtSizeDAL.php');
+require('../DAL/SizeDAL.php');
+require('../DAL/FilterDAL.php');
 
 
 
@@ -20,11 +25,17 @@ class ProductBLL
        // private $arr_shirt;
        private $HandbagProductDAL;
        private $ShirtProductDAL;
+       private $ShirtSizeDAL;
+       private $SizeDAL;
+       private $FilterDAL;
        function __construct()
        {
               $this->productList = array();
               $this->HandbagProductDAL = new HandbagProductDAL();
               $this->ShirtProductDAL = new ShirtProductDAL();
+              $this->ShirtSizeDAL = new ShirtSizeDAL();
+              $this->SizeDAL = new SizeDAL();
+              $this->FilterDAL = new FillterDAL();
               // $this->arr_handbag = $this->HandbagProductDAL->getListObj();
               // $this->arr_shirt = $this->ShirtProductDAL->getListObj();
        }
@@ -35,7 +46,7 @@ class ProductBLL
               $arr_handbag = $this->HandbagProductDAL->getListObj();
               $arrJson = array();
               foreach ($arr_handbag as $item) {
-                     if ($item->getStatus() == '1') {
+                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
                             $ProductCode = $item->getProductCode();
                             $imgProduct = $item->getImgProduct();
                             $nameProduct = $item->getNameProduct();
@@ -63,7 +74,8 @@ class ProductBLL
                                    "price" => $price,
                                    "promotion" => $promotion,
                                    "bagMaterial" => $bagMaterial,
-                                   "descriptionMaterial" => $descriptionMaterial
+                                   "descriptionMaterial" => $descriptionMaterial,
+                                   "type" => "handbagProduct"
                             );
 
                             array_push($arrJson, $obj);
@@ -75,8 +87,9 @@ class ProductBLL
        {
               $arr_shirt = $this->ShirtProductDAL->getListObj();
               $arrJson = array();
+
               foreach ($arr_shirt as $item) {
-                     if ($item->getStatus() == '1') {
+                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
                             $ProductCode = $item->getProductCode();
                             $imgProduct = $item->getImgProduct();
                             $nameProduct = $item->getNameProduct();
@@ -106,7 +119,8 @@ class ProductBLL
                                    "promotion" => $promotion,
                                    "shirtMaterial" => $shirtMaterial,
                                    "shirtStyle" => $shirtStyle,
-                                   "descriptionMaterial" => $descriptionMaterial
+                                   "descriptionMaterial" => $descriptionMaterial,
+                                   "type" => "shirtProduct"
                             );
 
                             array_push($arrJson, $obj);
@@ -119,7 +133,22 @@ class ProductBLL
        {
               if ($type === 'shirtProduct') {
                      $item = $this->ShirtProductDAL->getObj($productCode);
-
+                     $item2 = $this->ShirtSizeDAL->getArrByProductCode($productCode);
+                     $stringShirtSize = '';
+                     $arrShirtSize = array();
+                     if ($item2 != null) {
+                            foreach ($item2 as $obj) {
+                                   $sizeCode = $obj->getSizeCode();
+                                   $item3 = $this->SizeDAL->getObj($sizeCode);
+                                   $sizeName = $item3->getSizeName();
+                                   $quantitySize = $obj->getQuantity();
+                                   $string = "$sizeCode-$sizeName-$quantitySize";
+                                   array_push($arrShirtSize, $string);
+                            }
+                            $stringShirtSize = implode(" ", $arrShirtSize);
+                     } else {
+                            return array('message' => 'loi');
+                     }
                      if ($item != null) {
                             // chuyển sang dạng mảng obj
 
@@ -152,12 +181,13 @@ class ProductBLL
                                    "promotion" => $promotion,
                                    "shirtMaterial" => $shirtMaterial,
                                    "shirtStyle" => $shirtStyle,
-                                   "descriptionMaterial" => $descriptionMaterial
+                                   "descriptionMaterial" => $descriptionMaterial,
+                                   "quantitySize" => $stringShirtSize
                             );
 
                             return $obj;
                      } else {
-                            return null;
+                            return array('message' => 'loi');
                      }
               } elseif ($type === 'handbagProduct') {
                      $item = $this->HandbagProductDAL->getObj($productCode);
@@ -195,10 +225,52 @@ class ProductBLL
 
                             return $obj;
                      } else {
-                            return null;
+                            return array('message' => 'loi');
                      }
               }
        }
+
+       // lấy số lượng dựa theo productCode và sizeCode
+       function getQuantityByProductCodeAndSizeCode($productCode, $sizeCode)
+       {
+              $item = $this->ShirtSizeDAL->getObjByProductCodeAndSizeCode($productCode, $sizeCode);
+              if ($item != null) {
+                     $sizeCode = $item->getSizeCode();
+                     $item2 = $this->SizeDAL->getObj($sizeCode);
+                     $sizeName = $item2->getSizeName();
+                     $quantitySize = $item->getQuantity();
+                     return array(
+                            "productCode" => $productCode,
+                            "sizeCode" => $sizeCode,
+                            "sizeName" => $sizeName,
+                            "quantitySize" => $quantitySize
+                     );
+              }
+              return array();
+       }
+       function getArrSizeCodeByProductCode($productCode)
+       {
+              $item = $this->ShirtSizeDAL->getArrByProductCode($productCode);
+              $result = array();
+              if ($item != null) {
+                     foreach ($item as $i) {
+                            $sizeCode = $i->getSizeCode();
+                            $item2 = $this->SizeDAL->getObj($sizeCode);
+                            $sizeName = $item2->getSizeName();
+                            $quantitySize = $i->getQuantity();
+
+                            $obj = array(
+                                   "productCode" => $productCode,
+                                   "sizeCode" => $sizeCode,
+                                   "sizeName" => $sizeName,
+                                   "quantitySize" => $quantitySize
+                            );
+                            array_push($result, $obj);
+                     }
+              }
+              return $result;
+       }
+
        // phan trang
        function Pagination($page, $limit)
        {
@@ -219,7 +291,7 @@ class ProductBLL
               // gọp 2 mảnh đó lại thành dữ liệu chung để phân trang
               $arr = array();
               foreach ($arr1 as $item) {
-                     if ($item->getStatus() == '1') {
+                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
                             $ProductCode = $item->getProductCode();
                             $imgProduct = $item->getImgProduct();
                             $nameProduct = $item->getNameProduct();
@@ -249,7 +321,7 @@ class ProductBLL
                      }
               }
               foreach ($arr2 as $item) {
-                     if ($item->getStatus() == '1') {
+                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
                             $ProductCode = $item->getProductCode();
                             $imgProduct = $item->getImgProduct();
                             $nameProduct = $item->getNameProduct();
@@ -306,7 +378,7 @@ class ProductBLL
               if ($keyword != 'null') {
                      // tra thông tin trên sản phẩm áo
                      foreach ($arrShirt as $item) {
-                            if ($item->getStatus() == '1') {
+                            if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
                                    $ProductCode = $item->getProductCode();
                                    $imgProduct = $item->getImgProduct();
                                    $nameProduct = $item->getNameProduct();
@@ -359,7 +431,7 @@ class ProductBLL
 
                      // tra thong tin tren san pham tui sach
                      foreach ($arrHandbag as $item) {
-                            if ($item->getStatus() == '1') {
+                            if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
                                    $ProductCode = $item->getProductCode();
                                    $imgProduct = $item->getImgProduct();
                                    $nameProduct = $item->getNameProduct();
@@ -419,6 +491,319 @@ class ProductBLL
                      return $result;
               }
        }
+
+       // trả về mảng sản phẩm dựa theo mảng chứa mã sản phẩm. Hỗ trợ cho các hàm lọc
+       function getArrObjProduct_by_ArrCodeProduct($arrProductCode)
+       {
+              $arr_handbag = $this->transHandbagProductToJson();
+              $arr_shirt = $this->transShirtProductToJson();
+              $result = array();
+
+              foreach ($arrProductCode as $codeItem) {
+                     foreach ($arr_handbag as $itemHandbag) {
+                            if ($itemHandbag['productCode'] == $codeItem) {
+                                   $obj = array(
+                                          "productCode" => $itemHandbag['productCode'],
+                                          "imgProduct" => $itemHandbag['imgProduct'],
+                                          "nameProduct" => $itemHandbag['nameProduct'],
+                                          "supplierCode" => $itemHandbag['supplierCode'],
+                                          "quantity" => $itemHandbag['quantity'],
+                                          "describeProduct" => $itemHandbag['describeProduct'],
+                                          "status" => $itemHandbag['status'],
+                                          "color" => $itemHandbag['color'],
+                                          "targetGender" => $itemHandbag['targetGender'],
+                                          "price" => $itemHandbag['price'],
+                                          "promotion" => $itemHandbag['promotion'],
+                                          "bagMaterial" => $itemHandbag['bagMaterial'],
+                                          "descriptionMaterial" => $itemHandbag['descriptionMaterial'],
+                                          "type" => "handbagProduct"
+                                   );
+
+                                   array_push($result, $obj);
+                            }
+                     }
+                     foreach ($arr_shirt as $itemShirt) {
+                            if ($itemShirt['productCode'] == $codeItem) {
+                                   $obj = array(
+                                          "productCode" => $itemShirt['productCode'],
+                                          "imgProduct" => $itemShirt['imgProduct'],
+                                          "nameProduct" => $itemShirt['nameProduct'],
+                                          "supplierCode" => $itemShirt['supplierCode'],
+                                          "quantity" => $itemShirt['quantity'],
+                                          "describeProduct" => $itemShirt['describeProduct'],
+                                          "status" => $itemShirt['status'],
+                                          "color" => $itemShirt['color'],
+                                          "targetGender" => $itemShirt['targetGender'],
+                                          "price" => $itemShirt['price'],
+                                          "promotion" => $itemShirt['promotion'],
+                                          "shirtMaterial" => $itemShirt['shirtMaterial'],
+                                          "shirtStyle" => $itemShirt['shirtStyle'],
+                                          "descriptionMaterial" => $itemShirt['descriptionMaterial'],
+                                          "type" => "shirtProduct"
+                                   );
+                                   array_push($result, $obj);
+                            }
+                     }
+              }
+              return $result;
+       }
+
+       // Lấy danh sách giá trị của thuộc tích targetGender
+       // Input:...
+       // Output: Mảng obj chứa giá trị của thộc tính targetGender
+       function getArrObj_targetGender()
+       {
+              $result = $this->FilterDAL->getArr_value_atributive_targetGender();
+              return $result;
+       }
+
+       // Lấy danh sách giá trị của thuộc tích color
+       // Input:...
+       // Output: Mảng obj chứa giá trị của thộc tính color
+       function getArrObj_color()
+       {
+              $result = $this->FilterDAL->getArr_value_atributive_color();
+              return $result;
+       }
+
+       // Lấy danh sách giá trị priceMax của thuộc tích price
+       // Input:...
+       // Output: Mảng obj chứa giá trị của thộc tính price
+       function getArrObj_price()
+       {
+              $result = $this->FilterDAL->getPriceMax();
+              return $result;
+       }
+
+       // Lấy danh sách giá trị của thuộc tích bagMaterial
+       // Input:...
+       // Output: Mảng obj chứa giá trị của thộc tính bagMaterial
+       function getArrObj_bagMaterial()
+       {
+              $result = $this->FilterDAL->getArr_value_atributive_bagMaterial();
+              return $result;
+       }
+
+       // Lấy danh sách giá trị của thuộc tích shirtMaterial
+       // Input:...
+       // Output: Mảng obj chứa giá trị của thộc tính shirtMaterial
+       function getArrObj_shirtMaterial()
+       {
+              $result = $this->FilterDAL->getArr_value_atributive_shirtMaterial();
+              return $result;
+       }
+
+       // Lấy danh sách giá trị của thuộc tích shirtStyle
+       // Input:...
+       // Output: Mảng obj chứa giá trị của thộc tính shirtStyle
+       function getArrObj_shirtStyle()
+       {
+              $result = $this->FilterDAL->getArr_value_atributive_shirtStyle();
+              return $result;
+       }
+
+
+
+
+
+       // Sắp xếp sản phẩm được mua nhiều nhất từ cao đến thấp. Dùng trong trang HomePage.
+       // Input: ...
+       // Output: Mảng chứa các product được mô hình hóa thành mảng obj.
+       function filter_product_best_selling()
+       {
+              $arrProductCode = $this->FilterDAL->filter_product_best_selling();
+              $result = $this->getArrObjProduct_by_ArrCodeProduct($arrProductCode);
+              return $result;
+       }
+
+       // Sắp xếp sản phẩm được giảm giá nhiều nhất từ cao đến thấp. Dùng trong trang HomePage.
+       // Input: ...
+       // Output: Mảng chứa các product được mô hình hóa thành mảng obj.
+       function filter_product_best_promotion()
+       {
+              $arrProductCode = $this->FilterDAL->filter_product_best_promotion();
+              $result = $this->getArrObjProduct_by_ArrCodeProduct($arrProductCode);
+              return $result;
+       }
+
+       // Lọc sản phẩm theo các tiêu chí và phân trang để hiển thị sản phẩm. Dùng trong trang Shop.
+       // Input: Chuỗi chứa danh mục lọc và giá trị lọc được kết với nhau, trang hiện tại page, giới hạn sản phẩm trong 1 trang limit
+       // Output: Mảng chứa các product được mô hình hóa thành mảng obj
+       function filter_product_by_atributive($string_filter, $page, $limit)
+       {
+
+
+              // $str = "targetGender=male+color=blue+bagMaterial=skin+shirtMaterial=Cotton+shirtStyle=Polo+sortPrice=ASC+price=0-30";
+
+              // Tách chuỗi thành mảng các cặp key-value
+              $pairs = explode('+', $string_filter);
+
+              // Khởi tạo mảng kết quả
+              $filter = array();
+
+              foreach ($pairs as $pair) {
+                     // Tách từng cặp key-value
+                     list($key, $value) = explode('=', $pair);
+
+                     // Kiểm tra nếu key là price
+                     if ($key === 'price') {
+                            // Tách value thành priceMin và priceMax
+                            list($priceMin, $priceMax) = explode('-', $value);
+                            // Thêm vào mảng kết quả
+                            $filter['priceMin'] = $priceMin;
+                            $filter['priceMax'] = $priceMax;
+                     } else {
+                            // Thêm vào mảng kết quả
+                            $filter[$key] = $value;
+                     }
+              }
+
+
+              // lấy mảng productCode
+              $arrProductCode = $this->FilterDAL->getArrProductCode();
+
+
+              // loc price
+              if ($filter['priceMin'] != 'null') {
+                     if (!empty($arrProductCode)) {
+                            $arrTempFilter = $this->FilterDAL->filterProduct_by_price($filter['priceMin'], $filter['priceMax']);
+                            $arrTempResult = array();
+                            foreach ($arrTempFilter as $i) {
+                                   foreach ($arrProductCode as $j) {
+                                          if ($j == $i) {
+                                                 array_push($arrTempResult, $j);
+                                          }
+                                   }
+                            }
+                            $arrProductCode = $arrTempResult;
+                     }
+              }
+              // lọc targetGender
+              if ($filter['targetGender'] != 'null') {
+                     if (!empty($arrProductCode)) {
+                            $arrTempFilter = $this->FilterDAL->filterProduct_by_targetGender($filter['targetGender']);
+                            $arrTempResult = array();
+                            foreach ($arrTempFilter as $i) {
+                                   foreach ($arrProductCode as $j) {
+                                          if ($j == $i) {
+                                                 array_push($arrTempResult, $j);
+                                          }
+                                   }
+                            }
+                            $arrProductCode = $arrTempResult;
+                     }
+              }
+
+
+
+              // loc color
+              if ($filter['color'] != 'null') {
+                     if (!empty($arrProductCode)) {
+                            $arrTempFilter = $this->FilterDAL->filterProduct_by_color($filter['color']);
+                            $arrTempResult = array();
+                            foreach ($arrTempFilter as $i) {
+                                   foreach ($arrProductCode as $j) {
+                                          if ($j == $i) {
+                                                 array_push($arrTempResult, $j);
+                                          }
+                                   }
+                            }
+                            $arrProductCode = $arrTempResult;
+                     }
+              }
+
+              // loc bagMaterial
+              if ($filter['bagMaterial'] != 'null') {
+                     if (!empty($arrProductCode)) {
+                            $arrTempFilter = $this->FilterDAL->filterProduct_by_bagMaterial($filter['bagMaterial']);
+                            $arrTempResult = array();
+                            foreach ($arrTempFilter as $i) {
+                                   foreach ($arrProductCode as $j) {
+                                          if ($j == $i) {
+                                                 array_push($arrTempResult, $j);
+                                          }
+                                   }
+                            }
+                            $arrProductCode = $arrTempResult;
+                     }
+              }
+
+              // loc shirtMaterial
+              if ($filter['shirtMaterial'] != 'null') {
+                     if (!empty($arrProductCode)) {
+                            $arrTempFilter = $this->FilterDAL->filterProduct_by_shirtMaterial($filter['shirtMaterial']);
+                            $arrTempResult = array();
+                            foreach ($arrTempFilter as $i) {
+                                   foreach ($arrProductCode as $j) {
+                                          if ($j == $i) {
+                                                 array_push($arrTempResult, $j);
+                                          }
+                                   }
+                            }
+                            $arrProductCode = $arrTempResult;
+                     }
+              }
+
+              // săp xép lại theo giá
+              if ($filter['sortPrice'] != 'null') {
+                     if (!empty($arrProductCode)) {
+                            if ($filter['sortPrice'] == 'ASC') {
+                                   $arrTempFilter = $this->FilterDAL->sortProduct_by_price_low_to_high();
+                                   $arrTempResult = array();
+                                   foreach ($arrTempFilter as $i) {
+                                          foreach ($arrProductCode as $j) {
+                                                 if ($j == $i) {
+                                                        array_push($arrTempResult, $j);
+                                                 }
+                                          }
+                                   }
+                                   $arrProductCode = $arrTempResult;
+                            } else if ($filter['sortPrice'] == 'DESC') {
+                                   $arrTempFilter = $this->FilterDAL->sortProduct_by_price_high_to_low();
+                                   $arrTempResult = array();
+                                   foreach ($arrTempFilter as $i) {
+                                          foreach ($arrProductCode as $j) {
+                                                 if ($j == $i) {
+                                                        array_push($arrTempResult, $j);
+                                                 }
+                                          }
+                                   }
+                                   $arrProductCode = $arrTempResult;
+                            }
+                     }
+              }
+
+              if (!empty($arrProductCode)) {
+
+                     // Input: Các tham số truyền vào: page
+                     // Output: trả về danh sách sản phẩm dựa theo vị trí bắt đầu beginGet và vị trí kết thúc endGet
+
+                     // cộng thức tổng quát
+                     // BeginGet= limit* (page - 1); 
+                     // endGet: limit * page-1;
+
+                     // tính BeginGet và EndGet
+                     $beginGet = $limit * ($page - 1);
+                     $endGet = $limit * $page - 1;
+
+                     // Dùng một mảng lưu sảm phẩm 
+                     // đối tượng sẽ trả về $obj = {productCode,imgProduct,nameProduct,price,promotion,type}
+                     // list item trả về để hiện lên
+                     $pagination = array();
+                     $lenghtData = array("lenghtData" => count($arrProductCode));
+                     for ($i = $beginGet; $i <= $endGet; $i++) {
+                            if (isset($arrProductCode[$i])) {
+                                   array_push($pagination, $arrProductCode[$i]);
+                            }
+                     }
+
+                     $result = $this->getArrObjProduct_by_ArrCodeProduct($pagination);
+                     array_push($result, $lenghtData);
+                     return $result;
+              } else {
+                     return array();
+              }
+       }
 }
 
 // check
@@ -461,6 +846,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               case 'searchProduct':
                      $keyword = $_POST['keyword'];
                      $temp = $check->searchProduct($keyword);
+                     echo json_encode($temp);
+                     break;
+              case 'getQuantityByProductCodeAndSizeCode':
+                     $productCode = $_POST['code'];
+                     $sizeCode = $_POST['sizeCode'];
+                     $temp = $check->getQuantityByProductCodeAndSizeCode($productCode, $sizeCode);
+                     echo json_encode($temp);
+                     break;
+              case 'getArrSizeCodeByProductCode':
+                     $productCode = $_POST['code'];
+                     $temp = $check->getArrSizeCodeByProductCode($productCode);
+                     echo json_encode($temp);
+                     break;
+              case 'filter_product_best_selling':
+                     $temp = $check->filter_product_best_selling();
+                     echo json_encode($temp);
+                     break;
+              case 'filter_product_best_promotion':
+                     $temp = $check->filter_product_best_promotion();
+                     echo json_encode($temp);
+                     break;
+              case 'filter_product_by_atributive':
+                     $filterString = $_POST['filter'];
+                     $page = $_POST['page'];
+                     $limit = $_POST['limit'];
+                     $temp = $check->filter_product_by_atributive($filterString, $page, $limit);
+                     echo json_encode($temp);
+                     break;
+              case 'getArrObj_targetGender':
+                     $temp = $check->getArrObj_targetGender();
+                     echo json_encode($temp);
+                     break;
+              case 'getArrObj_color':
+                     $temp = $check->getArrObj_color();
+                     echo json_encode($temp);
+                     break;
+              case 'getArrObj_bagMaterial':
+                     $temp = $check->getArrObj_bagMaterial();
+                     echo json_encode($temp);
+                     break;
+              case 'getArrObj_shirtMaterial':
+                     $temp = $check->getArrObj_shirtMaterial();
+                     echo json_encode($temp);
+                     break;
+              case 'getArrObj_shirtStyle':
+                     $temp = $check->getArrObj_shirtStyle();
+                     echo json_encode($temp);
+                     break;
+              case 'getArrObj_price':
+                     $temp = $check->getArrObj_price();
                      echo json_encode($temp);
                      break;
        }

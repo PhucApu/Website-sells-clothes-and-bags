@@ -1,7 +1,7 @@
 <?php
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/SizeDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/SizeDTO.php');
 
 class SizeDAL extends AbstractionDAL
 {
@@ -100,7 +100,7 @@ class SizeDAL extends AbstractionDAL
                      return $sizeDTO;
               } else {
                      // Trường hợp không có dữ liệu trả về
-                     echo "Không có dữ liệu được trả về từ truy vấn.";
+                     // echo "Không có dữ liệu được trả về từ truy vấn.";
                      return null;
               }
        }

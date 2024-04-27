@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require('../../config.php') ?>
 
 <head>
     <meta charset="UTF-8">
@@ -85,11 +86,15 @@
                         <div class="add-to-cart">
                             <div class="quantity">
                                 <label>Quantity</label>
-                                <input type="number" step="1" min="1" max="10" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
+                                <input id="quantityBuy" type="number" step="1" min="1" max="10" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
+                                
                                 <div style="margin-top:10px;">(Quantity left in store: 10)</div>
                             </div>
-                            <button>add to cart</button>
+                            <button id='cart'>
+                                <a href="">add to cart</a>
+                            </button>
                         </div>
+                        
                         <div class="share-link">
                             <label>Share</label>
                             <ul>
@@ -238,8 +243,8 @@
     <!-- footer -->
     <?php require('./footer.php'); ?>
 
-    <script src="../Js/Header.js"></script>
-    <script src="../Js/ProductDetail.js"></script>
+    <script src="../Js/Header.js?v=<?php echo $version ?>"></script>
+    <script src="../Js/ProductDetail.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>

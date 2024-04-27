@@ -1,2 +1,2 @@
 <?php
-require('./GUI/view/login.php');
+header('Location: ./GUI/view/Login.php');

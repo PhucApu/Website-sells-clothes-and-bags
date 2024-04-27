@@ -15,40 +15,50 @@ async function getDetailProduct() {
     let codeValue = urlParams.get('code');
     let typeValue = urlParams.get('type');
 
-    // giải mã mã sản phẩm
-    let productCode = atob(codeValue);
-    let type = atob(typeValue);
+    if (isValidBase64(codeValue) == true && isValidBase64(typeValue) == true) {
+        // giải mã mã sản phẩm
+        let productCode = atob(codeValue);
+        let type = atob(typeValue);
 
-    console.log(productCode + type);
+        if (type == 'shirtProduct' || type == 'handbagProduct') {
+            console.log(productCode + type);
 
-    // xử dụng ajax để lấy dữ liệu lên
-    try {
-        let response = await fetch('../../BLL/ProductBLL.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body:
-                'function=' + encodeURIComponent('getProductByCode_transToJson') + '&code=' + encodeURIComponent(productCode) + '&type=' + encodeURIComponent(type)
-        });
-        let data = await response.json();
-        if (type == 'shirtProduct') {
-            DetailShirtProduct(data);
-        } else if (type == 'handbagProduct') {
-            DetailHangbagProduct(data);
+            // xử dụng ajax để lấy dữ liệu lên
+            try {
+                let response = await fetch('../../BLL/ProductBLL.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body:
+                        'function=' + encodeURIComponent('getProductByCode_transToJson') + '&code=' + encodeURIComponent(productCode) + '&type=' + encodeURIComponent(type)
+                });
+                let data = await response.json();
+                if (data != null) {
+                    if (type == 'shirtProduct') {
+                        DetailShirtProduct(data);
+                    } else if (type == 'handbagProduct') {
+                        DetailHangbagProduct(data);
+                    }
+                    getRelatedProduct(productCode);
+
+                    console.log(data);
+                    // action();
+                }
+                else {
+                    window.location.href = "../../error.php";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        } else {
+            window.location.href = "../../error.php";
         }
-        getRelatedProduct(productCode);
-
-        console.log(data);
-
-
-        action();
-    } catch (error) {
-        console.error('Error:', error);
+    } else {
+        window.location.href = "../../error.php";
     }
-
 }
-getDetailProduct();
+// getDetailProduct();
 
 // Hàm lấy tất cả sản phẩm có liên quan
 async function getRelatedProduct(exceptProduct) {
@@ -106,7 +116,40 @@ async function getRelatedProduct(exceptProduct) {
     }
 }
 // getRelatedProduct();
+// hàm lấy size
+async function getArrSizeCodeByProductCode(productCode) {
+    try {
+        const response = await fetch('../../BLL/ProductBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('getArrSizeCodeByProductCode') + '&code=' + encodeURIComponent(productCode)
+        });
+        let data = await response.json();
+        if (data != null) {
+            // console.log(data);
+            let first = data[0];
+            return first;
+        } else {
+            console.log('khong co du lieu tra ve getArrSizeCodeByProductCode');
+        }
+    } catch (error) {
+        console.log('loi ham getArrSizeCodeByProductCode')
+    }
+}
 
+// kiểm tra mã hóa base64
+function isValidBase64(str) {
+    try {
+        return btoa(atob(str)) == str;
+    } catch (err) {
+        return false;
+    }
+}
+
+// 
 
 // xử lý đường dẫn product (xử lý sau)
 function pathProduct(data) {
@@ -190,12 +233,83 @@ function DetailShirtProduct(data) {
 
     // quantity product
     let quantity = document.querySelector('.main-content .container .quantity');
+
+    // xử lý phần số lượng theo size
+    let stringShirtSize = data.quantitySize;
+    let arrShirtSize = stringShirtSize.split(' ');
+    let string_size_option = '';
+    let quantity_first_size = '';
+    let flag = 0;
+    for (let i of arrShirtSize) {
+
+        let arrI = i.split('-');
+        let codeSize = arrI[0];
+        let nameSize = arrI[1];
+        let quantitySize = arrI[2];
+        let temp = `
+            <option value="${codeSize}">${nameSize}</option>
+        `;
+        string_size_option += temp;
+        if (flag == 0) {
+            quantity_first_size = quantitySize;
+            flag = 1;
+        }
+    }
+
     let string_9 = ` 
-                <label>Quantity</label>
-                <input type="number" step="1" min="1" max="${data.quantity - 1}" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
-                <div style="margin-top:10px;">(Quantity left in store: ${data.quantity})</div>
+                <div>
+                    <label for="cars">Size:</label>
+                        <select id="size" name="size">
+                            ${string_size_option}
+                        </select>
+                </div>
+                <label style="margin-top:30px;" >Quantity</label>
+                <input id="quantityBuy" type="number" step="1" min="1" max="${quantity_first_size - 1}" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
+                <div id="show-quantity-size" style="margin-top:10px;">(Quantity left in store: ${quantity_first_size})</div>
+                
     `
     quantity.innerHTML = string_9;
+
+    addToCart();
+
+}
+
+async function getQuantityBySizeCodeAndProductCode(sizeCode) {
+    // Tạo một đối tượng URLSearchParams từ đường dẫn URL hiện tại
+    let urlParams = new URLSearchParams(window.location.search);
+
+    // Lấy giá trị của tham số 'code' từ URL hiện tại
+    let codeValue = urlParams.get('code');
+
+    if (isValidBase64(codeValue)) {
+        let productCode = atob(codeValue);
+        try {
+            let response = await fetch('../../BLL/ProductBLL.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:
+                    'function=' + encodeURIComponent('getQuantityByProductCodeAndSizeCode') + '&code=' + encodeURIComponent(productCode) + '&sizeCode=' + encodeURIComponent(sizeCode)
+            });
+            let data = await response.json();
+
+            console.log(data);
+
+            if (data != null) {
+                let quantityBuy = document.getElementById('quantityBuy');
+                quantityBuy.max = data.quantitySize - 1;
+                let show_quantity_size = document.getElementById('show-quantity-size');
+                show_quantity_size.innerHTML = `(Quantity left in store:${data.quantitySize})`;
+            } else {
+                console.log('loi ham getQuantityBySizeCodeAndProductCode');
+            }
+
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 }
 
 // xử lý chi tiết sản phẩm túi sách
@@ -267,38 +381,22 @@ function DetailHangbagProduct(data) {
     let quantity = document.querySelector('.main-content .container .quantity');
     let string_9 = ` 
                 <label>Quantity</label>
-                <input type="number" step="1" min="1" max="${data.quantity - 1}" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
+                <input id="quantityBuy" type="number" step="1" min="1" max="${data.quantity - 1}" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
                 <div style="margin-top:10px;">(Quantity left in store: ${data.quantity})</div>
     `
     quantity.innerHTML = string_9;
+    addToCart();
 }
 
-let string = `
-
-    <a href="">
-        <div class="img-product-related">
-            <img src="../image/product/product1/product-detail-1.png" alt="">
-            <p>Sale!</p>
-        </div>
-        <p class="title-product">Suspendisse na pretium 2</p>
-        <p class="price-product">
-            <span class="sale-price">$22.00</span> 
-            $14.99
-        </p>
-    </a>
-    <a href="#!" class="add-product">Add to cart</a>
-
-
-`;
 
 // xử lý các sản phẩm có liên quan
-function RelatedProduct(data, type, exceptProduct) {
+async function RelatedProduct(data, type, exceptProduct) {
     let container = document.querySelector('.main-content .container .list-item-related');
     let result = '';
     let numberProduct;      // số lượng hiển thị 
-    if(data.length - 1 > 6){
+    if (data.length - 1 > 6) {
         numberProduct = 6;
-    }else{
+    } else {
         numberProduct = data.length - 1;
     }
     // chọn ngẫu nhiên các sản phẩm
@@ -334,10 +432,23 @@ function RelatedProduct(data, type, exceptProduct) {
                 priceProduct_afterPromotion = data[i].price - (data[i].price * data[i].promotion / 100);
                 priceProduct_afterPromotion = priceProduct_afterPromotion.toFixed(2);
             }
+            // ma sizeCode, phan biet giua shirt va bag
+            let sizeCodeValue = '';
+            if (type == "shirtProduct") {
+
+                let item = await getArrSizeCodeByProductCode(productCode);
+                let sizeCode = item.sizeCode;
+                // console.log(sizeCode);
+                sizeCodeValue = btoa(sizeCode);
+            }
+            else {
+                sizeCodeValue = btoa('null');
+            }
             // xu ly duong dan chi tiet san pham
             let pathDetailProdutc = `./ProductDetail.php?code=${mahoaProduct}&type=${mahoaType}`;
             // xu ly duong dan them vao vo hang
-
+            let pathAddtoCart = `./Cart.php?code=${mahoaProduct}&type=${mahoaType}&quantityBuy=${btoa('1')}&addCart=${btoa('true')}&sizeCode=${sizeCodeValue}`;
+            
             // format
             if (data[i].promotion == 0) {
                 let string = `
@@ -351,7 +462,7 @@ function RelatedProduct(data, type, exceptProduct) {
                         $${data[i].price}
                     </p>
                 </a>
-                <a href="#!" class="add-product">Add to cart</a>
+                <a href="${pathAddtoCart}" class="add-product">Add to cart</a>
             </div>    
         `;
                 result += string;
@@ -370,7 +481,7 @@ function RelatedProduct(data, type, exceptProduct) {
                         $${priceProduct_afterPromotion}
                     </p>
                 </a>
-                <a href="#!" class="add-product">Add to cart</a>
+                <a href="${pathAddtoCart}" class="add-product">Add to cart</a>
             </div>    
         `;
                 result += string;
@@ -378,6 +489,85 @@ function RelatedProduct(data, type, exceptProduct) {
         }
     }
     container.innerHTML = result;
+}
+
+
+function addToCart() {
+    let quantityBuy = document.getElementById('quantityBuy');
+    let sizeCode = document.getElementById('size');
+
+
+    // Tạo một đối tượng URLSearchParams từ đường dẫn URL hiện tại
+    let urlParams = new URLSearchParams(window.location.search);
+
+    // Lấy giá trị của tham số 'code' từ URL hiện tại
+    let codeValue = urlParams.get('code');
+    let typeValue = urlParams.get('type');
+    let quantityBuyCode = btoa(quantityBuy.value);
+
+    let addCartCode = btoa('true');
+
+    if (isValidBase64(codeValue) && isValidBase64(typeValue)) {
+
+        // giải mã mã sản phẩm
+        // let productCode = atob(codeValue);
+        // let type = atob(typeValue);
+
+        // add to cart
+        let button = document.getElementById('cart');
+        if (atob(typeValue) == 'shirtProduct') {
+            let mahoaSize = btoa(sizeCode.value);
+            let string_10 = `
+                <a href="./Cart.php?code=${codeValue}&type=${typeValue}&quantityBuy=${quantityBuyCode}&addCart=${addCartCode}&sizeCode=${mahoaSize}">Add to cart</a>
+            `;
+            button.innerHTML = string_10;
+        } else {
+            let string_10 = `
+                <a href="./Cart.php?code=${codeValue}&type=${typeValue}&quantityBuy=${quantityBuyCode}&addCart=${addCartCode}&sizeCode=${btoa('null')}">Add to cart</a>
+            `;
+            button.innerHTML = string_10;
+        }
+    }
+
+
+
+    quantityBuy.addEventListener('change', function () {
+        console.log(quantityBuy.value);
+
+        let quantityBuyCode = btoa(quantityBuy.value);
+
+
+        // Tạo một đối tượng URLSearchParams từ đường dẫn URL hiện tại
+        let urlParams = new URLSearchParams(window.location.search);
+
+        // Lấy giá trị của tham số 'code' từ URL hiện tại
+        let codeValue = urlParams.get('code');
+        let typeValue = urlParams.get('type');
+
+        if (isValidBase64(codeValue) && isValidBase64(typeValue)) {
+
+            // giải mã mã sản phẩm
+            // let productCode = atob(codeValue);
+            // let type = atob(typeValue);
+
+            // add to cart
+            let button = document.getElementById('cart');
+
+            if (atob(typeValue) == 'shirtProduct') {
+                console.log(sizeCode.value);
+                let mahoaSize = btoa(sizeCode.value);
+                let string_10 = `
+                    <a href="./Cart.php?code=${codeValue}&type=${typeValue}&quantityBuy=${quantityBuyCode}&addCart=${addCartCode}&sizeCode=${mahoaSize}">Add to cart</a>
+                `;
+                button.innerHTML = string_10;
+            } else {
+                let string_10 = `
+                    <a href="./Cart.php?code=${codeValue}&type=${typeValue}&quantityBuy=${quantityBuyCode}&addCart=${addCartCode}&sizeCode=${btoa('null')}">Add to cart</a>
+                `;
+                button.innerHTML = string_10;
+            }
+        }
+    });
 }
 
 
@@ -570,6 +760,25 @@ function action() {
     //     btn.textContent = "Go Fullscreen";
     // }
 }
+
+// chi thuc hien ham khi trang da load xong
+
+window.addEventListener('load', async function () {
+    // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
+    console.log('Trang chi tiết sản phẩm đã load hoàn toàn');
+    await getDetailProduct();
+    action();
+
+    let showSize = this.document.getElementById('size');
+    if (showSize != null) {
+        console.log(showSize);
+        showSize.onchange = async function () {
+            await getQuantityBySizeCodeAndProductCode(showSize.value);
+            addToCart();
+        };
+    }
+
+});
 
 
 

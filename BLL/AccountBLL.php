@@ -50,6 +50,25 @@ class AccountBLL
 
               return $result;
        }
+       // check username
+       function checkUserName($userName)
+       {
+              $user = $this->AccountDAL->getobj($userName);
+              $result = array();
+              if ($user == null) {
+                     $obj = array(
+                            "result" => "notFound"
+                     );
+                     array_push($result, $obj);
+                     return $result;
+              } else {
+                     $obj = array(
+                            "result" => "success"
+                     );
+                     array_push($result, $obj);
+                     return $result;
+              }
+       }
 
        // login
        function login($userName, $passWord)
@@ -136,6 +155,26 @@ class AccountBLL
                      return $result;
               }
        }
+       // thêm một tài khoản vào database
+       function addAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission)
+       {
+              $obj = new AccountDTO($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
+              $result = array();
+              $check = $this->AccountDAL->addobj($obj);
+              if ($check == true) {
+                     $obj = array(
+                            "result" => "success"
+                     );
+                     array_push($result, $obj);
+                     return $result;
+              } else {
+                     $obj = array(
+                            "result" => "false"
+                     );
+                     array_push($result, $obj);
+                     return $result;
+              }
+       }
 
        // tự động logout khi người dùng thoát web đột ngột
        function logout_whenExitPage()
@@ -173,6 +212,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      break;
               case 'logout_whenExitPage':
                      $temp = $check->logout_whenExitPage();
+                     echo json_encode($temp);
+                     break;
+              case 'checkUserName':
+                     $userName = $_POST['userName'];
+                     $temp = $check->checkUserName($userName);
+                     echo json_encode($temp);
+                     break;
+              case 'addAccount':
+                     $userName = $_POST['userName'];
+                     $passWord = $_POST['passWord'];
+                     $dateCreate = $_POST['dateCreate'];
+                     $accountStatus = $_POST['accountStatus'];
+                     $name = $_POST['name'];
+                     $address = $_POST['address'];
+                     $email = $_POST['email'];
+                     $phoneNumber = $_POST['phoneNumber'];
+                     $birth = $_POST['birth'];
+                     $sex = $_POST['sex'];
+                     $codePermission = $_POST['codePermission'];
+                     $temp = $check->addAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
                      echo json_encode($temp);
                      break;
        }

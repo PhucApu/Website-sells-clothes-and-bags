@@ -1,60 +1,73 @@
 // location.reload();
 // ------------------------------------- AJAX LOGIN ---------------------------------------------
-async function Login() {
+async function Login(event) {
+       event.preventDefault();
        try {
               let userName = document.getElementById('userNameInput').value;
               let passWord = document.getElementById('passWordInput').value;
+              if (checkFormLogin()) {
+                     const response = await fetch('../../BLL/AccountBLL.php', {
+                            method: 'POST',
+                            headers: {
+                                   'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: 'function=' + encodeURIComponent('login') + '&userName=' + encodeURIComponent(userName) + '&passWord=' + encodeURIComponent(passWord)
+                     });
+                     const data = await response.json();
 
-              if (userName == '') {
-                     userName = ' ';
-              }
-              if (passWord == '') {
-                     passWord = ' ';
-              }
-              const response = await fetch('../../BLL/AccountBLL.php', {
-                     method: 'POST',
-                     headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                     },
-                     body:
-                            'function=' + encodeURIComponent('login') + '&userName=' + encodeURIComponent(userName) + '&passWord=' + encodeURIComponent(passWord)
-              });
-              const data = await response.json();
+                     let user = data[0];
 
-              for (let i of data) {
-                     console.log(i);
+                     // Hiển thị thông báo tùy thuộc vào kết quả đăng nhập
+                     if (user.result == 'success') {
+                            // alert('Đăng nhập thành công');
+                            await Swal.fire({
+                                   position: "center",
+                                   icon: "success",
+                                   title: "Login Success",
+                                   showConfirmButton: false,
+                                   timer: 2000
+                            });
+                            window.location.href = "../../GUI/view/HomePage.php";
+                     } else if (user.result == 'block') {
+                            // alert('Tài khoản của bạn bị khóa, vui lòng liên hệ với quản trị viên để mở khóa');
+                            Swal.fire({
+                                   icon: "error",
+                                   title: "Oops...",
+                                   text: "Your account is locked, please contact the administrator to unlock it !",
+                            });
+                     } else if (user.result == 'wrongPass') {
+                            // alert('Sai mật khẩu');
+                            Swal.fire({
+                                   icon: "error",
+                                   title: "Oops...",
+                                   text: "Wrong Password!",
+                            });
+                     } else if (user.result == 'notFound') {
+                            Swal.fire({
+                                   icon: "error",
+                                   title: "Oops...",
+                                   text: "Something went wrong!",
+                                   footer: `Don't have account ? <a href="../../GUI/view/signup.php">Sign up</a>`
+                            });
+                            // alert('Không tìm thấy tài khoản');
+                     }
               }
-              let user = data[0];
-
-              // dang nhap thanh cong
-              if (user.result == 'success') {
-                     alert('đăng nhập thành công');
-                     window.location.href = "../../GUI/view/HomePage.php";
-              }
-              else if (user.result == 'block') {
-                     alert('Tài khoản của bạn bị khóa, vui lòng liên hệ với quản trị viên để mở khóa');
-              }
-              else if (user.result == 'wrongPass') {
-                     alert('Sai mật khẩu');
-              }
-              else if (user.result == 'notFound') {
-                     alert('Không tìm thấy tài khoản');
-              }
-
               // showProductItem(data);
        } catch (error) {
               console.error('Error:', error);
        }
 }
-window.addEventListener('load', function () {
-       // Xử lý khi toàn bộ trang đã được tải xong
-       console.log('Toàn bộ trang đã được tải xong');
-       checkLogin();
-});
+// window.addEventListener('load', function () {
+//        // Xử lý khi toàn bộ trang đã được tải xong
+//        console.log('Toàn bộ trang đã được tải xong');
+//        checkLogin();
+// });
 // ------------------------------------------- AJAX kiểm tra đăng nhập -----------------------------------------------
 async function checkLogin() {
        // location.reload();
        try {
+
+
               const response = await fetch('../../BLL/AccountBLL.php', {
                      method: 'POST',
                      headers: {
@@ -64,6 +77,10 @@ async function checkLogin() {
                             'function=' + encodeURIComponent('checkLogin')
               });
               const data = await response.json();
+
+
+
+
               console.log(data);
               let result = data[0];
               if (result.result == 'success') {
@@ -78,3 +95,40 @@ async function checkLogin() {
        }
 }
 // checkLogin();
+
+function checkFormLogin() {
+       let userName = document.getElementById('userNameInput').value;
+       let passWord = document.getElementById('passWordInput').value;
+       // Regular expressions for validation
+       var usernameRegex = /^[a-zA-Z\d]{5,16}$/;
+       var passwordRegex = /^[a-zA-Z\d@_-]{6,20}$/;
+
+       // Check if the fields are filled correctly
+       if (!usernameRegex.test(userName)) {
+              // alert('Vui lòng điền tên đăng nhập hợp lệ từ 5 đến 16 ký tự');
+              Swal.fire({
+                     icon: "error",
+                     title: "Oops...",
+                     text: "Please enter a valid username of 5 to 16 characters!",
+              });
+              return false; // Stop the function if the username is not valid
+       }
+       if (!passwordRegex.test(passWord)) {
+              // alert('Vui lòng điền mật khẩu hợp lệ');
+              Swal.fire({
+                     icon: "error",
+                     title: "Oops...",
+                     text: "Please enter a valid password between 6 and 20 characters!",
+              });
+              return false; // Stop the function if the password is not valid
+       }
+       return true;
+}
+
+// chỉ thực hiện các hàm khi trang web đã load xong
+
+window.addEventListener('load', function () {
+       // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
+       console.log('Trang Login đã load hoàn toàn');
+       checkLogin();
+});

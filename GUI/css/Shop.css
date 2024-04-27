@@ -280,8 +280,8 @@ a {
   cursor: initial;
 }
 
-#filter-button {
-  margin: 5px 0;
+.filter-button {
+  margin: 5px 5px;
   padding: 10px 20px;
   background-color: #dfdcde;
   color: #515151;
@@ -290,7 +290,7 @@ a {
   cursor: pointer;
   
 }
-#filter-button:hover{
+.filter-button:hover{
  background-color: #515050;
  color: #fff;
 }
@@ -348,4 +348,13 @@ a {
   align-items: center;
   display: flex;
 }
+
+.search-categories .filter-Category > div{
+    margin-top: 20px;
+}
+
+.search-categories .filter-Category div ul li{
+    margin-top: 8px;
+}
+
 

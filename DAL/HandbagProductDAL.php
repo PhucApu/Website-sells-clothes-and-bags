@@ -25,12 +25,10 @@ class HandbagProductDAL extends AbstractionDAL
               // xóa dữ liệu trong bảng handbagproduct trước rồi đến product.
 
               $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
-              $check_data_ballotDetail = "SELECT * FROM ballotDetail WHERE productCode = '$code'";
 
               $result_check1 = $this->actionSQL->query($check_data_orderDetail);
-              $result_check2 = $this->actionSQL->query($check_data_ballotDetail);
 
-              if ($result_check1->num_rows < 1 && $result_check2->num_rows < 1) {
+              if ($result_check1->num_rows < 1) {
                      // xóa dữ liệu trong bảng handbagproduct trước
                      $string1 = "DELETE FROM handbagproduct WHERE productCode = '$code'";
 
@@ -56,12 +54,10 @@ class HandbagProductDAL extends AbstractionDAL
                      // xóa dữ liệu trong bảng handbagproduct trước rồi đến product.
 
                      $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
-                     $check_data_ballotDetail = "SELECT * FROM ballotDetail WHERE productCode = '$code'";
 
                      $result_check1 = $this->actionSQL->query($check_data_orderDetail);
-                     $result_check2 = $this->actionSQL->query($check_data_ballotDetail);
 
-                     if ($result_check1->num_rows < 1 && $result_check2->num_rows < 1) {
+                     if ($result_check1->num_rows < 1 ) {
                             // xóa dữ liệu trong bảng handbagproduct trước
                             $string1 = "DELETE FROM handbagproduct WHERE productCode = '$code'";
 
@@ -112,7 +108,7 @@ class HandbagProductDAL extends AbstractionDAL
                             $descriptionMaterial = $data["descriptionMaterial"];
 
                             // Tạo đối tượng HandbagProductDTO từ dữ liệu lấy được và thêm vào mảng
-                            $handbagProduct = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $bagMaterial,$descriptionMaterial);
+                            $handbagProduct = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
                             array_push($product_list, $handbagProduct);
                      }
                      // Trả về danh sách đối tượng
@@ -150,7 +146,7 @@ class HandbagProductDAL extends AbstractionDAL
                      $bagMaterial = $data["bagMaterial"];
                      $descriptionMaterial = $data["descriptionMaterial"];
                      // Tạo đối tượng HandbagProductDTO và trả về
-                     $handbagProduct = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $bagMaterial,$descriptionMaterial);
+                     $handbagProduct = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
                      return $handbagProduct;
               } else {
                      // Trường hợp không có dữ liệu trả về
@@ -288,6 +284,50 @@ class HandbagProductDAL extends AbstractionDAL
                      }
                      // Trả về danh sách đối tượng
                      return $product_list;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     return null;
+              }
+       }
+
+       function getListTargetGenderHandbagProducts($sex)
+       {
+              // Khởi tạo mảng để lưu danh sách sản phẩm handbag cho nam
+              $taget_handbag_products = array();
+
+              // Câu lệnh truy vấn
+              $query = "SELECT * FROM product 
+              INNER JOIN handbagproduct ON product.productCode = handbagproduct.productCode
+              WHERE targetGender = $sex";
+
+              // Thực hiện truy vấn
+              $result = $this->actionSQL->query($query);
+
+              // Kiểm tra số hàng được trả về
+              if ($result->num_rows > 0) {
+                     // Lặp qua từng hàng kết quả
+                     while ($data = $result->fetch_assoc()) {
+                            // Lấy dữ liệu từ hàng kết quả
+                            $productCode = $data["productCode"];
+                            $imgProduct = $data["imgProduct"];
+                            $nameProduct = $data["nameProduct"];
+                            $supplierCode = $data["supplierCode"];
+                            $quantity = $data["quantity"];
+                            $describeProduct = $data["describeProduct"];
+                            $status = $data["status"];
+                            $color = $data["color"];
+                            $targetGender = $data["targetGender"];
+                            $price = $data["price"];
+                            $promotion = $data["promotion"];
+                            $bagMaterial = $data["bagMaterial"];
+                            $descriptionMaterial = $data["descriptionMaterial"];
+
+                            // Tạo đối tượng HandbagProductDTO từ dữ liệu lấy được và thêm vào mảng
+                            $handbagProduct = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
+                            array_push($taget_handbag_products, $handbagProduct);
+                     }
+                     // Trả về danh sách sản phẩm handbag cho nam
+                     return $taget_handbag_products;
               } else {
                      // Trường hợp không có dữ liệu trả về
                      return null;

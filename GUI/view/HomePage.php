@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require('../../config.php') ?>
 
 <head>
        <meta charset="UTF-8">
@@ -11,6 +12,8 @@
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+       <!-- thư viện dùng cho alert -->
+       <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
        <style>
               <?php
               require('../css/Header.css');
@@ -57,7 +60,7 @@
               </div>
               <div class="content-product">
                      <div class="product-feature">
-                            <div class="pre-button" >
+                            <div class="pre-button">
                                    <span><i class="fas fa-chevron-left"></i></span>
                             </div>
                             <div class="next-button">
@@ -68,7 +71,10 @@
                                    <span><i class="far fa-star"></i></span>
                             </div>
                             <div class="product">
-                                   <div class="product-item">
+                                   <div style="margin: 0 auto;" class="spinner-border text-primary" role="status">
+                                          <span class="visually-hidden">Loading...</span>
+                                   </div>
+                                   <!-- <div class="product-item">
                                           <div class="image-item">
                                                  <a href='./ProductDetail.php'>
                                                         <img src="../image/product/product1/product-detail-1.png" alt="">
@@ -195,11 +201,11 @@
                                           <div class="price-item">
                                                  <span>$ 9.99</span>
                                           </div>
-                                   </div>
+                                   </div> -->
                             </div>
                      </div>
                      <div class="product-type">
-                            <a href="">
+                            <a href="./Shop.php">
                                    <div class="type">
                                           <img src="../image/home1_img1.jpg" alt="">
                                           <div class="widget-title">
@@ -211,7 +217,7 @@
                                           </div>
                                    </div>
                             </a>
-                            <a href="">
+                            <a href="./Shop.php">
                                    <div class="type">
                                           <img src="../image/banner2.jpg" alt="">
                                           <div class="widget-title">
@@ -223,7 +229,7 @@
                                           </div>
                                    </div>
                             </a>
-                            <a href="">
+                            <a href="./Shop.php">
                                    <div class="type">
                                           <img src="../image/banner3.jpg" alt="">
                                           <div class="widget-title">
@@ -239,14 +245,17 @@
                      <div class="product-top">
                             <div class="widget-title">
                                    <div>
-                                          <a href=""><span class="is-active">NEW ARRIVAL</span></a>
-                                          <a href=""><span class="is-active">SALE PRODUCT</span></a>
-                                          <a href=""><span>BEST SELLING PRODUCTS</span></a>
+                                          <a href="" id="reconmmended" class="is-active"><span>RECOMMENDED</span></a>
+                                          <a href="" id="sale-product"><span>SALE PRODUCT</span></a>
+                                          <a href="" id="best-selling-product"><span>BEST SELLING PRODUCTS</span></a>
                                    </div>
                                    <span><i class="far fa-star"></i></span>
                             </div>
                             <div class="product">
-                                   <div class="product-item">
+                                   <div style="margin: 0 auto;" class="spinner-border text-primary" role="status">
+                                          <span class="visually-hidden">Loading...</span>
+                                   </div>
+                                   <!-- <div class="product-item">
                                           <div class="image-item">
                                                  <a href="http://">
                                                         <img src="../image/product/product1/product-detail-1.png" alt="">
@@ -398,7 +407,7 @@
                                           <div class="price-item">
                                                  <span>$ 9.99</span>
                                           </div>
-                                   </div>
+                                   </div> -->
                             </div>
                      </div>
               </div>
@@ -406,6 +415,7 @@
                      <div class="banner">
                             <img width="100%" src="../image/bg_newsletter_07_36c68509-febe-498f-88d7-88bf084d5134.jpg" alt="">
                      </div>
+
                      <div class="widget-title">
                             <span>CONTACT US</span>
                             <span><i class="far fa-star"></i></span>
@@ -413,7 +423,7 @@
                      <div class="text-infor">
                             <p>Our website always wants to bring the best to our customers. We always listen to customer feedback to have the best improvements and fixes for our customers. So, if you have any feedback for us, please contact us now. We will try to fix it to create the most comfort for users.</p>
                      </div>
-                     <a href="">
+                     <a href="./contacts.php">
                             <div class="button-contact">
                                    <span>CONTACT US <i class="fas fa-arrow-right"></i></span>
                             </div>
@@ -425,8 +435,10 @@
        <!-- footer -->
        <?php require('./footer.php'); ?>
 
-       <script src="../Js/Header.js"></script>
-       <script src="../Js/HomePage.js"></script>
+       <script src="../Js/Header.js?v=<?php echo $version ?>"></script>
+       <script src="../Js/HomePage.js?v=<?php echo $version ?>"></script>
+       <!-- thư viện dùng cho alert -->
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>

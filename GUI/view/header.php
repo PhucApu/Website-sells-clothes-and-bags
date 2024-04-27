@@ -45,12 +45,12 @@
                                    </div>
                             </div>
                      </li>
-                     <li>
+                     <li id="cart-icon">
                             <!-- icon vo cart -->
                             <a href="./Cart.php">
                                    <div class="cart">
                                           <i class="fas fa-shopping-bag"></i>
-                                          <span class="number-cart">0</span>
+                                          <span id="number-cart" class="number-cart">0</span>
                                    </div>
                             </a>
                      </li>
@@ -58,7 +58,7 @@
                             <a href="./login.php">
                                    <div class="user-infor">
                                           <i class="fas fa-user"></i>
-                                          <span class="user-name">Hi, ApuTruong</span>
+                                          <span class="user-name"></span>
                                    </div>
                             </a>
                      </li>
