@@ -114,5 +114,16 @@
   - Cơ sở dũ liệu chưa ổn, có thể chỉnh sửa thêm trong tương lai.
   - **Thiếu phần admin**.
 
-## Task 4 (2/4/2024 -> 28/4/2024): Ư
+## Task 4 (2/4/2024 -> 28/4/2024): Hoàn thành các chức năng phần User và xây dựng giao diện trang admin
+
+- ## Điều chỉnh cơ sở dữ liệu: 
+  - **Bỏ phần phiếu nhập "EnterBallot" và chi tiết phiếu nhập "detailBallot"** trong cơ sở dữ liệu do nhận thấy không cần thiết.
+
+- ## Giao việc:
+  - **Xây dựng giao diện website phía admin**: Phát, Dũng, Sang, Trí.
+  - **Hoàn thành các chức năng bên phía User**: Apu.
+
+- ## Kết quả hoàn thành task 4: một số lưu ý 
+  - **Các chức năng bên phía user**: Còn chức năng liên quan đến đơn hàng (thêm,xem danh sách,..), xác nhận thanh toán, hiển thị thông tin người dùng đăng nhập do chưa có giao diện. Chức năng gửi phản hồi.
+  - **Xây dựng giao diện website phía admin"**:..  
 
