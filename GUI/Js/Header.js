@@ -46,7 +46,7 @@ function setLogin(username) {
        let loginContainer = document.querySelector('header .menubar .user');
        if (username != '') {
               let string = `
-                     <a href="./login.php">
+                     <a href="./UserProfile.php">
                             <div class="user-infor">
                                    <i class="fas fa-user"></i>
                                    <span class="user-name">Hi, ${username}</span>

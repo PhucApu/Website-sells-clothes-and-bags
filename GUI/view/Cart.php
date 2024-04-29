@@ -148,7 +148,7 @@
                                           </tbody>
                                    </table>
                                    <div class="check_out_action">
-                                          <a href="" class="check_out_btn">CHECK OUT</a>
+                                          <a href="./Checkout.php" class="check_out_btn">CHECK OUT</a>
                                    </div>
                             </div>
                      </div>

@@ -55,7 +55,7 @@
                             </a>
                      </li>
                      <li class="user">
-                            <a href="./login.php">
+                            <a href="./UserProfile.php">
                                    <div class="user-infor">
                                           <i class="fas fa-user"></i>
                                           <span class="user-name"></span>
