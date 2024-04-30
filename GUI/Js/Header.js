@@ -63,6 +63,7 @@ function setLogin(username) {
                      </a>
                      `;
               loginContainer.innerHTML = string;
+              
        }
 }
 

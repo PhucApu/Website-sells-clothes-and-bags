@@ -194,7 +194,7 @@ function explodePie (e) {
             </div>
         </div>
     </div>
-    <script src="../../Js/sidebar.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
         const click =document.querySelectorAll(".list-button p");

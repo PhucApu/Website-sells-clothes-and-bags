@@ -20,14 +20,40 @@ async function Login(event) {
                      // Hiển thị thông báo tùy thuộc vào kết quả đăng nhập
                      if (user.result == 'success') {
                             // alert('Đăng nhập thành công');
-                            await Swal.fire({
-                                   position: "center",
-                                   icon: "success",
-                                   title: "Login Success",
-                                   showConfirmButton: false,
-                                   timer: 2000
-                            });
-                            window.location.href = "../../GUI/view/HomePage.php";
+                            // Nếu là tài khoản user
+                            if (user.codePermission == 'user') {
+                                   await Swal.fire({
+                                          position: "center",
+                                          icon: "success",
+                                          title: "Login Success",
+                                          showConfirmButton: false,
+                                          timer: 2000
+                                   });
+                                   window.location.href = "../../GUI/view/HomePage.php";
+                            }
+                            // Nếu tài khoản khác với user
+                            else {
+                                   await Swal.fire({
+                                          title: "Do you want to log in with administrator rights?",
+                                          icon: "warning",
+                                          showCancelButton: true,
+                                          confirmButtonColor: "#3085d6",
+                                          cancelButtonColor: "#d33",
+                                          confirmButtonText: "Yes, I want!"
+                                   }).then(async (result) => {
+                                          if (result.isConfirmed) {
+                                                 await Swal.fire({
+                                                        position: "center",
+                                                        icon: "success",
+                                                        title: "Login Success",
+                                                        showConfirmButton: false,
+                                                        timer: 2000
+                                                 });
+                                                 window.location.href = "../../GUI/view/admin/Tongquan.php";
+                                          }
+                                   });
+                            }
+
                      } else if (user.result == 'block') {
                             // alert('Tài khoản của bạn bị khóa, vui lòng liên hệ với quản trị viên để mở khóa');
                             Swal.fire({
@@ -66,8 +92,6 @@ async function Login(event) {
 async function checkLogin() {
        // location.reload();
        try {
-
-
               const response = await fetch('../../BLL/AccountBLL.php', {
                      method: 'POST',
                      headers: {
@@ -78,13 +102,17 @@ async function checkLogin() {
               });
               const data = await response.json();
 
-
-
-
               console.log(data);
-              let result = data[0];
-              if (result.result == 'success') {
-                     window.location.href = "../../GUI/view/HomePage.php";
+              let user = data[0];
+              if (user.result == 'success') {
+                     // window.location.href = "../../GUI/view/HomePage.php";
+                     if (user.codePermission == 'user') {
+                            window.location.href = "../../GUI/view/HomePage.php";
+                     }
+                     // Nếu tài khoản khác với user
+                     else {
+                            window.location.href = "../../GUI/view/admin/Tongquan.php";
+                     }
               }
               // for (let i of data) {
               //        console.log(i); 

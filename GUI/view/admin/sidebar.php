@@ -4,7 +4,7 @@
                 <span>RADIX ADMIN</span>
             </a>
             <div class="bar-content">
-                <div class="info">
+                <div class="info" id="info">
                     <img src="../../image/avt.jpg" alt="" class="avt">
                     <span class="name">Tien Phat Tran</span>
                 </div>
