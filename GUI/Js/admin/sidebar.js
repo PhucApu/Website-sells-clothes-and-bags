@@ -30,6 +30,8 @@ async function checkLogin() {
 function setLogin(username) {
        let loginContainer1 = document.getElementById('info');
        let loginContainer2 = document.getElementById('info-header');
+       console.log(loginContainer1);
+       console.log(loginContainer2);
        if (username != '') {
               let string = `
                      <img src="../../image/avt.jpg" alt="" class="avt">

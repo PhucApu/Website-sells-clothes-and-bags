@@ -52,6 +52,10 @@ function setLogin(username) {
                                    <span class="user-name">Hi, ${username}</span>
                             </div>
                      </a>
+                     <div class="menu-user">
+                                   <a href="../view/UserProfile.php" style="display:block;">My account</a>
+                                   <a href="#" style="display:block;">Log out</a>
+                     </div>
                      `;
               loginContainer.innerHTML = string;
        } else {
@@ -63,9 +67,12 @@ function setLogin(username) {
                      </a>
                      `;
               loginContainer.innerHTML = string;
-              
+
        }
 }
+
+// logout
+
 
 // ------------------------------------------- DÙNG AJAX ĐỂ LOAD DỮ LIỆU LÊN -------------------------
 

@@ -1,8 +1,8 @@
 <?php
 
-// import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/SupplierDTO.php');
+// // import
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/SupplierDTO.php');
 
 
 class SupplierDAL extends AbstractionDAL

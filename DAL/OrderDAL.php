@@ -90,6 +90,41 @@ class OrderDAL extends AbstractionDAL
               }
        }
 
+       // lấy một mảng đối tượng hóa đơn dựa theo mã username
+       function getListObj_by_UserName($username)
+       {
+              // Câu lệnh truy vấn
+              $string = "SELECT * FROM orders WHERE userName = '$username'";
+
+              // Thực hiện truy suất
+              $result = $this->actionSQL->query($string);
+
+              $orders = array();
+
+              if ($result->num_rows > 0) {
+                     while ($data = $result->fetch_assoc()) {
+                            $orderCode = $data["orderCode"];
+                            $dateCreated = $data["dateCreated"];
+                            $dateDelivery = $data["dateDelivery"];
+                            $dateFinish = $data["dateFinish"];
+                            $userName = $data["userName"];
+                            $totalMoney = $data["totalMoney"];
+                            $codePayments = $data["codePayments"];
+                            $codeTransport = $data["codeTransport"];
+                            $status = $data["status"];
+                            $note = $data["note"];
+
+                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userName, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            $orders[] = $order;
+                     }
+                     return $orders;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     return null;
+              }
+       }
+
+
        // lấy ra một đối tượng dựa theo mã đối tượng
        function getObj($code)
        {
@@ -122,6 +157,9 @@ class OrderDAL extends AbstractionDAL
                      return null;
               }
        }
+
+       
+       
 
        // thêm một đối tượng 
        function addObj($obj)

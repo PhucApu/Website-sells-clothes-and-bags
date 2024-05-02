@@ -1,8 +1,8 @@
 <?php
 
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/CommentDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/CommentDTO.php');
 
 class CommentDAL extends AbstractionDAL
 {
@@ -135,7 +135,7 @@ class CommentDAL extends AbstractionDAL
                      } else {
                             return false;
                      }
-              }else{
+              } else {
                      return false;
               }
        }
@@ -170,6 +170,24 @@ class CommentDAL extends AbstractionDAL
               } else {
                      return false;
               }
+       }
+
+       function updateState($codeComment, $state)
+       {
+              // Câu lệnh UPDATE
+              if ($state == '1') {
+                     $string = "UPDATE Comment 
+                                SET 
+                                   state = '0'
+                                WHERE codeComment = '$codeComment'";
+              } else {
+                     $string = "UPDATE Comment 
+                                SET 
+                                   state = '1'
+                                WHERE codeComment = '$codeComment'";
+              }
+
+              return $this->actionSQL->query($string);
        }
 }
 

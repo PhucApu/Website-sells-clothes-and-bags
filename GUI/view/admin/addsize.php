@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="en">
+<?php require('../../../config.php')?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
             <?php require('./header_admin.php'); ?>
             </div>  
             <div class="content-page-sb ">
-                <div style="width: 1150px;">
+                <div>
                     <h2 style="text-align:center;">Thêm size mới</h2>
                     <div class="container-fluid">
                         <form id="addForm">
@@ -40,16 +41,12 @@
                                 <label for="address" class="form-label"></label>
                                 <input type="text" class="form-control" id="address" name="address">
                             </div> -->
-                            <div class="mb-3">
-                                <label for="sizeDescription" class="form-label">Mô tả</label>
-                                <textarea type="text" class="form-control" id="sizeDescription" name="sizeDescription"></textarea>
-                            </div>
                             <div class="group-btn d-flex" style="justify-content: space-between;">
                                 <div class="button-back">
                                     <button class="btn btn-secondary"><a href="./list-sizes.php" style="text-decoration:none;" class="text-white">Quay lại</a></button>
                                 </div>
                                 <div class="button-add" style=" margin-bottom: 2rem;">
-                                    <button type="submit" class="btn btn-primary">Thêm nhà cung cấp</button>
+                                    <button type="submit" class="btn btn-primary" onclick = "addSize(event)">Thêm kích thước</button>
                                 </div> 
                             </div>
                         </form>
@@ -62,7 +59,9 @@
             </div>
         </div>
     </div>
-    <script src="../../Js/sidebar.js"></script>
+    <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/addSize.js?v=<?php echo $version ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

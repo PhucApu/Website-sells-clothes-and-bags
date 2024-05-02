@@ -597,13 +597,13 @@ FROM comment
 -- data table feedback
 USE  website_sells_clothes_and_bags;
 INSERT INTO feedback
-       (codeFeedback,userName, sentDate, email, content, state)
+       (codeFeedback,userName, sentDate, email, content, replay)
 VALUES
-       ('FB001', 'JohnDoe', '2024-03-08', 'john@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', '1'),
-       ('FB002', 'JaneSmith', '2024-03-09', 'jane@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', '1'),
-       ('FB003', 'AliceJohnson', '2024-03-10', 'alice@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', '1'),
-       ('FB004', 'BobBrown', '2024-03-11', 'bob@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', '1'),
-       ('FB005', 'EmilyDavis', '2024-03-12', 'emily@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', '1');
+       ('FB001', 'JohnDoe', '2024-03-08', 'john@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB002', 'JaneSmith', '2024-03-09', 'jane@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB003', 'AliceJohnson', '2024-03-10', 'alice@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB004', 'BobBrown', '2024-03-11', 'bob@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB005', 'EmilyDavis', '2024-03-12', 'emily@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you');
 
 -- check data table feedback
 USE  website_sells_clothes_and_bags;
@@ -650,7 +650,7 @@ INSERT INTO orders
        (orderCode, dateCreated, dateDelivery, dateFinish, userName, totalMoney, codePayments, codeTransport, status, note)
 VALUES
        ('ORD001', '2024-03-01', '2024-03-05', '2024-03-06', 'PhucApuTruong', 150.00, 'PP001', 'EXP001', 'processing', 'Please ensure timely delivery.'),
-       ('ORD002', '2024-03-02', '2024-03-06', '2024-03-07', 'PhucApuTruong', 170.00, 'VS002', 'STD002', 'processing', 'Customer requested expedited shipping.'),
+       ('ORD002', '2024-03-02', '2024-03-06', '2024-03-07', 'AliceJohnson', 170.00, 'VS002', 'STD002', 'processing', 'Customer requested expedited shipping.'),
        ('ORD003', '2024-03-03', '2024-03-07', '2024-03-08', 'PhucApuTruong', 70.00, 'MC003', 'EXP001', 'completed', 'Delivered to the customer successfully.');
 
 -- check data table orders

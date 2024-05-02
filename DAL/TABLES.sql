@@ -26,7 +26,7 @@ CREATE TABLE feedback
        email VARCHAR(255),
        content TEXT,
        -- Adjust the data type based on your database system (e.g., VARCHAR(MAX) for SQL Server, TEXT for MySQL)
-       state VARCHAR(255)
+       replay TEXT
 );
 
 -- USE  website_sells_clothes_and_bags;

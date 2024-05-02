@@ -437,7 +437,7 @@
 
        <script src="../Js/Header.js?v=<?php echo $version ?>"></script>
        <script src="../Js/HomePage.js?v=<?php echo $version ?>"></script>
-       <script src="../Js/admin/payment.js?v=<?php echo $version ?>"></script>
+       <!-- <script src="../Js/admin/payment.js?v=<?php echo $version ?>"></script> -->
        <!-- thư viện dùng cho alert -->
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
 </body>

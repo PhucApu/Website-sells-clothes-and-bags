@@ -1,8 +1,8 @@
 <?php
 
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/FeedbackDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/FeedbackDTO.php');
 
 class FeedbackDAL extends AbstractionDAL
 {
@@ -59,10 +59,10 @@ class FeedbackDAL extends AbstractionDAL
                             $sentDate = $data["sentDate"];
                             $email = $data["email"];
                             $content = $data["content"];
-                            $state = $data["state"];
+                            $replay = $data["replay"];
 
                             // Tạo đối tượng FeedbackDTO và thêm vào mảng
-                            $feedback = new FeedbackDTO($codeFeedback, $userName, $sentDate, $email, $content, $state);
+                            $feedback = new FeedbackDTO($codeFeedback, $userName, $sentDate, $email, $content, $replay);
                             array_push($array_list, $feedback);
                      }
                      return $array_list;
@@ -89,10 +89,10 @@ class FeedbackDAL extends AbstractionDAL
                      $sentDate = $data["sentDate"];
                      $email = $data["email"];
                      $content = $data["content"];
-                     $state = $data["state"];
+                     $replay = $data["replay"];
 
                      // Tạo đối tượng FeedbackDTO và thêm vào mảng
-                     $feedback = new FeedbackDTO($codeFeedback, $userName, $sentDate, $email, $content, $state);
+                     $feedback = new FeedbackDTO($codeFeedback, $userName, $sentDate, $email, $content, $replay);
                      return $feedback;
               } else {
                      // Trường hợp không có dữ liệu trả về
@@ -115,10 +115,10 @@ class FeedbackDAL extends AbstractionDAL
                             $sentDate = $obj->getSentDate();
                             $email = $obj->getEmail();
                             $content = $obj->getContent();
-                            $state = $obj->getState();
+                            $replay = $obj->getReplay();
 
                             // Câu lệnh truy vấn
-                            $string = "INSERT INTO feedback (codeFeedback, userName, sentDate, email, content, state) VALUES ('$codeFeedback', '$userName', '$sentDate', '$email', '$content', '$state')";
+                            $string = "INSERT INTO feedback (codeFeedback, userName, sentDate, email, content, replay) VALUES ('$codeFeedback', '$userName', '$sentDate', '$email', '$content', '$replay')";
 
                             return $this->actionSQL->query($string);
                      } else {
@@ -138,7 +138,7 @@ class FeedbackDAL extends AbstractionDAL
                      $sentDate = $obj->getSentDate();
                      $email = $obj->getEmail();
                      $content = $obj->getContent();
-                     $state = $obj->getState();
+                     $replay = $obj->getReplay();
 
                      // Câu lệnh UPDATE
                      $string = "UPDATE feedback 
@@ -146,7 +146,7 @@ class FeedbackDAL extends AbstractionDAL
                                      sentDate = '$sentDate', 
                                      email = '$email', 
                                      content = '$content', 
-                                     state = '$state' 
+                                     replay = '$replay' 
                                  WHERE codeFeedback = '$codeFeedback'";
 
                      return $this->actionSQL->query($string);

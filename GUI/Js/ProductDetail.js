@@ -448,7 +448,7 @@ async function RelatedProduct(data, type, exceptProduct) {
             let pathDetailProdutc = `./ProductDetail.php?code=${mahoaProduct}&type=${mahoaType}`;
             // xu ly duong dan them vao vo hang
             let pathAddtoCart = `./Cart.php?code=${mahoaProduct}&type=${mahoaType}&quantityBuy=${btoa('1')}&addCart=${btoa('true')}&sizeCode=${sizeCodeValue}`;
-            
+
             // format
             if (data[i].promotion == 0) {
                 let string = `
@@ -759,6 +759,21 @@ function action() {
     //     }
     //     btn.textContent = "Go Fullscreen";
     // }
+    const listPostReview = document.querySelectorAll(".item-review-container");
+    const buttonReadMore = document.querySelector(".read-more");
+
+    // neu nhieu hon 3 cai review thi hien xem them
+
+    if (listPostReview.length > 2) {
+        buttonReadMore.classList.remove("hide-readmore");
+        console.log("1");
+        listPostReview.forEach((current, i) => {
+            if (i > 2) {
+                current.classList.add("hide-readmore");
+            }
+        })
+    }
+    
 }
 
 // chi thuc hien ham khi trang da load xong

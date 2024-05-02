@@ -1,8 +1,8 @@
 <?php
 
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/PermissionDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/PermissionDTO.php');
 
 class PermissionDAL extends AbstractionDAL
 {

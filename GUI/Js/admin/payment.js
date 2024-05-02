@@ -5,10 +5,8 @@ async function getArr() {
 
        try {
               // gọi AJAX để kiểm tra
-
-
-              let response = await fetch('../../../BLL/PaymentBLL.php', {
-                     method: 'POSt',
+              let response = await fetch('../../BLL/PaymentBLL.php', { 
+                     method: 'POST',
                      headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                      },

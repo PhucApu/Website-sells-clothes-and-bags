@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php require('../../config.php')?>
+<?php require('../../config.php') ?>
+
 <head>
        <meta charset="UTF-8">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +42,7 @@
                                           <!-- Ten nguoi dung -->
                                           <div class="user-infor-left">
                                                  <i class="fas fa-user"></i>
-                                                 <span class="user-name">Hi, AliceJohnson</span>
+                                                 <span id="user-name" class="user-name">Hi, AliceJohnson</span>
                                           </div>
                                           <hr>
                                           <ul class="user-menu-main">
@@ -55,18 +56,18 @@
                                                  <h1>My Profile</h1>
                                                  <hr>
                                           </div>
-                                         <form class="content-main-right">
+                                          <form class="content-main-right">
                                                  <div class="item-my-profile">
                                                         <label for="username">User Name:</label>
                                                         <input type="text" id="username" name="username" value="AliceJohnson" disabled>
                                                  </div>
                                                  <div class="item-my-profile">
                                                         <label for="name">Name:</label>
-                                                        <input type="text" id="name" name="name" value="Alice Johnson" >
+                                                        <input type="text" id="name" name="name" value="Alice Johnson">
                                                  </div>
                                                  <div class="item-my-profile">
                                                         <label for="email">Email:</label>
-                                                        <input type="email" id="email" name="email" value="alice@example.com" >
+                                                        <input type="email" id="email" name="email" value="alice@example.com">
                                                  </div>
                                                  <div class="item-my-profile">
                                                         <label for="address">Address:</label>
@@ -74,67 +75,67 @@
                                                  </div>
                                                  <div class="item-my-profile">
                                                         <label for="phonenumber">Phone Number:</label>
-                                                        <input type="text" id="phonenumber" name="phonenumber" value="0823072871" >
+                                                        <input type="text" id="phonenumber" name="phonenumber" value="0823072871">
                                                  </div>
                                                  <div class="item-my-profile">
-                                                        <label for="birthday">Birthday:</label>
-                                                        <input type="date" id="birthday" name="birthday" value="1995-02-15" >
+                                                        <label for="datecreate">Date Create:</label>
+                                                        <input type="date" id="datecreate" name="birthday" value="1995-02-15">
                                                  </div>
                                                  <div class="item-my-profile">
                                                         <p for="sex">Sex: </p>
-                                                        <div class="sex-select">
+                                                        <div id="sex-select" class="sex-select">
                                                                <div class="male-sex">
-                                                                      <input type="radio" id="male" name="sex" >
+                                                                      <input type="radio" id="male" name="sex">
                                                                       <label for="male">Male</label>
                                                                </div>
                                                                <div class="female-sex">
                                                                       <input type="radio" id="female" name="sex" checked>
                                                                       <label for="female">Female</label>
-                                                        </div>
+                                                               </div>
                                                         </div>
                                                  </div>
                                                  <input type="submit" class="save-profile-btn" value="Save"></input>
 
-                                                 
-                                         </form>
-                                         
+
+                                          </form>
+
                                    </div>
-                                   <div class="content-right change-password display_none" >
+                                   <div class="content-right change-password display_none">
                                           <div class="title-right">
                                                  <h1>Change Password</h1>
                                                  <hr>
                                           </div>
-                                         <form class="content-main-right">
+                                          <form class="content-main-right">
                                                  <div class="item-my-password">
                                                         <label for="currentpassword">Current Password:</label>
-                                                        <input type="password" id="currentpassword" name="currentpassword" value="abcdef" >
+                                                        <input type="password" id="currentpassword" name="currentpassword" value="abcdef">
                                                  </div>
                                                  <div class="item-my-password">
                                                         <label for="newpassword">New Password:</label>
-                                                        <input type="password" id="newpassword" name="newpassword" value="phatdepzai" >
+                                                        <input type="password" id="newpassword" name="newpassword" value="">
                                                  </div>
                                                  <div class="item-my-password">
                                                         <label for="confirmpassword">Confirm Password:</label>
-                                                        <input type="password" id="confirmpassword" name="confirmpassword" value="phatdepzai" >
+                                                        <input type="password" id="confirmpassword" name="confirmpassword" value="">
                                                  </div>
                                                  <input type="submit" class="save-password-btn" value="Save"></input>
 
-                                                 
-                                         </form>
-                                         
+
+                                          </form>
+
                                    </div>
                                    <div class="content-right order display_none">
                                           <div class="title-right">
                                                  <h1>Orders</h1>
                                                  <hr>
                                           </div>
-                                         <div class="content-main-right">        
+                                          <div class="content-main-right" id="content-order">
                                                  <div class="item-order">
                                                         <div class="order-start">
-                                                        <div class="head-order">
-                                                                <p>#ORD001</p>
-                                                                <p>COMPLETED</p>
-                                                        </div>
+                                                               <div class="head-order">
+                                                                      <p>#ORD001</p>
+                                                                      <p>COMPLETED</p>
+                                                               </div>
                                                                <hr>
                                                                <div class="box-order">
                                                                       <img src="../image/product/product1/product-detail-1.png" alt="">
@@ -148,7 +149,7 @@
                                                                       </div>
                                                                </div>
                                                         </div>
-                                                        
+
                                                         <div class="order-end">
                                                                <div class="detail">
                                                                       <p>Total: <span>31.99$</span></p>
@@ -179,7 +180,7 @@
                                                                       </div>
                                                                </div>
                                                         </div>
-                                                        
+
                                                         <div class="order-end">
                                                                <div class="detail">
                                                                       <p>Total: <span>31.99$</span></p>
@@ -210,7 +211,7 @@
                                                                       </div>
                                                                </div>
                                                         </div>
-                                                        
+
                                                         <div class="order-end">
                                                                <div class="detail">
                                                                       <p>Total: <span>31.99$</span></p>
@@ -241,7 +242,7 @@
                                                                       </div>
                                                                </div>
                                                         </div>
-                                                        
+
                                                         <div class="order-end">
                                                                <div class="detail">
                                                                       <p>Total: <span>31.99$</span></p>
@@ -253,9 +254,9 @@
                                                                </div>
                                                         </div>
                                                  </div>
-                                                 
-                                         </div>
-                                         
+
+                                          </div>
+
                                    </div>
                             </div>
                      </div>

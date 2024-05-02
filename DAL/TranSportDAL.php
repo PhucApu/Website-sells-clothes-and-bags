@@ -1,8 +1,8 @@
 <?php
 
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/TransportDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/TransportDTO.php');
 
 class TranSportDAL extends AbstractionDAL
 {

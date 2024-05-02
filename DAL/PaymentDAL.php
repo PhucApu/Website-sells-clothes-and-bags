@@ -1,8 +1,8 @@
 <?php
 
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/PaymentDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/PaymentDTO.php');
 
 class PaymentDAL extends AbstractionDAL
 {

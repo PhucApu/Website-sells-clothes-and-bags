@@ -14,6 +14,9 @@ class OrderDetailDTO
     // Thuộc tính cho số lượng sản phẩm trong đơn hàng
     private $quantity;
 
+    // size 
+    private $sizeCode;
+
     // Thuộc tính giá của từng sản phẩm
     private $priceProduct;
 
@@ -21,14 +24,24 @@ class OrderDetailDTO
     private $totalMoney;
 
     // Constructor
-    public function __construct($orderCode, $productCode, $nameProduct, $quantity, $priceProduct, $totalMoney)
+    public function __construct($orderCode, $productCode, $nameProduct, $quantity,$sizeCode, $priceProduct, $totalMoney)
     {
         $this->orderCode = $orderCode;
         $this->productCode = $productCode;
         $this->nameProduct = $nameProduct;
         $this->quantity = $quantity;
+        $this->sizeCode = $sizeCode;
         $this->priceProduct = $priceProduct;
         $this->totalMoney = $totalMoney;
+    }
+
+    // get set sizeCode
+    public function getSizeCode(){
+        return $this->sizeCode;
+    }
+
+    public function setSizeCode($sizeCode){
+        $this->sizeCode = $sizeCode;
     }
 
     // tinh tong chi tiet don hang

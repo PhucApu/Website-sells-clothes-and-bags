@@ -7,16 +7,16 @@ class FeedbackDTO
     private $sentDate;
     private $email;
     private $content;
-    private $state;
+    private $replay;
 
-    public function __construct($codeFeedback, $userName, $sentDate, $email, $content, $state)
+    public function __construct($codeFeedback, $userName, $sentDate, $email, $content, $replay)
     {
         $this->codeFeedback = $codeFeedback;
         $this->userName = $userName;
         $this->sentDate = $sentDate;
         $this->email = $email;
         $this->content = $content;
-        $this->state = $state;
+        $this->replay = $replay;
     }
 
     public function getCodeFeedback()
@@ -69,14 +69,14 @@ class FeedbackDTO
         $this->content = $content;
     }
 
-    public function getState()
+    public function getReplay()
     {
-        return $this->state;
+        return $this->replay;
     }
 
-    public function setState($state)
+    public function setReplay($replay)
     {
-        $this->state = $state;
+        $this->replay = $replay;
     }
 
     public function __toString()
@@ -86,7 +86,7 @@ class FeedbackDTO
         $output .= "Sent Date: " . $this->sentDate . "\n";
         $output .= "Email: " . $this->email . "\n";
         $output .= "Content: " . $this->content . "\n";
-        $output .= "State: " . $this->state . "\n";
+        $output .= "replay: " . $this->replay . "\n";
 
         return $output;
     }

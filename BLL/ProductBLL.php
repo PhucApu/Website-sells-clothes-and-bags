@@ -859,6 +859,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $temp = $check->getArrSizeCodeByProductCode($productCode);
                      echo json_encode($temp);
                      break;
+              case 'getArrObjProduct_by_ArrCodeProduct':
+                     $productCode = $_POST['code'];
+                     $arr = array();
+                     array_push($arr,$productCode);
+                     $temp = $check->getArrObjProduct_by_ArrCodeProduct($arr);
+                     echo json_encode($temp);
+                     break;
               case 'filter_product_best_selling':
                      $temp = $check->filter_product_best_selling();
                      echo json_encode($temp);

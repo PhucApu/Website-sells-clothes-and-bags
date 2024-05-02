@@ -175,6 +175,24 @@ class AccountBLL
                      return $result;
               }
        }
+       
+       // sửa một tài khoản
+       // input: các thuộc tính của account
+       // output: thông tin tài khoản sau khi sửa
+       function updateAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission){
+              $obj = new AccountDTO($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
+
+              $check = $this->AccountDAL->upadateObj($obj);
+              if($check == true){
+                     return array(
+                            "mess" => "success"
+                     );
+              }else{
+                     return array(
+                            "mess" => "failus"
+                     );
+              }
+       }
 
        // tự động logout khi người dùng thoát web đột ngột
        function logout_whenExitPage()
@@ -232,6 +250,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $sex = $_POST['sex'];
                      $codePermission = $_POST['codePermission'];
                      $temp = $check->addAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
+                     echo json_encode($temp);
+                     break;
+              case 'updateAccount':
+                     $userName = $_POST['userName'];
+                     $passWord = $_POST['passWord'];
+                     $dateCreate = $_POST['dateCreate'];
+                     $accountStatus = $_POST['accountStatus'];
+                     $name = $_POST['name'];
+                     $address = $_POST['address'];
+                     $email = $_POST['email'];
+                     $phoneNumber = $_POST['phoneNumber'];
+                     $birth = $_POST['birth'];
+                     $sex = $_POST['sex'];
+                     $codePermission = $_POST['codePermission'];
+                     $temp = $check->updateAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
                      echo json_encode($temp);
                      break;
        }

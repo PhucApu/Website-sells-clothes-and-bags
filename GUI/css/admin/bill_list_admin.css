@@ -34,9 +34,9 @@ html, body {margin: 0; height: 100%; overflow-x: hidden;}
     margin-right: 8px;  
 }
 
-.header-r-item {
+/* .header-r-item {
     
-}
+} */
 
 .header-r-item a{
     color: #007bff;
@@ -277,9 +277,14 @@ html, body {margin: 0; height: 100%; overflow-x: hidden;}
     text-decoration: none;
 }
 
-/* Admin list detail button */
-.admin-container-detail {
+.form-control{
+    padding: 1.15rem .75rem !important;
 }
+
+/* Admin list detail button */
+/* .admin-container-detail {
+
+} */
 .admin-container-detail span{
     font-weight: bold;
     line-height: 1.5;
@@ -348,13 +353,13 @@ html, body {margin: 0; height: 100%; overflow-x: hidden;}
     text-decoration: none;
 }
 
-.btn-table-safe {
+/* .btn-table-safe {
     
 }
 
 .admin-contact-noti {
     
-}
+} */
 
 .admin-contact-notiAccept {
     background-color: #28A745;

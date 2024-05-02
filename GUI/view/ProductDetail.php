@@ -10,6 +10,8 @@
        <link rel="stylesheet" href="../css/HomePage.css">
        <link rel="stylesheet" href="../css/Header.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -136,30 +138,107 @@
                             </div>
                             <div class="content-rev hiddenP">
                                 <h3>Review</h3>
-                                <p>Chưa có đánh giá cho sản phẩm.</p>
-                                <br>
-                                <p>Hãy trở thành người đầu tiên đánh giá “Super-soft wrap jumpsuit”</p>
-                                <p>Your email address will not be published. Required fields are marked *</p>
-                                <br>
-                                <form action="">
-                                    <p>
-                                        <label for="">Điểm đánh giá</label>
-                                    <div class="star">
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
+                                <div class="review">
+                                   <div class="item-review-container">
+                                        <div class="item-review">
+                                            <img src="../image/avt-review/male.png" alt="" class="avt">
+                                            <div class="main-review">
+                                                <div class="content-review">
+                                                    <p class="name-user">Tran Tien Phat</p>
+                                                    <div class="text-review">
+                                                        <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
+                                                    </div>
+                                                </div>
+                                                <div class="behavior">
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-up"></i>
+                                                        <span>10</span>
+                                                    </div>
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-down"></i>
+                                                        <span>3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
                                     </div>
-                                    </p>
-                                    <p>
-                                        <label for="">Điểm đánh giá *</label>
-                                        <textarea name="" id="" cols="45" rows="8" style="width: 875px; height: 56px;"></textarea>
-                                    </p>
-
-                                    <input type="submit" value="Submit">
-                                </form>
-
+                                    <div class="item-review-container">
+                                        <div class="item-review">
+                                            <img src="../image/avt-review/male.png" alt="" class="avt">
+                                            <div class="main-review">
+                                                <div class="content-review">
+                                                    <p class="name-user">Tran Tien Phat</p>
+                                                    <div class="text-review">
+                                                        <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
+                                                    </div>
+                                                </div>
+                                                <div class="behavior">
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-up"></i>
+                                                        <span>10</span>
+                                                    </div>
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-down"></i>
+                                                        <span>3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="item-review-container">
+                                        <div class="item-review">
+                                            <img src="../image/avt-review/female.png" alt="" class="avt">
+                                            <div class="main-review">
+                                                <div class="content-review">
+                                                    <p class="name-user">Tran Tien Phat</p>
+                                                    <div class="text-review">
+                                                        <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
+                                                    </div>
+                                                </div>
+                                                <div class="behavior">
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-up"></i>
+                                                        <span>10</span>
+                                                    </div>
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-down"></i>
+                                                        <span>3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="item-review-container">
+                                        <div class="item-review">
+                                            <img src="../image/avt-review/male.png" alt="" class="avt">
+                                            <div class="main-review">
+                                                <div class="content-review">
+                                                    <p class="name-user">Tran Tien Phat</p>
+                                                    <div class="text-review">
+                                                        <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
+                                                    </div>
+                                                </div>
+                                                <div class="behavior">
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-up"></i>
+                                                        <span>10</span>
+                                                    </div>
+                                                    <div>
+                                                        <i class="fa-solid fa-thumbs-down"></i>
+                                                        <span>3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="read-more hide-readmore ">
+                                    <span style="cursor: pointer;">Read More</span>
+                                </div>
                             </div>
                             <hr>
                         </div>

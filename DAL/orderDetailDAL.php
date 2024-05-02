@@ -59,10 +59,11 @@ class OrderDetailDAL extends AbstractionDAL
                             $nameProduct = $data['nameProduct'];
                             $priceProduct = $data['priceProduct'];
                             $quantity = $data['quantity'];
+                            $sizeCode = $data["sizeCode"];
                             $totalMoney = $data['totalMoney'];
 
                             // Tạo đối tượng OrderDetailDTO và thêm vào mảng
-                            $orderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $priceProduct, $quantity, $totalMoney);
+                            $orderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $quantity, $sizeCode,$priceProduct, $totalMoney);
                             array_push($array_list, $orderDetail);
                      }
                      return $array_list;
@@ -79,7 +80,7 @@ class OrderDetailDAL extends AbstractionDAL
               // do bảng không có khóa chính nên không thể lấy một đối tượng cụ thể theo khóa
        }
 
-       function getArrByCodeOrder($code)
+       function getArr_ByCodeOrder($code)
        {
               // Câu lệnh truy vấn
               $string = "SELECT * FROM orderDetail WHERE orderCode = '$code'";
@@ -95,10 +96,11 @@ class OrderDetailDAL extends AbstractionDAL
                             $nameProduct = $data["nameProduct"];
                             $priceProduct = $data["priceProduct"];
                             $quantity = $data["quantity"];
+                            $sizeCode = $data["sizeCode"];
                             $totalMoney = $data["totalMoney"];
 
                             // Tạo đối tượng OrderDetailDTO và trả về
-                            $orderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $priceProduct, $quantity, $totalMoney);
+                            $orderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $quantity, $sizeCode,$priceProduct, $totalMoney);
 
                             array_push($arr, $orderDetail);
                      }
@@ -126,10 +128,11 @@ class OrderDetailDAL extends AbstractionDAL
                             $nameProduct = $data["nameProduct"];
                             $priceProduct = $data["priceProduct"];
                             $quantity = $data["quantity"];
+                            $sizeCode = $data["sizeCode"];
                             $totalMoney = $data["totalMoney"];
 
                             // Tạo đối tượng OrderDetailDTO và trả về
-                            $orderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $priceProduct, $quantity, $totalMoney);
+                            $orderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $quantity, $sizeCode,$priceProduct, $totalMoney);
 
                             array_push($arr, $orderDetail);
                      }
@@ -156,9 +159,9 @@ class OrderDetailDAL extends AbstractionDAL
                             $priceProduct = $obj->getPriceProduct();
                             $quantity = $obj->getQuantity();
                             $totalMoney = $obj->getTotalMoney();
-
+                            $sizeCode = $obj->getSizeCode();
                             // Câu lệnh truy vấn
-                            $string = "INSERT INTO orderDetail (orderCode, productCode, nameProduct, priceProduct, quantity, totalMoney) VALUES ('$orderCode', '$productCode', '$nameProduct', $priceProduct, $quantity, $totalMoney)";
+                            $string = "INSERT INTO orderDetail (orderCode, productCode, nameProduct, priceProduct, quantity,sizeCode, totalMoney) VALUES ('$orderCode', '$productCode', '$nameProduct', $priceProduct, $quantity,$sizeCode, $totalMoney)";
 
                             return $this->actionSQL->query($string);
                      } else {
@@ -178,6 +181,7 @@ class OrderDetailDAL extends AbstractionDAL
                      $nameProduct = $obj->getNameProduct();
                      $priceProduct = $obj->getPriceProduct();
                      $quantity = $obj->getQuantity();
+                     $sizeCode = $obj->getSizeCode();
                      $totalMoney = $obj->getTotalMoney();
 
                      // Câu lệnh UPDATE
@@ -185,6 +189,7 @@ class OrderDetailDAL extends AbstractionDAL
                                  SET nameProduct = '$nameProduct', 
                                      priceProduct = $priceProduct, 
                                      quantity = $quantity, 
+                                     sizeCode = $sizeCode,
                                      totalMoney = $totalMoney 
                                  WHERE orderCode = '$orderCode' AND productCode = '$productCode'";
 

@@ -131,6 +131,52 @@ header .menubar .user-infor .user-name{
 
 
 
+.user  {
+       position: relative;
+}
+
+.menu-user {
+       display: none;
+       opacity: 0;
+       transition: 0.5s;
+       border: 1px solid #dbd6d6;
+       border-radius: 2px;
+       /* padding: 10px; */
+       z-index: 1000;
+       top: 31px;
+       position: absolute;
+       right: 0;
+       background-color: #fdfdfd;
+}
+
+.menu-user::before {
+       top: -14px;
+       position: absolute;
+       content: "";
+       display: block;
+       width: 123px;
+       height: 13px;
+}
+
+.menu-user a {
+       padding: 5px 25px;
+}
+
+header .menubar ul li:last-child:hover .menu-user{
+       display: block;
+       opacity: 1;
+       color: black;
+} 
+
+header .menubar ul li:last-child .menu-user a:hover {
+       color: var(--color-main);
+}
+
+
+
+
+
+
 
 
 
