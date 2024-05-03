@@ -85,13 +85,19 @@ USE  website_sells_clothes_and_bags;
 INSERT INTO accounts
        (userName, passWord, dateCreated, accountStatus, name, address, email, phoneNumber, birth, sex, codePermissions)
 VALUES
-       ('PhucApuTruong', '123456', '2024-03-14', '1', 'Trương Công Phúc', '123 Main St', 'truongphuc056@gmail.com', '0823072871', '2003-06-10', 'Male', 'admin'),
-       ('FatnotPhat', '123456', '2024-03-14', '1', 'Trần Tiến Phát', '123 Main St', 'Fat@gmail.com', '0823072871', '2003-01-01', 'Male', 'admin'),
-       ('JohnDoe', 'password123', '2024-03-15', '1', 'John Doe', '456 Elm St', 'john@example.com', '0823072871', '1990-05-20', 'Male', 'user'),
-       ('JaneSmith', 'qwerty', '2024-03-15', '1', 'Jane Smith', '789 Oak St', 'jane@example.com', '0823072871', '1985-08-10', 'Female', 'user'),
-       ('AliceJohnson', 'abcdef', '2024-03-16', '1', 'Alice Johnson', '1010 Pine St', 'alice@example.com', '0823072871', '1995-02-15', 'Female', 'user'),
-       ('BobBrown', 'hello123', '2024-03-16', '1', 'Bob Brown', '1212 Maple St', 'bob@example.com', '0823072871', '1988-11-25', 'Male', 'user'),
-       ('EmilyDavis', 'ilovecats', '2024-03-17', '1', 'Emily Davis', '1414 Cedar St', 'emily@example.com', '0823072871', '1992-04-30', 'Female', 'user');
+       ('UGh1Y0FwdVRydW9uZw==', 'MTIzNDU2', '2024-03-14', '1', 'Trương Công Phúc', '123 Main St', 'truongphuc056@gmail.com', '0823072871', '2003-06-10', 'Male', 'admin'),
+
+       ('QWxpY2VKb2huc29u', 'YWJjZGVm', '2024-03-16', '1', 'Alice Johnson', '1010 Pine St', 'alice@example.com', '0823072871', '1995-02-15', 'Female', 'user'),
+
+       ('RmF0bm90UGhhdA==', 'MTIzNDU2', '2024-03-14', '1', 'Trần Tiến Phát', '123 Main St', 'Fat@gmail.com', '0823072871', '2003-01-01', 'Male', 'admin'),
+       
+       ('Sm9obkRvZQ==', 'cGFzc3dvcmQxMjM=', '2024-03-15', '1', 'John Doe', '456 Elm St', 'john@example.com', '0823072871', '1990-05-20', 'Male', 'user'),
+       
+       ('SmFuZVNtaXRo', 'cXdlcnR5', '2024-03-15', '1', 'Jane Smith', '789 Oak St', 'jane@example.com', '0823072871', '1985-08-10', 'Female', 'user'),
+       
+       ('Qm9iQnJvd24=', 'aGVsbG8xMjM=', '2024-03-16', '1', 'Bob Brown', '1212 Maple St', 'bob@example.com', '0823072871', '1988-11-25', 'Male', 'user'),
+       
+       ('RW1pbHlEYXZpcw==', 'aWxvdmVjYXRz', '2024-03-17', '1', 'Emily Davis', '1414 Cedar St', 'emily@example.com', '0823072871', '1992-04-30', 'Female', 'user');
 
 -- check data table accounts
 USE  website_sells_clothes_and_bags;
@@ -562,31 +568,23 @@ FROM ShirtProduct
 
 
 
-
 -- data table comment
 USE  website_sells_clothes_and_bags;
 INSERT INTO Comment
        (codeComment,productCode, userNameComment, userNameRepComment, sentDate, content, state, likeNumber, dislikeNumber)
 VALUES
-       ('CM001', 'P001', 'JohnDoe', 'null', '2024-03-09', 'This is another comment.', '1', 8, 3),
-       ('CM002', 'P001', 'JaneSmith', 'null', '2024-03-10', 'Yet another comment.', '1', 15, 7),
-       ('CM003', 'P003', 'JohnDoe', 'null', '2024-03-11', 'One more comment.', '1', 12, 4),
-       ('CM004', 'P003', 'EmilyDavis', 'null', '2024-03-12', 'Comment number five.', '1', 20, 10),
-       ('CM005', 'P003', 'BobBrown', 'null', '2024-03-13', 'This is a comment.', '1', 10, 5),
-       ('CM006', 'P002', 'JohnDoe', 'null', '2024-03-14', 'This is a comment.', '1', 10, 5),
-       ('CM007', 'P002', 'JaneSmith', 'null', '2024-03-15', 'This is a comment.', '1', 10, 5),
-       ('CM008', 'P004', 'JohnDoe', 'null', '2024-03-16', 'This is a comment.', '1', 10, 5),
-       ('CM009', 'P004', 'JaneSmith', 'null', '2024-03-17', 'This is a comment.', '1', 10, 5),
-       ('CM010', 'P004', 'EmilyDavis', 'null', '2024-03-18', 'This is a comment.', '1', 10, 5),
-       ('CM011', 'P004', 'BobBrown', 'null', '2024-03-19', 'This is a comment.', '1', 10, 5),
-       ('CM012', 'P005', 'JohnDoe', 'null', '2024-03-20', 'This is a comment.', '1', 10, 5),
-       ('CM013', 'P005', 'JaneSmith', 'null', '2024-03-21', 'This is a comment.', '1', 10, 5),
-       ('CM014', 'P005', 'BobBrown', 'null', '2024-03-22', 'This is a comment.', '1', 10, 5),
-       ('CM015', 'P006', 'JohnDoe', 'null', '2024-03-23', 'This is a comment.', '1', 10, 5),
-       ('CM016', 'P006', 'JaneSmith', 'null', '2024-03-24', 'This is a comment.', '1', 10, 5),
-       ('CM017', 'P002', 'BobBrown', 'null', '2024-03-25', 'This is a comment.', '1', 10, 5),
-       ('CM018', 'P003', 'EmilyDavis', 'null', '2024-03-26', 'This is a comment.', '1', 10, 5),
-       ('CM019', 'P007', 'JohnDoe', 'null', '2024-03-27', 'This is a comment.', '1', 10, 5);
+       ('CM001', 'P001', 'Sm9obkRvZQ==', 'null', '2024-03-09', 'This is another comment.', '1', 8, 3),
+       ('CM002', 'P001', 'SmFuZVNtaXRo', 'null', '2024-03-10', 'Yet another comment.', '1', 15, 7),
+       ('CM003', 'P003', 'Sm9obkRvZQ==', 'null', '2024-03-11', 'One more comment.', '1', 12, 4),
+       ('CM004', 'P003', 'RW1pbHlEYXZpcw==', 'null', '2024-03-12', 'Comment number five.', '1', 20, 10),
+       ('CM005', 'P003', 'Qm9iQnJvd24=', 'null', '2024-03-13', 'This is a comment.', '1', 10, 5),
+       ('CM006', 'P002', 'Sm9obkRvZQ==', 'null', '2024-03-14', 'This is a comment.', '1', 10, 5),
+       ('CM007', 'P002', 'SmFuZVNtaXRo', 'null', '2024-03-15', 'This is a comment.', '1', 10, 5),
+       ('CM008', 'P004', 'Sm9obkRvZQ==', 'null', '2024-03-16', 'This is a comment.', '1', 10, 5),
+       ('CM009', 'P004', 'SmFuZVNtaXRo', 'null', '2024-03-17', 'This is a comment.', '1', 10, 5),
+       ('CM010', 'P004', 'RW1pbHlEYXZpcw==', 'null', '2024-03-18', 'This is a comment.', '1', 10, 5),
+       ('CM011', 'P004', 'Qm9iQnJvd24=', 'null', '2024-03-19', 'This is a comment.', '1', 10, 5),
+       ('CM012', 'P005', 'Qm9iQnJvd24=', 'null', '2024-03-20', 'This is a comment.', '1', 10, 5);
 
 -- check data table comment
 USE  website_sells_clothes_and_bags;
@@ -594,16 +592,17 @@ SELECT *
 FROM comment
 
 
+
 -- data table feedback
 USE  website_sells_clothes_and_bags;
 INSERT INTO feedback
        (codeFeedback,userName, sentDate, email, content, replay)
 VALUES
-       ('FB001', 'JohnDoe', '2024-03-08', 'john@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
-       ('FB002', 'JaneSmith', '2024-03-09', 'jane@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
-       ('FB003', 'AliceJohnson', '2024-03-10', 'alice@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
-       ('FB004', 'BobBrown', '2024-03-11', 'bob@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
-       ('FB005', 'EmilyDavis', '2024-03-12', 'emily@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you');
+       ('FB001', 'QWxpY2VKb2huc29u', '2024-03-08', 'john@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB002', 'QWxpY2VKb2huc29u', '2024-03-09', 'jane@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB003', 'QWxpY2VKb2huc29u', '2024-03-10', 'alice@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB004', 'QWxpY2VKb2huc29u', '2024-03-11', 'bob@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you'),
+       ('FB005', 'QWxpY2VKb2huc29u', '2024-03-12', 'emily@example.com', 'I really appreciate the service provided by your team. Keep up the good work!', 'Thank you');
 
 -- check data table feedback
 USE  website_sells_clothes_and_bags;
@@ -649,9 +648,9 @@ USE  website_sells_clothes_and_bags;
 INSERT INTO orders
        (orderCode, dateCreated, dateDelivery, dateFinish, userName, totalMoney, codePayments, codeTransport, status, note)
 VALUES
-       ('ORD001', '2024-03-01', '2024-03-05', '2024-03-06', 'PhucApuTruong', 150.00, 'PP001', 'EXP001', 'processing', 'Please ensure timely delivery.'),
-       ('ORD002', '2024-03-02', '2024-03-06', '2024-03-07', 'AliceJohnson', 170.00, 'VS002', 'STD002', 'processing', 'Customer requested expedited shipping.'),
-       ('ORD003', '2024-03-03', '2024-03-07', '2024-03-08', 'PhucApuTruong', 70.00, 'MC003', 'EXP001', 'completed', 'Delivered to the customer successfully.');
+       ('ORD001', '2024-03-01', '2024-03-05', '2024-03-06', 'UGh1Y0FwdVRydW9uZw==', 150.00, 'PP001', 'EXP001', 'processing', 'Please ensure timely delivery.'),
+       ('ORD002', '2024-03-02', '2024-03-06', '2024-03-07', 'QWxpY2VKb2huc29u', 170.00, 'VS002', 'STD002', 'processing', 'Customer requested expedited shipping.'),
+       ('ORD003', '2024-03-03', '2024-03-07', '2024-03-08', 'UGh1Y0FwdVRydW9uZw==', 70.00, 'MC003', 'EXP001', 'completed', 'Delivered to the customer successfully.');
 
 -- check data table orders
 USE  website_sells_clothes_and_bags;

@@ -80,7 +80,10 @@ class OrderDAL extends AbstractionDAL
                             $status = $data["status"];
                             $note = $data["note"];
 
-                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userName, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            // giải mã username
+                            $userNameValue = base64_decode($userName);
+
+                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                             $orders[] = $order;
                      }
                      return $orders;
@@ -93,8 +96,10 @@ class OrderDAL extends AbstractionDAL
        // lấy một mảng đối tượng hóa đơn dựa theo mã username
        function getListObj_by_UserName($username)
        {
+              // mã hóa username
+              $username_encode = base64_encode($username);
               // Câu lệnh truy vấn
-              $string = "SELECT * FROM orders WHERE userName = '$username'";
+              $string = "SELECT * FROM orders WHERE userName = '$username_encode'";
 
               // Thực hiện truy suất
               $result = $this->actionSQL->query($string);
@@ -114,7 +119,10 @@ class OrderDAL extends AbstractionDAL
                             $status = $data["status"];
                             $note = $data["note"];
 
-                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userName, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            // giải mã username
+                            $userNameValue = base64_decode($userName);
+
+                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                             $orders[] = $order;
                      }
                      return $orders;
@@ -148,8 +156,11 @@ class OrderDAL extends AbstractionDAL
                      $status = $data["status"];
                      $note = $data["note"];
 
+                     // giải mã username
+                     $userNameValue = base64_decode($userName);
+
                      // Tạo đối tượng OrderDTO và trả về
-                     $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userName, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                     $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                      return $order;
               } else {
                      // Trường hợp không có dữ liệu trả về
@@ -185,9 +196,13 @@ class OrderDAL extends AbstractionDAL
                             $status = $obj->getStatus();
                             $note = $obj->getNote();
 
+                            // mã hóa username
+                            
+                            $userName_encode = base64_encode($userName);
+
                             // Câu lệnh truy vấn để thêm đối tượng vào bảng orders
                             $insertQuery = "INSERT INTO orders (orderCode, dateCreated, dateDelivery, dateFinish, userName, totalMoney, codePayments, codeTransport, status, note) 
-                                         VALUES ('$orderCode', '$dateCreated', '$dateDelivery', '$dateFinish', '$userName', $totalMoney, '$codePayments', '$codeTransport', '$status', '$note')";
+                                         VALUES ('$orderCode', '$dateCreated', '$dateDelivery', '$dateFinish', '$userName_encode', $totalMoney, '$codePayments', '$codeTransport', '$status', '$note')";
 
                             // Thực hiện truy vấn
                             return $this->actionSQL->query($insertQuery);
@@ -217,12 +232,15 @@ class OrderDAL extends AbstractionDAL
                      $status = $obj->getStatus();
                      $note = $obj->getNote();
 
+                     // mã háo username
+                     $userName_encode = base64_encode($userName);
+
                      // Câu lệnh UPDATE
                      $query = "UPDATE orders 
                                SET dateCreated = '$dateCreated', 
                                    dateDelivery = '$dateDelivery', 
                                    dateFinish = '$dateFinish', 
-                                   userName = '$userName', 
+                                   userName = '$userName_encode', 
                                    totalMoney = $totalMoney, 
                                    codePayments = '$codePayments', 
                                    codeTransport = '$codeTransport', 

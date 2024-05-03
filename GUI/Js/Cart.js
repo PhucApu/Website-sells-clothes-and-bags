@@ -205,6 +205,20 @@ async function showCart() {
                             // nếu không có sản phẩm -> hiện thông báo vỏ hàng trống
                             let warning_empty_cart = document.getElementById('warning-empty');
                             warning_empty_cart.classList.remove('empty_status_off');
+
+                            // nếu không có sản phẩm -> không cho qua trang checkout.php
+                            
+                            // hiện thông báo khi click vòa nút checkout
+                            document.getElementById('check_out_action').onclick = async function (event){
+                                   event.preventDefault();
+                                   await Swal.fire({
+                                          position: "center",
+                                          icon: "info",
+                                          title: "Cart is empty! You need to buy the product to go through checkout."
+                                   });
+                                   window.location.href = "../../GUI/view/Shop.php";
+                            }
+                            
                      } else {
                             let warning_empty_cart = document.getElementById('warning-empty');
                             warning_empty_cart.classList.add('empty_status_off');

@@ -1,4 +1,4 @@
-async function getInfor() {
+async function getInfor_1() {
         try {
                 const response = await fetch('../../BLL/AccountBLL.php', {
                         method: 'POST',
@@ -16,7 +16,7 @@ async function getInfor() {
 
                         // showInfor(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.sex);
                         // await getArrOrder(result.userName);
-                        // return result.userName;
+                        return result.userName;
                 } else {
                         window.location.href = "../../GUI/view/Login.php";
                 }
@@ -33,7 +33,7 @@ async function getArrOrderDetail_1() {
                 // Lấy giá trị của tham số 'code' từ URL hiện tại
                 let codeOrderValue = urlParams.get('orderCode');
                 let status = urlParams.get('status');
-                if (codeOrderValue != null && (status == 'processing' || status == 'complete' || status == 'reject' )) {
+                if (codeOrderValue != null && (status == 'processing' || status == 'completed' || status == 'rejected')) {
                         const response = await fetch('../../BLL/OrderBLL.php', {
                                 method: 'POST',
                                 headers: {
@@ -46,10 +46,10 @@ async function getArrOrderDetail_1() {
                                 for (let i of data) {
                                         console.log(data);
                                         // await getProductDetail(i.productCode);
-                                        
+
                                 }
-                                await showDataTable(data,codeOrderValue,status);
-                                
+                                await showDataTable(data, codeOrderValue, status);
+
                         } else {
                                 await Swal.fire({
                                         icon: "error",
@@ -93,8 +93,9 @@ async function getProductDetail_1(productCode) {
         }
 }
 
-async function showDataTable(data,orderCode,status){
+async function showDataTable(data, orderCode, status) {
         let count = 0;
+        let username = await getInfor_1();
         let container = document.getElementById('content-data-orderDetail');
         let container2 = document.querySelector('.box-review');
         let container3 = document.querySelector('.head-order');
@@ -103,8 +104,8 @@ async function showDataTable(data,orderCode,status){
                 <p>${status}</p>
         `;
         let result = '';
-        let result2= '';
-        for(let item of data){
+        let result2 = '';
+        for (let item of data) {
                 count += 1;
                 let productCode = item.productCode;
                 let quantity = item.quantity;
@@ -113,7 +114,7 @@ async function showDataTable(data,orderCode,status){
                 // lấy chi tiết sản phẩm
                 let obj = await getProductDetail_1(productCode);
 
-                if(obj != null){
+                if (obj != null) {
                         let nameProduct = obj.nameProduct;
                         let stringImg = obj.imgProduct
                         let arrImg = stringImg.split(' ');
@@ -133,7 +134,7 @@ async function showDataTable(data,orderCode,status){
                         result += string;
 
                         let string2 = `
-                                <div>
+                                <div id="container-${orderCode}-${productCode}">
                                         <h2>Review</h2>
                                         <div class="box-product-review">
                                                 <div class="product-img-name">
@@ -141,8 +142,8 @@ async function showDataTable(data,orderCode,status){
                                                         <img src="${firstImg}" alt="">
                                                 </div>
                                                 <div class="input-review">
-                                                        <textarea rows="10" cols="60" placeholder="Write something....."></textarea>
-                                                        <div><a href="#!">Send</a></div>
+                                                        <textarea id="${orderCode}-${productCode}" rows="10" cols="60" placeholder="Write something....."></textarea>
+                                                        <div><a href="#!" onclick = "sendComment(event,'${productCode}','${username}','${orderCode}-${productCode}')">Send</a></div>
                                                 </div>
                                         </div>
                                 </div>
@@ -154,6 +155,49 @@ async function showDataTable(data,orderCode,status){
         container2.innerHTML = result2;
 }
 
+async function sendComment(event,productCode, username, idTextArea) {
+        event.preventDefault();
+        try {
+                let content = document.getElementById(idTextArea).value;
+
+                if (content != '') {
+                        const response = await fetch('../../BLL/CommentBLL.php', {
+                                method: 'POST',
+                                headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                body: 'function=' + encodeURIComponent('addObj') + '&producCode=' + encodeURIComponent(productCode) + '&username=' + encodeURIComponent(username) + '&usernameRep=' + encodeURIComponent("null") + '&content=' + encodeURIComponent(content) + '&state=' + encodeURIComponent("1") + '&dislikeNumber=' + encodeURIComponent(0) + '&likeNumber=' + encodeURIComponent(0)
+                        });
+                        const data = await response.json();
+                        if (data.mess == "success") {
+                                await Swal.fire({
+                                        position: "center",
+                                        icon: "success",
+                                        title: "Thank you for your review of the product",
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                });
+                                document.getElementById("container-" + idTextArea).style.display = 'none';
+                        } else {
+                                await Swal.fire({
+                                        position: "center",
+                                        icon: "error",
+                                        title: "Submit review failed",
+                                });
+                        }
+                } else {
+                        await Swal.fire({
+                                position: "center",
+                                icon: "info",
+                                title: "You must fill out a product review",
+                        });
+                }
+        } catch (error) {
+                console.error(error)
+        }
+
+
+}
 
 
 
@@ -186,7 +230,7 @@ function action() {
 window.addEventListener('load', async function () {
         // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
         console.log('Trang chi tiết hóa đơn đã load hoàn toàn');
-        await getInfor();
+        // await getInfor();
         await getArrOrderDetail_1();
         action();
 

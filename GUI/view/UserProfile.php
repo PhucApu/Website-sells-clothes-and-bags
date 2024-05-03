@@ -13,6 +13,9 @@
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+       <!-- thư viện dùng cho alert -->
+       <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
        <style>
               <?php
               require('../css/Header.css');
@@ -37,7 +40,7 @@
                             </div>
                      </div>
                      <div class="main-content">
-                            <div class="container-main-content">
+                            <div style="margin-bottom: 70px;" class="container-main-content">
                                    <div class="content-left">
                                           <!-- Ten nguoi dung -->
                                           <div class="user-infor-left">
@@ -47,7 +50,7 @@
                                           <hr>
                                           <ul class="user-menu-main">
                                                  <li class="menu-active"><i class="fa-regular fa-id-badge"></i>Profile</li>
-                                                 <li><i class="fa-solid fa-key"></i>Change Password</li>
+                                                 <li id="change-password"><i class="fa-solid fa-key"></i>Change Password</li>
                                                  <li><i class="fa-solid fa-cart-shopping"></i>Order</li>
                                           </ul>
                                    </div>
@@ -66,7 +69,7 @@
                                                         <input type="text" id="name" name="name" value="Alice Johnson">
                                                  </div>
                                                  <div class="item-my-profile">
-                                                        <label for="email">Email:</label>
+                                                        <label for="email">Gmail:</label>
                                                         <input type="email" id="email" name="email" value="alice@example.com">
                                                  </div>
                                                  <div class="item-my-profile">
@@ -76,6 +79,10 @@
                                                  <div class="item-my-profile">
                                                         <label for="phonenumber">Phone Number:</label>
                                                         <input type="text" id="phonenumber" name="phonenumber" value="0823072871">
+                                                 </div>
+                                                 <div class="item-my-profile">
+                                                        <label for="datecreate">BirthDay: </label>
+                                                        <input type="date" id="datebirth" name="birthday" value="1995-02-15">
                                                  </div>
                                                  <div class="item-my-profile">
                                                         <label for="datecreate">Date Create:</label>
@@ -94,7 +101,7 @@
                                                                </div>
                                                         </div>
                                                  </div>
-                                                 <input type="submit" class="save-profile-btn" value="Save"></input>
+                                                 <input style="margin-top: 40px;" id="save-infor-change" onclick="save_change_infor(event)" type="submit" class="save-profile-btn" value="Save"></input>
 
 
                                           </form>
@@ -108,7 +115,7 @@
                                           <form class="content-main-right">
                                                  <div class="item-my-password">
                                                         <label for="currentpassword">Current Password:</label>
-                                                        <input type="password" id="currentpassword" name="currentpassword" value="abcdef">
+                                                        <input type="password" id="currentpassword" name="currentpassword" value="asdasdasdasdasd" disabled>
                                                  </div>
                                                  <div class="item-my-password">
                                                         <label for="newpassword">New Password:</label>
@@ -118,7 +125,7 @@
                                                         <label for="confirmpassword">Confirm Password:</label>
                                                         <input type="password" id="confirmpassword" name="confirmpassword" value="">
                                                  </div>
-                                                 <input type="submit" class="save-password-btn" value="Save"></input>
+                                                 <input id="save-password-change" type="submit" class="save-password-btn" value="Save"></input>
 
 
                                           </form>
@@ -268,6 +275,9 @@
 
        <script src="../Js/Header.js?v=<?php echo $version ?>"></script>
        <script src="../Js/UserProfile.js?v=<?php echo $version ?>"></script>
+
+       <!-- thư viện dùng cho alert -->
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>

@@ -14,10 +14,11 @@ async function getInfor() {
         console.log(result);
 
         if (result.result == 'success') {
-            
-            showInfor(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.sex);
+
+            showInfor(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.birth, result.sex);
             await getArrOrder(result.userName);
-            // return result.userName;
+            save_change_password(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.birth, result.sex);
+
         } else {
             window.location.href = "../../GUI/view/Login.php";
         }
@@ -27,7 +28,7 @@ async function getInfor() {
 }
 
 
-function showInfor(username, password, name, email, address, phone, dateCreate, sex) {
+function showInfor(username, password, name, email, address, phone, dateCreate, dateBirth, sex) {
     console.log(username);
     // username
     let userNameElement = document.getElementById('user-name');
@@ -64,6 +65,12 @@ function showInfor(username, password, name, email, address, phone, dateCreate, 
         phoneInput.value = `${phone}`;
     }
 
+    // date birth
+    let dateBirthInput = document.getElementById('datebirth');
+    if (dateBirthInput !== null) {
+        dateBirthInput.value = `${dateBirth}`;
+    }
+
     // date create
     let dateCreateInput = document.getElementById('datecreate');
     if (dateCreateInput !== null) {
@@ -77,32 +84,39 @@ function showInfor(username, password, name, email, address, phone, dateCreate, 
         if (sex == "Female") {
             sexSelectElement.innerHTML = `
                         <div class="male-sex">
-                            <input type="radio" id="male" name="sex">
+                            <input type="radio" value="Male" id="male" name="sex">
                             <label for="male">Male</label>
                         </div>
                         <div class="female-sex">
-                            <input type="radio" id="female" name="sex" checked>
+                            <input type="radio" id="female" value="Female" name="sex" checked>
                             <label for="female">Female</label>
                         </div>
             `;
         } else {
             sexSelectElement.innerHTML = `
                     <div class="male-sex">
-                        <input type="radio" id="male" name="sex" checked>
+                        <input type="radio" id="male" value="Male" name="sex" checked>
                         <label for="male">Male</label>
                     </div>
                     <div class="female-sex">
-                        <input type="radio" id="female" name="sex" >
+                        <input type="radio" id="female" value="Female" name="sex" >
                         <label for="female">Female</label>
                     </div>
             `;
         }
     }
 
-    // current password
-    let currentPasswordInput = document.getElementById('currentpassword');
-    if (currentPasswordInput !== null) {
-        currentPasswordInput.value = password;
+    showPassWord(password);
+}
+
+function showPassWord(passWord) {
+
+    document.getElementById('change-password').onclick = function () {
+        let currentPasswordInput = document.getElementById('currentpassword');
+        if (currentPasswordInput !== null) {
+            currentPasswordInput.value = passWord;
+            console.log(passWord);
+        }
     }
 }
 
@@ -123,6 +137,218 @@ function showInfor(username, password, name, email, address, phone, dateCreate, 
 //     }
 // });
 
+// lấy password cũ
+async function getPassWord() {
+    try {
+        const response = await fetch('../../BLL/AccountBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('checkLogin')
+        });
+        const data = await response.json();
+        let result = data[0];
+        // console.log(result);
+
+        if (result.result == 'success') {
+            return result.passWord;
+        } else {
+            window.location.href = "../../GUI/view/Login.php";
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// hàm save thông tin khi thay đổi
+async function save_change_infor(event) {
+    event.preventDefault();
+
+    try {
+
+        let userName = document.getElementById('username').value;
+        let passWord = await getPassWord();
+        let name = document.getElementById('name').value;
+        let email = document.getElementById('email').value;
+        let address = document.getElementById('address').value;
+        let phoneNumber = document.getElementById('phonenumber').value;
+        let datebirth = document.getElementById('datebirth').value;
+        let dateCreate = document.getElementById('datecreate').value;
+
+        // lấy lựa chọn giới tính
+        // Lấy tất cả các radio button trong nhóm 'sex'
+        let radios = document.querySelectorAll('input[name="sex"]');
+
+        // Duyệt qua từng radio button và kiểm tra xem nó có được chọn không
+        let sex = '';
+        radios.forEach(radio => {
+            if (radio.checked) {
+                // Nếu radio button được chọn, lấy giá trị của label tương ứng
+                sex = radio.value;
+            }
+        });
+
+        if (name != '' && address != '' && isValidGmail(email) == true && isValidPhoneNumber(phoneNumber) == true) {
+            console.log(userName, passWord, email, address, phoneNumber, dateCreate, sex);
+
+            const response = await fetch('../../BLL/AccountBLL.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:
+                    'function=' + encodeURIComponent('updateAccount') + '&userName=' + encodeURIComponent(userName) + '&passWord=' + encodeURIComponent(passWord) + '&dateCreate=' + encodeURIComponent(dateCreate) + '&accountStatus=' + encodeURIComponent('1') + '&name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address) + '&email=' + encodeURIComponent(email) + '&phoneNumber=' + encodeURIComponent(phoneNumber) + '&birth=' + encodeURIComponent(datebirth) + '&sex=' + encodeURIComponent(sex) + '&codePermission=' + encodeURIComponent('user')
+            });
+            const data = await response.json();
+
+            // thiết lập thông tin mới cho bên thay đổi mật khẩu.
+            save_change_password(userName, passWord, name, email, address, phoneNumber, dateCreate, datebirth, sex);
+            // console.log(result);
+
+            if (data.mess == 'success') {
+                await Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Successful change! You need to log back in so the information displayed can be updated.",
+                });
+                // gọi đăng xuất
+                try {
+                    const response = await fetch('../../BLL/AccountBLL.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'function=' + encodeURIComponent('logout_whenExitPage')
+                    });
+                    const data = await response.json();
+
+                    if (data.length == 0) {
+                        window.location.href = "../../GUI/view/login.php";
+                    }
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+
+            } else {
+                await Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Update failed!",
+                });
+            }
+        } else {
+            await Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Need to enter the correct required format!",
+            });
+        }
+
+
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+//hàm save mật khẩu thay đổi
+function save_change_password(username, password, name, email, address, phone, dateCreate, dateBirth, sex) {
+    document.getElementById('save-password-change').onclick = async function (event) {
+        event.preventDefault();
+        let newpassword = document.getElementById('newpassword').value;
+        let confirmpassword = document.getElementById('confirmpassword').value;
+
+        if (isVaidPassword(newpassword) == true && isVaidPassword(confirmpassword) == true) {
+            if (newpassword === confirmpassword) {
+
+                const response = await fetch('../../BLL/AccountBLL.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body:
+                        'function=' + encodeURIComponent('updateAccount') + '&userName=' + encodeURIComponent(username) + '&passWord=' + encodeURIComponent(newpassword) + '&dateCreate=' + encodeURIComponent(dateCreate) + '&accountStatus=' + encodeURIComponent('1') + '&name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address) + '&email=' + encodeURIComponent(email) + '&phoneNumber=' + encodeURIComponent(phone) + '&birth=' + encodeURIComponent(dateBirth) + '&sex=' + encodeURIComponent(sex) + '&codePermission=' + encodeURIComponent('user')
+                });
+                const data = await response.json();
+                if (data.mess == 'success') {
+                    await Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Successful change! You need to log back in so the information displayed can be updated.",
+                    });
+                    // gọi đăng xuất
+                    try {
+                        const response = await fetch('../../BLL/AccountBLL.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: 'function=' + encodeURIComponent('logout_whenExitPage')
+                        });
+                        const data = await response.json();
+
+                        if (data.length == 0) {
+                            window.location.href = "../../GUI/view/login.php";
+                        }
+
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+
+                } else {
+                    await Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Update failed!",
+                    });
+                }
+
+
+            } else {
+                await Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Confirmation password does not match !",
+                });
+            }
+        } else {
+            await Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Need to enter the correct required format!",
+            });
+        }
+    }
+}
+
+// kiểm tra mật khẩu
+function isVaidPassword(passWord) {
+    var passwordRegex = /^[a-zA-Z\d@_-]{6,20}$/;
+    return passwordRegex.test(passWord);
+}
+
+// check format email
+function isValidGmail(email) {
+    // Biểu thức chính quy để kiểm tra định dạng
+    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail.com$/;
+
+    // Sử dụng test() để kiểm tra email với biểu thức chính quy
+    return gmailRegex.test(email);
+}
+// check phonenumber
+function isValidPhoneNumber(phoneNumber) {
+    // Sử dụng biểu thức chính quy để kiểm tra số điện thoại
+    const isVNPhoneMobile =
+        /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
+
+    // Kiểm tra xem số điện thoại phù hợp với biểu thức chính quy không
+    return isVNPhoneMobile.test(phoneNumber);
+}
+
+
 // get hóa đơn của người dùng đó
 async function getArrOrder(username) {
     try {
@@ -134,76 +360,94 @@ async function getArrOrder(username) {
             body: 'function=' + encodeURIComponent('getArrOrder_by_Username') + '&username=' + encodeURIComponent(username)
         });
         const data = await response.json();
-        if(data.length > 0){
-            
-            for(let i of data){
-                console.log(data);
-                await getArrOrderDetail(i.orderCode,data);
-            }    
-            return data;
-        }else{
+        if (data.length > 0) {
+
+            for (let item of data) {
+                // console.log(data);
+                // await getArrOrderDetail(i.orderCode, data);
+            }
+            await getArrOrderDetail(data);
+            // return data;
+        } else {
             return null;
         }
-        
-        
+
+
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-async function getArrOrderDetail(orderCode,dataOrders) {
-    try {
-        const response = await fetch('../../BLL/OrderBLL.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'function=' + encodeURIComponent('getArrOrderDetail_by_orderCode') + '&orderCode=' + encodeURIComponent(orderCode)
-        });
-        const data = await response.json();
-        if(data.length > 0){
-            for(let i of data){
-                console.log(data);
-                await getProductDetail(i.productCode,dataOrders,data);
-            }  
-            // return data;
-        }else{
-            return null;
+async function getArrOrderDetail(dataOrders) {
+    let dataOrderDetails = [];
+    for (let i of dataOrders) {
+        try {
+            const response = await fetch('../../BLL/OrderBLL.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'function=' + encodeURIComponent('getArrOrderDetail_by_orderCode') + '&orderCode=' + encodeURIComponent(i.orderCode)
+            });
+            const data = await response.json();
+            if (data.length > 0) {
+                for (let item of data) {
+                    // console.log(data);
+                    // await getProductDetail(i.productCode, dataOrders, data);
+                    dataOrderDetails.push(item);
+                }
+
+                // return data;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
-    } catch (error) {
-        console.error('Error:', error);
     }
+    await getProductDetail(dataOrders, dataOrderDetails);
+
 }
-async function getProductDetail(productCode,dataOrders,dataOrderDetails){
-    try {
-        const response = await fetch('../../BLL/ProductBLL.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'function=' + encodeURIComponent('getArrObjProduct_by_ArrCodeProduct') + '&code=' + encodeURIComponent(productCode)
-        });
-        const data = await response.json();
-        
-        if(data != null){
-            console.log(data);
-            showOrder(dataOrders,dataOrderDetails,data);
-            // return data;
-        }else {
-            return null
+async function getProductDetail(dataOrders, dataOrderDetails) {
+    let dataProducts = [];
+    for (let i of dataOrderDetails) {
+        let productCode = i.productCode;
+        try {
+            const response = await fetch('../../BLL/ProductBLL.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'function=' + encodeURIComponent('getArrObjProduct_by_ArrCodeProduct') + '&code=' + encodeURIComponent(productCode)
+            });
+            const data = await response.json();
+
+            if (data != null) {
+                // console.log(data);
+                // showOrder(dataOrders, dataOrderDetails, data);
+                for(let item of data){
+                    dataProducts.push(item);
+                }
+                // return data;
+            } else {
+                return null
+            }
+
+
+        } catch (error) {
+            console.error('Error:', error);
         }
-
-
-    } catch (error) {
-        console.error('Error:', error);
     }
+    showOrder(dataOrders,dataOrderDetails,dataProducts);
+
 }
 
-function showOrder(dataOrders,dataOrderDetails,dataProducts) {
+function showOrder(dataOrders, dataOrderDetails, dataProducts) {
 
+    console.log(dataOrders,dataOrderDetails,dataProducts);
     let container = document.getElementById('content-order');
     let result = '';
-    for(let order of dataOrders){
+    for (let order of dataOrders) {
         let orderCode = order.orderCode;
         let status = order.status;
         let totalMoney = order.totalMoney;
@@ -211,8 +455,8 @@ function showOrder(dataOrders,dataOrderDetails,dataProducts) {
         let dataFinish = order.dateFinish;
         let first_orderDetail_productCode = '';
         let first_orderDetail_quantity = '';
-        for(let orderDetail of dataOrderDetails){
-            if(orderDetail.orderCode == orderCode){
+        for (let orderDetail of dataOrderDetails) {
+            if (orderDetail.orderCode == orderCode) {
                 first_orderDetail_productCode = orderDetail.productCode;
                 first_orderDetail_quantity = orderDetail.quantity;
                 break;
@@ -222,8 +466,8 @@ function showOrder(dataOrders,dataOrderDetails,dataProducts) {
         let img = '';
         let price = '';
         let promotion = '';
-        for(let product of dataProducts){
-            if(product.productCode == first_orderDetail_productCode){
+        for (let product of dataProducts) {
+            if (product.productCode == first_orderDetail_productCode) {
                 nameProduct = product.nameProduct;
                 let stringImg = product.imgProduct;
                 let arrImg = stringImg.split(' ');
@@ -233,7 +477,7 @@ function showOrder(dataOrders,dataOrderDetails,dataProducts) {
                 break;
             }
         }
-        if(promotion > 0){
+        if (promotion > 0) {
             let string = `
                     <div class="item-order">
                     <div class="order-start">
@@ -267,8 +511,8 @@ function showOrder(dataOrders,dataOrderDetails,dataProducts) {
                     </div>
                 </div>
                 `;
-                result += string;
-        }else{
+            result += string;
+        } else {
             let string = `
                     <div class="item-order">
                     <div class="order-start">
@@ -302,9 +546,9 @@ function showOrder(dataOrders,dataOrderDetails,dataProducts) {
                     </div>
                 </div>
                 `;
-                result += string;
+            result += string;
         }
-        
+
     }
     container.innerHTML = result;
 }

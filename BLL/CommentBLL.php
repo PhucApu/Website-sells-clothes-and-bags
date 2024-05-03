@@ -16,6 +16,40 @@ class CommentBLL
               $this->CommentDAL = new CommentDAL();
        }
 
+       // thêm một bình luận
+       // input: các thuộc tính cần thiết
+       // ouput: mảng chứa thông tin đối tượng kèm thông báo
+       function addObj($productCode, $userNameComment, $userNameRepComment, $content, $state, $dislikeNumber, $likeNumber)
+       {
+              // tạo mã hóa đơn ngẫu nhiên
+              // Tạo chuỗi 'ORD' cố định
+              $commentPrefix = 'CM';
+
+              // Tạo một số duy nhất dựa trên thời gian hiện tại và số ngẫu nhiên
+              $commentNumber = uniqid();
+
+              // Kết hợp chuỗi 'ORD' với số duy nhất để tạo ra chuỗi hoàn chỉnh
+              $commentCode = $commentPrefix . $commentNumber;
+
+              // lấy các thông tin khác
+              $dateSend = date('Y-m-d');
+
+              $obj = new CommentDTO($commentCode,$productCode,$userNameComment,$userNameRepComment,$dateSend,$content,$state,$likeNumber,$dislikeNumber);
+              $check = $this->CommentDAL->addObj($obj);
+
+              if($check == true){
+                     return array(
+                            "mess" => "success"
+                     );
+              }else{
+                     return array(
+                            "mess" => "failed"
+                     );
+              }
+
+              
+       }
+
        // lấy mảng đối tượng Comment
        function getArrObj()
        {
@@ -102,7 +136,8 @@ class CommentBLL
               return array("mess" => "Not Found");
        }
 
-       function updateStateObj($code, $state){
+       function updateStateObj($code, $state)
+       {
               $result = $this->CommentDAL->updateState($code, $state);
               if ($result) {
                      return array("mess" => "success");
@@ -155,7 +190,7 @@ class CommentBLL
                             $content = $item->getContent();
                             $sentDate = $item->getSentDate();
                             $state = $item->getState();
-                            
+
                             if (
                                    strpos($productCode, $str) !== false ||
                                    strpos($codeComment, $str) !== false ||
@@ -232,7 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $temp = $check->updateObj($obj);
                      echo json_encode($temp);
                      break;
-              
+
               case 'updateStateObj':
                      $codeComment = $_POST['codeComment'];
                      $state = $_POST['state'];
@@ -244,6 +279,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               case 'searchComments':
                      $str = $_POST['str'];
                      $temp = $check->searchComments($str);
+                     echo json_encode($temp);
+                     break;
+              case 'addObj':
+                     $productCode = $_POST['producCode'];
+                     $userNameComment = $_POST['username'];
+                     $userNameRepComment = $_POST['usernameRep'];
+                     $content = $_POST['content'];
+                     $state = $_POST['state'];
+                     $dislikeNumber = $_POST['dislikeNumber'];
+                     $likeNumber = $_POST['likeNumber'];
+                     $temp = $check->addObj($productCode,$userNameComment,$userNameRepComment,$content,$state,$dislikeNumber,$likeNumber);
                      echo json_encode($temp);
                      break;
        }

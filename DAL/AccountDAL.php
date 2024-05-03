@@ -24,15 +24,15 @@ class AccountDAL extends AbstractionDAL
               $check_data_Feedback = "SELECT * FROM feedback WHERE userName = '$code'";
               $check_data_Comment = "SELECT * FROM comment WHERE userNameComment = '$code'";
               $check_data_Orders = "SELECT * FROM orders WHERE userName = '$code'";
-              $check_data_EnterBallot = "SELECT * FROM enterballot WHERE userName = '$code'";
+              
 
               $resutl_1 = $this->actionSQL->query($check_data_Feedback);
               $resutl_2 = $this->actionSQL->query($check_data_Comment);
               $resutl_3 = $this->actionSQL->query($check_data_Orders);
-              $resutl_4 = $this->actionSQL->query($check_data_EnterBallot);
+              
 
               // nếu tất cả các câu lệnh truy suất cho ra số dòng truy suất đều = 0 --> thỏa
-              if ($resutl_1->num_rows < 1 && $resutl_2->num_rows < 1 && $resutl_3->num_rows < 1 && $resutl_4->num_rows < 1) {
+              if ($resutl_1->num_rows < 1 && $resutl_2->num_rows < 1 && $resutl_3->num_rows < 1) {
 
                      $string = "DELETE FROM accounts WHERE userName = '$code' ";
                      // thuc hien truy suat
@@ -53,15 +53,15 @@ class AccountDAL extends AbstractionDAL
                      $check_data_Feedback = "SELECT * FROM feedback WHERE userName = '$code'";
                      $check_data_Comment = "SELECT * FROM comment WHERE userNameComment = '$code'";
                      $check_data_Orders = "SELECT * FROM orders WHERE userName = '$code'";
-                     $check_data_EnterBallot = "SELECT * FROM enterballot WHERE userName = '$code'";
+                     
 
                      $resutl_1 = $this->actionSQL->query($check_data_Feedback);
                      $resutl_2 = $this->actionSQL->query($check_data_Comment);
                      $resutl_3 = $this->actionSQL->query($check_data_Orders);
-                     $resutl_4 = $this->actionSQL->query($check_data_EnterBallot);
+                    
 
                      // nếu tất cả các câu lệnh truy suất cho ra số dòng truy suất đều = 0 --> thỏa
-                     if ($resutl_1->num_rows < 1 && $resutl_2->num_rows < 1 && $resutl_3->num_rows < 1 && $resutl_4->num_rows < 1) {
+                     if ($resutl_1->num_rows < 1 && $resutl_2->num_rows < 1 && $resutl_3->num_rows < 1) {
 
                             $string = "DELETE FROM accounts WHERE userName = '$code' ";
                             // thuc hien truy suat
@@ -101,7 +101,12 @@ class AccountDAL extends AbstractionDAL
                             $birth = $data["birth"];
                             $sex = $data["sex"];
                             $codePermission = $data["codePermissions"];
-                            $account = new AccountDTO($userName, $passWord, $dateCreated, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
+
+                            // giải mã hóa username và password
+                            $userNameValue = base64_decode($userName);
+                            $passWordValue = base64_decode($passWord);
+
+                            $account = new AccountDTO($userNameValue, $passWordValue, $dateCreated, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
                             array_push($array_list, $account);
                      }
                      return $array_list;
@@ -115,8 +120,11 @@ class AccountDAL extends AbstractionDAL
        // lấy ra một đối tượng dựa theo mã đối tượng
        function getobj($code)
        {
+              // mã hóa rồi mới truy suất
+              $userName_encode = base64_encode($code);
+
               // cau lenh truy vấn
-              $string = "SELECT * FROM accounts WHERE userName = '$code'";
+              $string = "SELECT * FROM accounts WHERE userName = '$userName_encode'";
               // thuc hien truy suat
               $result = $this->actionSQL->query($string);
 
@@ -134,7 +142,11 @@ class AccountDAL extends AbstractionDAL
                      $sex = $data["sex"];
                      $codePermission = $data["codePermissions"];
 
-                     $account = new AccountDTO($userName, $passWord, $dateCreated, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
+                     // giải mã hóa username và password
+                     $userNameValue = base64_decode($userName);
+                     $passWordValue = base64_decode($passWord);
+
+                     $account = new AccountDTO($userNameValue, $passWordValue, $dateCreated, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
 
                      return $account;
               } else {
@@ -149,8 +161,13 @@ class AccountDAL extends AbstractionDAL
        {
               if ($obj != null) {
                      $userName = $obj->getUsername();
+
+                     // mã hóa rồi mới truy suất
+                     $userName_encode = base64_encode($userName);
+                     
+
                      // kiểm tra xem có bị trùng thuọc tính khóa không
-                     $check = "SELECT * FROM accounts WHERE userName = '$userName'";
+                     $check = "SELECT * FROM accounts WHERE userName = '$userName_encode'";
                      $resultCheck = $this->actionSQL->query($check);
 
                      if ($resultCheck->num_rows < 1) {
@@ -165,9 +182,12 @@ class AccountDAL extends AbstractionDAL
                             $sex = $obj->getSex();
                             $codePermission = $obj->getCodePermission();
 
+                            // mã hóa password
+                            $passWord_encode = base64_encode($passWord);
+
                             // cau lenh truy vấn
                             // INSERT IGNORE: nếu gặp trùng lắp khóa chính thì nó sẽ không thêm dữ liệu vào 
-                            $string = "INSERT INTO accounts (userName, passWord, dateCreated, accountStatus, name, address, email, phoneNumber, birth, sex, codePermissions) VALUES ('$userName', '$passWord', '$dateCreate', '$accountStatus', '$name', '$address', '$email', '$phoneNumber', '$birth', '$sex', '$codePermission')";
+                            $string = "INSERT INTO accounts (userName, passWord, dateCreated, accountStatus, name, address, email, phoneNumber, birth, sex, codePermissions) VALUES ('$userName_encode', '$passWord_encode', '$dateCreate', '$accountStatus', '$name', '$address', '$email', '$phoneNumber', '$birth', '$sex', '$codePermission')";
 
                             return $this->actionSQL->query($string);
                      } else {
@@ -194,9 +214,13 @@ class AccountDAL extends AbstractionDAL
                      $sex = $obj->getSex();
                      $codePermission = $obj->getCodePermission();
 
+                     // mã hóa username và password
+                     $userName_encode = base64_encode($userName);
+                     $passWord_encode = base64_encode($passWord);
+
                      // Câu lệnh UPDATE
                      $string = "UPDATE accounts 
-                                SET passWord = '$passWord', 
+                                SET passWord = '$passWord_encode', 
                                     dateCreated = '$dateCreate', 
                                     accountStatus = '$accountStatus', 
                                     name = '$name', 
@@ -206,7 +230,7 @@ class AccountDAL extends AbstractionDAL
                                     birth = '$birth', 
                                     sex = '$sex', 
                                     codePermissions = '$codePermission' 
-                                WHERE userName = '$userName'";
+                                WHERE userName = '$userName_encode'";
 
                      return $this->actionSQL->query($string);
               } else {

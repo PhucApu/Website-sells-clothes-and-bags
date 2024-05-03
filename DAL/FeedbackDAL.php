@@ -61,8 +61,11 @@ class FeedbackDAL extends AbstractionDAL
                             $content = $data["content"];
                             $replay = $data["replay"];
 
+                            // mã hóa
+                            $userNameValue = base64_decode($userName);
+
                             // Tạo đối tượng FeedbackDTO và thêm vào mảng
-                            $feedback = new FeedbackDTO($codeFeedback, $userName, $sentDate, $email, $content, $replay);
+                            $feedback = new FeedbackDTO($codeFeedback, $userNameValue, $sentDate, $email, $content, $replay);
                             array_push($array_list, $feedback);
                      }
                      return $array_list;
@@ -73,11 +76,47 @@ class FeedbackDAL extends AbstractionDAL
               }
        }
 
-       // lấy ra một đối tượng dựa theo tên người gửi  
+       // lấy ra mảng đối tượng dựa theo tên người gửi  
+       function getArr_by_codeUserName($code)
+       {
+              // mã hóa username
+              $userName_encode = base64_encode($code);
+              // Câu lệnh truy vấn
+              $string = "SELECT * FROM feedback WHERE userName = '$userName_encode'";
+
+              $arr = array();
+              // Thực hiện truy vấn
+              $result = $this->actionSQL->query($string);
+
+              if ($result->num_rows > 0) {
+                     while ($data = $result->fetch_assoc()) {
+                            $codeFeedback = $data['codeFeedback'];
+                            $userName = $data["userName"];
+                            $sentDate = $data["sentDate"];
+                            $email = $data["email"];
+                            $content = $data["content"];
+                            $replay = $data["replay"];
+
+                            // giải mã hóa username
+                            $userNameValue = base64_decode($userName);
+
+                            // Tạo đối tượng FeedbackDTO và thêm vào mảng
+                            $feedback = new FeedbackDTO($codeFeedback, $userNameValue, $sentDate, $email, $content, $replay);
+                            array_push($arr, $feedback);
+                     }
+                     return $arr;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     // echo "Không có dữ liệu được trả về từ truy vấn.";
+                     return null;
+              }
+       }
+
+       // lấy ra một đối tượng theo mã feedback
        function getObj($code)
        {
               // Câu lệnh truy vấn
-              $string = "SELECT * FROM feedback WHERE userName = '$code'";
+              $string = "SELECT * FROM feedback WHERE codeFeedback = '$code'";
 
               // Thực hiện truy vấn
               $result = $this->actionSQL->query($string);
@@ -91,8 +130,11 @@ class FeedbackDAL extends AbstractionDAL
                      $content = $data["content"];
                      $replay = $data["replay"];
 
+                     // giải mã hóa username
+                     $userNameValue = base64_decode($userName);
+
                      // Tạo đối tượng FeedbackDTO và thêm vào mảng
-                     $feedback = new FeedbackDTO($codeFeedback, $userName, $sentDate, $email, $content, $replay);
+                     $feedback = new FeedbackDTO($codeFeedback, $userNameValue, $sentDate, $email, $content, $replay);
                      return $feedback;
               } else {
                      // Trường hợp không có dữ liệu trả về
@@ -117,8 +159,11 @@ class FeedbackDAL extends AbstractionDAL
                             $content = $obj->getContent();
                             $replay = $obj->getReplay();
 
+                            // mã hóa username
+                            $userName_encode = base64_encode($userName);
+
                             // Câu lệnh truy vấn
-                            $string = "INSERT INTO feedback (codeFeedback, userName, sentDate, email, content, replay) VALUES ('$codeFeedback', '$userName', '$sentDate', '$email', '$content', '$replay')";
+                            $string = "INSERT INTO feedback (codeFeedback, userName, sentDate, email, content, replay) VALUES ('$codeFeedback', '$userName_encode', '$sentDate', '$email', '$content', '$replay')";
 
                             return $this->actionSQL->query($string);
                      } else {
@@ -140,9 +185,12 @@ class FeedbackDAL extends AbstractionDAL
                      $content = $obj->getContent();
                      $replay = $obj->getReplay();
 
+                     // mã hóa username
+                     $userName_encode = base64_encode($userName);
+
                      // Câu lệnh UPDATE
                      $string = "UPDATE feedback 
-                                 SET userName = '$userName', 
+                                 SET userName = '$userName_encode', 
                                      sentDate = '$sentDate', 
                                      email = '$email', 
                                      content = '$content', 

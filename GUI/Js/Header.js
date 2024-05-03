@@ -42,6 +42,35 @@ window.addEventListener('unload', async function (event) {
               console.error('Error:', error);
        }
 });
+
+// hàm đăng xuất
+async function logOut(event) {
+       event.preventDefault();
+       try {
+              const response = await fetch('../../BLL/AccountBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body: 'function=' + encodeURIComponent('logout_whenExitPage')
+              });
+              const data = await response.json();
+              console.log(data);
+              if (data.length == 0) {
+                     await Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Logout Success",
+                            showConfirmButton: false,
+                            timer: 2000
+                     });
+                     window.location.href = "../../GUI/view/login.php";
+              }
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+
 function setLogin(username) {
        let loginContainer = document.querySelector('header .menubar .user');
        if (username != '') {
@@ -54,7 +83,7 @@ function setLogin(username) {
                      </a>
                      <div class="menu-user">
                                    <a href="../view/UserProfile.php" style="display:block;">My account</a>
-                                   <a href="#" style="display:block;">Log out</a>
+                                   <a href="#" onclick = "logOut(event)" style="display:block;">Log out</a>
                      </div>
                      `;
               loginContainer.innerHTML = string;

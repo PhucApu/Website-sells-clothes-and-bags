@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php require('../../config.php')?>
+<?php require('../../config.php') ?>
+
 <head>
        <meta charset="UTF-8">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,30 +15,30 @@
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
        <style>
               <?php
-                     require('../css/Header.css');
-                     require('../css/Cart.css');
-                     require('../css/Footer.css');
+              require('../css/Header.css');
+              require('../css/Cart.css');
+              require('../css/Footer.css');
               ?>
        </style>
        <script src="https://kit.fontawesome.com/fc3c5402e6.js" crossorigin="anonymous"></script>
-       
+
 </head>
 
 <body>
        <!-- header -->
        <?php require('./header.php'); ?>
-       
+
        <!-- body -->
        <div class="content_holder">
               <div class="path">
                      <div class="path_container container">
                             <ul class="path_list">
-                                  <li class="path_list_item">
-                                   <a href="" class="path_item_link">Home</a>
-                                  </li>
-                                  <li class="path_list_item">
-                                   <a href="" class="path_item_link">Cart</a>
-                                  </li> 
+                                   <li class="path_list_item">
+                                          <a href="" class="path_item_link">Home</a>
+                                   </li>
+                                   <li class="path_list_item">
+                                          <a href="" class="path_item_link">Cart</a>
+                                   </li>
                             </ul>
                      </div>
               </div>
@@ -55,15 +56,15 @@
                                           <span id="name-item" class="cart_mess_text">“Cotton T-shirt” has been added to your cart.</span>
                                           <!-- <a class="cart_mess_btn btn_cart">Continue shopping</a> -->
                                    </div>
-                                    <!-- List trống ẩn thêm class empty_status_off -->
-                                   <div id="warning-empty" class="content_cart_info" >
+                                   <!-- List trống ẩn thêm class empty_status_off -->
+                                   <div id="warning-empty" class="content_cart_info">
                                           <div class="cart_empty_icon">
                                                  <i class="fa-regular fa-window-maximize"></i>
                                           </div>
                                           <div class="cart_empty_text">Your cart is currently empty</div>
                                    </div>
                                    <!-- List có sp ẩn thêm class have_products_off -->
-                                   <table class="content_cart_list table_cart " >
+                                   <table class="content_cart_list table_cart ">
                                           <thead>
                                                  <tr>
                                                         <th class="product_item_type product_name">Product</th>
@@ -140,14 +141,14 @@
                                                                </td>
                                                  </tr> -->
                                                  <tr class="table_cart">
-                                                               <th class="cart_total_important border_top">Total</th>
-                                                               <td class="cart_price border_top cart_total_important">
-                                                                      <span id="total-price">$0</span>
-                                                               </td>
+                                                        <th class="cart_total_important border_top">Total</th>
+                                                        <td class="cart_price border_top cart_total_important">
+                                                               <span id="total-price">$0</span>
+                                                        </td>
                                                  </tr>
                                           </tbody>
                                    </table>
-                                   <div class="check_out_action">
+                                   <div id="check_out_action" class="check_out_action">
                                           <a href="./Checkout.php" class="check_out_btn">CHECK OUT</a>
                                    </div>
                             </div>

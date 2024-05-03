@@ -65,8 +65,11 @@ class CommentDAL extends AbstractionDAL
                             $likeNumber = $data['likeNumber'];
                             $dislikeNumber = $data['dislikeNumber'];
 
+                            // giải mã username
+                            $userNameCommentValue = base64_decode($userNameComment);
+
                             // Tạo đối tượng CommentDTO và thêm vào mảng
-                            $comment = new CommentDTO($codeComment, $productCode, $userNameComment, $userNameRepComment, $sentDate, $content, $state, $likeNumber, $dislikeNumber);
+                            $comment = new CommentDTO($codeComment, $productCode, $userNameCommentValue, $userNameRepComment, $sentDate, $content, $state, $likeNumber, $dislikeNumber);
                             array_push($array_list, $comment);
                      }
                      return $array_list;
@@ -98,9 +101,53 @@ class CommentDAL extends AbstractionDAL
                      $likeNumber = $data['likeNumber'];
                      $dislikeNumber = $data['dislikeNumber'];
 
+                     // giải mã username
+                     $userNameCommentValue = base64_decode($userNameComment);
+
                      // Tạo đối tượng CommentDTO và trả về
-                     $comment = new CommentDTO($codeComment, $productCode, $userNameComment, $userNameRepComment, $sentDate, $content, $state, $likeNumber, $dislikeNumber);
+                     $comment = new CommentDTO($codeComment, $productCode, $userNameCommentValue, $userNameRepComment, $sentDate, $content, $state, $likeNumber, $dislikeNumber);
                      return $comment;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     // echo "Không có dữ liệu được trả về từ truy vấn.";
+                     return null;
+              }
+       }
+
+       // lấy một mảng đối tượng dựa theo mã người dùng
+       function getArr_by_username($code)
+       {
+              // mã hóa username
+              $userNameComment_encode = base64_encode($code);
+              // Câu lệnh truy vấn
+              $string = "SELECT * FROM Comment WHERE userNameComment = '$userNameComment_encode'";
+              $arr = array();
+              // Thực hiện truy vấn
+              $result = $this->actionSQL->query($string);
+
+              if ($result->num_rows > 0) {
+                     while ($data = $result->fetch_assoc()) {
+                            $codeComment = $data['codeComment'];
+                            $productCode = $data['productCode'];
+                            $userNameComment = $data['userNameComment'];
+                            $userNameRepComment = $data['userNameRepComment'];
+                            $sentDate = $data['sentDate'];
+                            $content = $data['content'];
+                            $state = $data['state'];
+                            $likeNumber = $data['likeNumber'];
+                            $dislikeNumber = $data['dislikeNumber'];
+
+                            // giải mã username
+                            $userNameCommentValue = base64_decode($userNameComment);
+
+                            // Tạo đối tượng CommentDTO và trả về
+                            $comment = new CommentDTO($codeComment, $productCode, $userNameCommentValue, $userNameRepComment, $sentDate, $content, $state, $likeNumber, $dislikeNumber);
+
+                            //
+                            array_push($arr, $comment);
+                     }
+
+                     return $arr;
               } else {
                      // Trường hợp không có dữ liệu trả về
                      // echo "Không có dữ liệu được trả về từ truy vấn.";
@@ -127,9 +174,12 @@ class CommentDAL extends AbstractionDAL
                             $likeNumber = $obj->getLikeNumber();
                             $dislikeNumber = $obj->getDislikeNumber();
 
+                            // mã hóa username
+                            $userNameComment_encode = base64_encode($userNameComment);
+
                             // Câu lệnh truy vấn
                             $string = "INSERT INTO Comment (codeComment, productCode, userNameComment, userNameRepComment, sentDate, content, state, likeNumber, dislikeNumber) 
-                              VALUES ('$codeComment', '$productCode', '$userNameComment', '$userNameRepComment', '$sentDate', '$content', '$state', $likeNumber, $dislikeNumber)";
+                              VALUES ('$codeComment', '$productCode', '$userNameComment_encode', '$userNameRepComment', '$sentDate', '$content', '$state', $likeNumber, $dislikeNumber)";
 
                             return $this->actionSQL->query($string);
                      } else {
@@ -154,10 +204,13 @@ class CommentDAL extends AbstractionDAL
                      $likeNumber = $obj->getLikeNumber();
                      $dislikeNumber = $obj->getDislikeNumber();
 
+                     // mã hóa username
+                     $userNameComment_encode = base64_encode($userNameComment);
+
                      // Câu lệnh UPDATE
                      $string = "UPDATE Comment 
                                 SET productCode = '$productCode', 
-                                    userNameComment = '$userNameComment', 
+                                    userNameComment = '$userNameComment_encode', 
                                     userNameRepComment = '$userNameRepComment', 
                                     sentDate = '$sentDate', 
                                     content = '$content', 

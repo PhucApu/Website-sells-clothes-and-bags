@@ -124,7 +124,7 @@ class OrderBLL
        // thêm hóa đơn bên user
        // input: cần phải đăng nhập và có sản phẩm trong sesion, địa chỉ nhận, số điện thoại, ghi chú, mã thanh toán, mã hình thức thanh toán,status
        // output: thông báo thêm hóa đơn
-       function addOrder($note, $status,$codePayment,$codeTransport)
+       function addOrderUser($username, $note, $status, $codePayment, $codeTransport)
        {
               if (session_status() == PHP_SESSION_NONE) {
                      session_start();
@@ -132,108 +132,117 @@ class OrderBLL
 
               $result = array();
 
-              // kiểm tra xem có người đăng nhập chưa
-              if (isset($_SESSION['result']) && $_SESSION['result'] == "success") {
-
-                     // tạo mã hóa đơn ngẫu nhiên
-                     // Tạo chuỗi 'ORD' cố định
-                     $orderPrefix = 'ORD';
-
-                     // Tạo một số duy nhất dựa trên thời gian hiện tại và số ngẫu nhiên
-                     $orderNumber = uniqid();
-
-                     // Kết hợp chuỗi 'ORD' với số duy nhất để tạo ra chuỗi hoàn chỉnh
-                     $orderCode = $orderPrefix . $orderNumber;
-
-                     // lấy thông tin người đăng nhập
-                     $username = $_SESSION['username'];
-                     // lấy các thông tin khác
-                     $dateCreated = date('Y-m-d');
-                     $dateDelivery = date('Y-m-d', strtotime($dateCreated . ' + 5 days'));
-                     $dateFinish = $dateDelivery;
-
-                     // tính tổng tiền hóa đơn, them chi tiet hoa don
+              // kiểm tra xem có vỏ hàng chưa
+              if (isset($_SESSION['cart'])) {
                      $arrCart = $_SESSION['cart'];
-                     $arrCTHD = array();
-                     $sumMoney = 0;
-                     for($i = 0; $i < count($arrCart); $i++){
-                            $item = $arrCart[$i];
-                            $productCode = $item['productCode'];
-                            $nameProduct = $item['nameProduct'];
-                            $quantity = $item['quantityBuy'];
-                            $sizeCode = $item['sizeCode'];
-                            $price = $item['price'];
-                            $promotion = $item['promotion'];
-                            
-                            // tính tiền nếu co giảm giá
-                            if($promotion > 0){
-                                   $price = (float) $price*$promotion/100;
-                            }
-                            // tính tổng tiền chi tiết hóa đơn bằng lấy số lượng mua * giá tiền từng cái
-                            $totalMoney = $quantity * $price;
-                            
-                            // tinh tong tien cho hoa don
-                            $sumMoney += $totalMoney;
 
-                            $objOrderDetail = new OrderDetailDTO($orderCode,$productCode,$nameProduct,$quantity,$sizeCode,$price,$totalMoney);
+                     // có vỏ hàng nhưng ko có sản phẩm bên trong
+                     if (count($arrCart) > 0) {
+                            // tạo mã hóa đơn ngẫu nhiên
+                            // Tạo chuỗi 'ORD' cố định
+                            $orderPrefix = 'ORD';
 
-                            array_push($arrCTHD,$objOrderDetail);
-                     }
+                            // Tạo một số duy nhất dựa trên thời gian hiện tại và số ngẫu nhiên
+                            $orderNumber = uniqid();
 
-                     // tạo đối tượng order
-                     $order = new OrderDTO($orderCode,$dateCreated,$dateDelivery,$dateFinish,$username,$sumMoney,$codePayment,$codeTransport,$status,$note);
+                            // Kết hợp chuỗi 'ORD' với số duy nhất để tạo ra chuỗi hoàn chỉnh
+                            $orderCode = $orderPrefix . $orderNumber;
 
-                     // thêm đối tượng order vao db
-                     $check1 = $this->OrderDAL->addObj($order);
-                     $check2 = true;
-                     // nếu thêm thành công order vào thì thêm các chi tiết vào db, đồng thời cập nhật lại số lượng
-                     if($check1 == true){
-                            foreach($arrCTHD as $item){
-                                   if($this->orderDetailDAL->addObj($item) == true){
-                                          // cập nhật lại số lượng
-                                          $productCode = $item->getProductCode();
-                                          $sizeCode = $item->getSizeCode();
-                                          $quantity = $item->getSizeCode();
-                                          
-                                          $shirtsize = $this->ShirtSizeDAL->getObjByProductCodeAndSizeCode($productCode,$sizeCode);
+                            // lấy các thông tin khác
+                            $dateCreated = date('Y-m-d');
+                            $dateDelivery = date('Y-m-d', strtotime($dateCreated . ' + 5 days'));
+                            $dateFinish = $dateDelivery;
 
-                                          $shirtsize->setQuantity($shirtsize->getQuantity() - $quantity);
+                            // tính tổng tiền hóa đơn, them chi tiet hoa don
 
-                                          $this->ShirtSizeDAL->upadateObj($shirtsize);
-
-                                          $productHandbag = $this->HandbagProductDAL->getObj($productCode);
-
-                                          $productShirt = $this->ShirtProductDAL->getObj($productCode);
-
-                                          if($productHandbag != null){
-                                                 $productHandbag->setQuantity($productHandbag->getQuantity() - $quantity);
-
-                                                 $this->HandbagProductDAL->upadateObj($productHandbag);
+                            $arrCTHD = array();
+                            $sumMoney = 0;
+                            for ($i = 0; $i < count($arrCart); $i++) {
+                                   $item = $arrCart[$i];
+                                   $productCode = $item['productCode'];
+                                   $nameProduct = $item['nameProduct'];
+                                   $quantity = $item['quantityBuy'];
+                                   $sizeCode = $item['sizeCode'];
+                                   $price = $item['price'];
+                                   $promotion = $item['promotion'];
                                    
-                                          }
-                                          if($productShirt != null){
-                                                 $productShirt->setQuantity($productShirt->getQuantity() - $quantity);
 
-                                                 $this->ShirtSizeDAL->upadateObj($productShirt);
+                                   // tính tiền nếu co giảm giá
+                                   if ($promotion > 0) {
+                                          $price = (float) $price * $promotion / 100;
+                                   }
+                                   // tính tổng tiền chi tiết hóa đơn bằng lấy số lượng mua * giá tiền từng cái
+                                   $totalMoney = $quantity * $price;
+
+                                   // tinh tong tien cho hoa don
+                                   $sumMoney += $totalMoney;
+
+                                   $objOrderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $quantity, $sizeCode, $price, $totalMoney);
+
+                                   array_push($arrCTHD, $objOrderDetail);
+                            }
+
+                            // tạo đối tượng order
+                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $username, $sumMoney, $codePayment, $codeTransport, $status, $note);
+
+                            // thêm đối tượng order vao db
+                            $check1 = $this->OrderDAL->addObj($order);
+                            $check2 = true;
+                            // nếu thêm thành công order vào thì thêm các chi tiết vào db, đồng thời cập nhật lại số lượng
+                            if ($check1 == true) {
+                                   foreach ($arrCTHD as $item) {
+                                          if ($this->orderDetailDAL->addObj($item) == true) {
+                                                 // cập nhật lại số lượng
+                                                 $productCode = $item->getProductCode();
+                                                 // kiểm tra xem sản phẩm áo hay túi sách
+                                                 $productHandbag = $this->HandbagProductDAL->getObj($productCode);
+                                                 $productShirt = $this->ShirtProductDAL->getObj($productCode);
+                                                 // Neu la san pham tui sach
+                                                 if ($productHandbag != null) {
+                                                        //câp nhật lại số lượng tổng
+                                                        $productHandbag->setQuantity($productHandbag->getQuantity() - $quantity);
+
+                                                        $this->HandbagProductDAL->upadateObj($productHandbag);
+                                                 }
+                                                 // neu la san pham ao
+                                                 if ($productShirt != null) {
+                                                        // cập nhật lại số lượng theo size
+                                                        $sizeCode = $item->getSizeCode();
+                                                        $quantity = $item->getSizeCode();
+
+                                                        $shirtsize = $this->ShirtSizeDAL->getObjByProductCodeAndSizeCode($productCode, $sizeCode);
+
+                                                        $shirtsize->setQuantity($shirtsize->getQuantity() - $quantity);
+
+                                                        $this->ShirtSizeDAL->upadateObj($shirtsize);
+
+                                                        // cập nhật lại số lượng tổng
+                                                        $productShirt->setQuantity($productShirt->getQuantity() - $quantity);
+                                                        $this->ShirtSizeDAL->upadateObj($productShirt);
+                                                 }
+                                          } else {
+                                                 $check2 = false;
+                                                 break;
                                           }
-                                   }else{
-                                          $check2 = false;
                                    }
                             }
-                     }
-                     if($check1 == $check2){
+                            if ($check1 == $check2) {
+                                   return array(
+                                          "mess" => "success"
+                                   );
+                            } else {
+                                   return array(
+                                          "mess" => "addorder failed"
+                                   );
+                            }
+                     } else {
                             return array(
-                                   "mess" => "success"
-                            );
-                     }else{
-                            return array(
-                                   "mess" => "thêm hóa đơn thất bại"
+                                   "mess" => "cart empty"
                             );
                      }
-
               } else {
                      return array(
-                            "mess" => "failus"
+                            "mess" => "notFoundCart"
                      );
               }
        }
@@ -640,6 +649,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               case 'getArrOrderDetail_by_orderCode':
                      $orderCode = $_POST['orderCode'];
                      $temp = $check->getArrOrderDetail_by_orderCode($orderCode);
+                     echo json_encode($temp);
+                     break;
+              case 'addOrderUser':
+                     $username = $_POST['username'];
+                     $note = $_POST['note'];
+                     $state = $_POST['state'];
+                     $codePayment = $_POST['codePayment'];
+                     $codeTransport = $_POST['codeTransport'];
+
+                     $temp = $check->addOrderUser($username,$note,$state,$codePayment,$codeTransport);
                      echo json_encode($temp);
                      break;
        }
