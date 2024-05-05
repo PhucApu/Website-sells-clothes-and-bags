@@ -166,40 +166,42 @@ async function showSlideProductItem() {
               let result = '';
               for (let i of data) {
                      // trích suất từng giá trị thuôc tính product
+                     if (i.status == '1' && i.quantity > 1) {
+                            let productCode = i.productCode;
+                            console.log(productCode);
+                            // mã hóa
+                            let mahoaProduct = btoa(productCode);
 
-                     let productCode = i.productCode;
-                     console.log(productCode);
-                     // mã hóa
-                     let mahoaProduct = btoa(productCode);
+                            // xử lý mảng ảnh
+                            let imgProduct = i.imgProduct;
+                            let ArrimgProduct = imgProduct.split(' ');
+                            let firstImgProduct = ArrimgProduct[0];
 
-                     // xử lý mảng ảnh
-                     let imgProduct = i.imgProduct;
-                     let ArrimgProduct = imgProduct.split(' ');
-                     let firstImgProduct = ArrimgProduct[0];
+                            let nameProduct = i.nameProduct;
 
-                     let nameProduct = i.nameProduct;
+                            let price = i.price;
+                            let promotion = i.promotion;
 
-                     let price = i.price;
-                     let promotion = i.promotion;
+                            let sizeCodeValue = '';
 
-                     let sizeCodeValue = '';
+                            let type = '';
+                            // phân loại sản phẩm
+                            if (i.bagMaterial == null) {
+                                   type = 'shirtProduct';
+                                   let item = await getArrSizeCodeByProductCode(productCode);
+                                   let sizeCode = item.sizeCode;
+                                   sizeCodeValue = btoa(sizeCode);
+                            } else {
+                                   type = 'handbagProduct';
+                                   sizeCodeValue = btoa('null');
+                            }
 
-                     let type = '';
-                     // phân loại sản phẩm
-                     if (i.bagMaterial == null) {
-                            type = 'shirtProduct';
-                            let item = await getArrSizeCodeByProductCode(productCode);
-                            let sizeCode = item.sizeCode;
-                            sizeCodeValue = btoa(sizeCode);
-                     } else {
-                            type = 'handbagProduct';
-                            sizeCodeValue = btoa('null');
+                            // mã hóa
+                            let mahoatype = btoa(type);
+                            let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
+                            result += cardProduct;
                      }
 
-                     // mã hóa
-                     let mahoatype = btoa(type);
-                     let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
-                     result += cardProduct;
               }
               container.innerHTML = result;
 
@@ -221,39 +223,41 @@ async function showRecomendedProductItem() {
               for (let i = 0; i < 8; i++) {
                      // trích suất từng giá trị thuôc tính product
                      let item = data[i];
-                     let productCode = item.productCode;
-                     // console.log(productCode);
-                     // mã hóa
-                     let mahoaProduct = btoa(productCode);
+                     if (item.status == '1' && item.quantity > 1) {
+                            let productCode = item.productCode;
+                            // console.log(productCode);
+                            // mã hóa
+                            let mahoaProduct = btoa(productCode);
 
-                     // xử lý mảng ảnh
-                     let imgProduct = item.imgProduct;
-                     let ArrimgProduct = imgProduct.split(' ');
-                     let firstImgProduct = ArrimgProduct[0];
+                            // xử lý mảng ảnh
+                            let imgProduct = item.imgProduct;
+                            let ArrimgProduct = imgProduct.split(' ');
+                            let firstImgProduct = ArrimgProduct[0];
 
-                     let nameProduct = item.nameProduct;
+                            let nameProduct = item.nameProduct;
 
-                     let price = item.price;
-                     let promotion = item.promotion;
+                            let price = item.price;
+                            let promotion = item.promotion;
 
-                     let sizeCodeValue = '';
+                            let sizeCodeValue = '';
 
-                     let type = '';
-                     // phân loại sản phẩm
-                     if (item.bagMaterial == null) {
-                            type = 'shirtProduct';
-                            let itemSizeCode = await getArrSizeCodeByProductCode(productCode);
-                            let sizeCode = itemSizeCode.sizeCode;
-                            sizeCodeValue = btoa(sizeCode);
-                     } else {
-                            type = 'handbagProduct';
-                            sizeCodeValue = btoa('null');
+                            let type = '';
+                            // phân loại sản phẩm
+                            if (item.bagMaterial == null) {
+                                   type = 'shirtProduct';
+                                   let itemSizeCode = await getArrSizeCodeByProductCode(productCode);
+                                   let sizeCode = itemSizeCode.sizeCode;
+                                   sizeCodeValue = btoa(sizeCode);
+                            } else {
+                                   type = 'handbagProduct';
+                                   sizeCodeValue = btoa('null');
+                            }
+
+                            // mã hóa
+                            let mahoatype = btoa(type);
+                            let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
+                            result += cardProduct;
                      }
-
-                     // mã hóa
-                     let mahoatype = btoa(type);
-                     let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
-                     result += cardProduct;
               }
               container.innerHTML = result;
        }
@@ -273,39 +277,41 @@ async function showBestSellProductItem() {
               for (let i = 0; i < 8; i++) {
                      // trích suất từng giá trị thuôc tính product
                      let item = data[i];
-                     let productCode = item.productCode;
-                     // console.log(productCode);
-                     // mã hóa
-                     let mahoaProduct = btoa(productCode);
+                     if (item.status == '1' && item.quantity > 1) {
+                            let productCode = item.productCode;
+                            // console.log(productCode);
+                            // mã hóa
+                            let mahoaProduct = btoa(productCode);
 
-                     // xử lý mảng ảnh
-                     let imgProduct = item.imgProduct;
-                     let ArrimgProduct = imgProduct.split(' ');
-                     let firstImgProduct = ArrimgProduct[0];
+                            // xử lý mảng ảnh
+                            let imgProduct = item.imgProduct;
+                            let ArrimgProduct = imgProduct.split(' ');
+                            let firstImgProduct = ArrimgProduct[0];
 
-                     let nameProduct = item.nameProduct;
+                            let nameProduct = item.nameProduct;
 
-                     let price = item.price;
-                     let promotion = item.promotion;
+                            let price = item.price;
+                            let promotion = item.promotion;
 
-                     let sizeCodeValue = '';
+                            let sizeCodeValue = '';
 
-                     let type = '';
-                     // phân loại sản phẩm
-                     if (item.bagMaterial == null) {
-                            type = 'shirtProduct';
-                            let itemSizeCode = await getArrSizeCodeByProductCode(productCode);
-                            let sizeCode = itemSizeCode.sizeCode;
-                            sizeCodeValue = btoa(sizeCode);
-                     } else {
-                            type = 'handbagProduct';
-                            sizeCodeValue = btoa('null');
+                            let type = '';
+                            // phân loại sản phẩm
+                            if (item.bagMaterial == null) {
+                                   type = 'shirtProduct';
+                                   let itemSizeCode = await getArrSizeCodeByProductCode(productCode);
+                                   let sizeCode = itemSizeCode.sizeCode;
+                                   sizeCodeValue = btoa(sizeCode);
+                            } else {
+                                   type = 'handbagProduct';
+                                   sizeCodeValue = btoa('null');
+                            }
+
+                            // mã hóa
+                            let mahoatype = btoa(type);
+                            let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
+                            result += cardProduct;
                      }
-
-                     // mã hóa
-                     let mahoatype = btoa(type);
-                     let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
-                     result += cardProduct;
               }
               container.innerHTML = result;
 
@@ -326,39 +332,41 @@ async function showBestPromotionProductItem() {
               for (let i = 0; i < 8; i++) {
                      // trích suất từng giá trị thuôc tính product
                      let item = data[i];
-                     let productCode = item.productCode;
-                     // console.log(productCode);
-                     // mã hóa
-                     let mahoaProduct = btoa(productCode);
+                     if (item.status == '1' && item.quantity > 1) {
+                            let productCode = item.productCode;
+                            // console.log(productCode);
+                            // mã hóa
+                            let mahoaProduct = btoa(productCode);
 
-                     // xử lý mảng ảnh
-                     let imgProduct = item.imgProduct;
-                     let ArrimgProduct = imgProduct.split(' ');
-                     let firstImgProduct = ArrimgProduct[0];
+                            // xử lý mảng ảnh
+                            let imgProduct = item.imgProduct;
+                            let ArrimgProduct = imgProduct.split(' ');
+                            let firstImgProduct = ArrimgProduct[0];
 
-                     let nameProduct = item.nameProduct;
+                            let nameProduct = item.nameProduct;
 
-                     let price = item.price;
-                     let promotion = item.promotion;
+                            let price = item.price;
+                            let promotion = item.promotion;
 
-                     let sizeCodeValue = '';
+                            let sizeCodeValue = '';
 
-                     let type = '';
-                     // phân loại sản phẩm
-                     if (item.bagMaterial == null) {
-                            type = 'shirtProduct';
-                            let itemSizeCode = await getArrSizeCodeByProductCode(productCode);
-                            let sizeCode = itemSizeCode.sizeCode;
-                            sizeCodeValue = btoa(sizeCode);
-                     } else {
-                            type = 'handbagProduct';
-                            sizeCodeValue = btoa('null');
+                            let type = '';
+                            // phân loại sản phẩm
+                            if (item.bagMaterial == null) {
+                                   type = 'shirtProduct';
+                                   let itemSizeCode = await getArrSizeCodeByProductCode(productCode);
+                                   let sizeCode = itemSizeCode.sizeCode;
+                                   sizeCodeValue = btoa(sizeCode);
+                            } else {
+                                   type = 'handbagProduct';
+                                   sizeCodeValue = btoa('null');
+                            }
+
+                            // mã hóa
+                            let mahoatype = btoa(type);
+                            let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
+                            result += cardProduct;
                      }
-
-                     // mã hóa
-                     let mahoatype = btoa(type);
-                     let cardProduct = templateHTMLCartProduct(mahoaProduct, firstImgProduct, nameProduct, price, promotion, mahoatype, sizeCodeValue);
-                     result += cardProduct;
               }
               container.innerHTML = result;
 

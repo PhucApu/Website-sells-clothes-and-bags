@@ -46,40 +46,39 @@ class ProductBLL
               $arr_handbag = $this->HandbagProductDAL->getListObj();
               $arrJson = array();
               foreach ($arr_handbag as $item) {
-                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
-                            $ProductCode = $item->getProductCode();
-                            $imgProduct = $item->getImgProduct();
-                            $nameProduct = $item->getNameProduct();
-                            $supplierCode = $item->getSupplierCode();
-                            $quantity = $item->getQuantity();
-                            $describeProduct = $item->getDescribe();
-                            $status = $item->getStatus();
-                            $color = $item->getColor();
-                            $targetGender = $item->getTargetGender();
-                            $price = $item->getPrice();
-                            $promotion = $item->getPromotion();
-                            $bagMaterial = $item->getBagMaterial();
-                            $descriptionMaterial = $item->getDescriptionMaterial();
 
-                            $obj = array(
-                                   "productCode" => $ProductCode,
-                                   "imgProduct" => $imgProduct,
-                                   "nameProduct" => $nameProduct,
-                                   "supplierCode" => $supplierCode,
-                                   "quantity" => $quantity,
-                                   "describeProduct" => $describeProduct,
-                                   "status" => $status,
-                                   "color" => $color,
-                                   "targetGender" => $targetGender,
-                                   "price" => $price,
-                                   "promotion" => $promotion,
-                                   "bagMaterial" => $bagMaterial,
-                                   "descriptionMaterial" => $descriptionMaterial,
-                                   "type" => "handbagProduct"
-                            );
+                     $ProductCode = $item->getProductCode();
+                     $imgProduct = $item->getImgProduct();
+                     $nameProduct = $item->getNameProduct();
+                     $supplierCode = $item->getSupplierCode();
+                     $quantity = $item->getQuantity();
+                     $describeProduct = $item->getDescribe();
+                     $status = $item->getStatus();
+                     $color = $item->getColor();
+                     $targetGender = $item->getTargetGender();
+                     $price = $item->getPrice();
+                     $promotion = $item->getPromotion();
+                     $bagMaterial = $item->getBagMaterial();
+                     $descriptionMaterial = $item->getDescriptionMaterial();
 
-                            array_push($arrJson, $obj);
-                     }
+                     $obj = array(
+                            "productCode" => $ProductCode,
+                            "imgProduct" => $imgProduct,
+                            "nameProduct" => $nameProduct,
+                            "supplierCode" => $supplierCode,
+                            "quantity" => $quantity,
+                            "describeProduct" => $describeProduct,
+                            "status" => $status,
+                            "color" => $color,
+                            "targetGender" => $targetGender,
+                            "price" => $price,
+                            "promotion" => $promotion,
+                            "bagMaterial" => $bagMaterial,
+                            "descriptionMaterial" => $descriptionMaterial,
+                            "type" => "handbagProduct"
+                     );
+
+                     array_push($arrJson, $obj);
               }
               return $arrJson;
        }
@@ -89,42 +88,41 @@ class ProductBLL
               $arrJson = array();
 
               foreach ($arr_shirt as $item) {
-                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
-                            $ProductCode = $item->getProductCode();
-                            $imgProduct = $item->getImgProduct();
-                            $nameProduct = $item->getNameProduct();
-                            $supplierCode = $item->getSupplierCode();
-                            $quantity = $item->getQuantity();
-                            $describeProduct = $item->getDescribe();
-                            $status = $item->getStatus();
-                            $color = $item->getColor();
-                            $targetGender = $item->getTargetGender();
-                            $price = $item->getPrice();
-                            $promotion = $item->getPromotion();
-                            $shirtMaterial = $item->getShirtMaterial();
-                            $shirtStyle = $item->getShirtStyle();
-                            $descriptionMaterial = $item->getDescriptionMaterial();
 
-                            $obj = array(
-                                   "productCode" => $ProductCode,
-                                   "imgProduct" => $imgProduct,
-                                   "nameProduct" => $nameProduct,
-                                   "supplierCode" => $supplierCode,
-                                   "quantity" => $quantity,
-                                   "describeProduct" => $describeProduct,
-                                   "status" => $status,
-                                   "color" => $color,
-                                   "targetGender" => $targetGender,
-                                   "price" => $price,
-                                   "promotion" => $promotion,
-                                   "shirtMaterial" => $shirtMaterial,
-                                   "shirtStyle" => $shirtStyle,
-                                   "descriptionMaterial" => $descriptionMaterial,
-                                   "type" => "shirtProduct"
-                            );
+                     $ProductCode = $item->getProductCode();
+                     $imgProduct = $item->getImgProduct();
+                     $nameProduct = $item->getNameProduct();
+                     $supplierCode = $item->getSupplierCode();
+                     $quantity = $item->getQuantity();
+                     $describeProduct = $item->getDescribe();
+                     $status = $item->getStatus();
+                     $color = $item->getColor();
+                     $targetGender = $item->getTargetGender();
+                     $price = $item->getPrice();
+                     $promotion = $item->getPromotion();
+                     $shirtMaterial = $item->getShirtMaterial();
+                     $shirtStyle = $item->getShirtStyle();
+                     $descriptionMaterial = $item->getDescriptionMaterial();
 
-                            array_push($arrJson, $obj);
-                     }
+                     $obj = array(
+                            "productCode" => $ProductCode,
+                            "imgProduct" => $imgProduct,
+                            "nameProduct" => $nameProduct,
+                            "supplierCode" => $supplierCode,
+                            "quantity" => $quantity,
+                            "describeProduct" => $describeProduct,
+                            "status" => $status,
+                            "color" => $color,
+                            "targetGender" => $targetGender,
+                            "price" => $price,
+                            "promotion" => $promotion,
+                            "shirtMaterial" => $shirtMaterial,
+                            "shirtStyle" => $shirtStyle,
+                            "descriptionMaterial" => $descriptionMaterial,
+                            "type" => "shirtProduct"
+                     );
+
+                     array_push($arrJson, $obj);
               }
               return $arrJson;
        }
@@ -291,64 +289,62 @@ class ProductBLL
               // gọp 2 mảnh đó lại thành dữ liệu chung để phân trang
               $arr = array();
               foreach ($arr1 as $item) {
-                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
-                            $ProductCode = $item->getProductCode();
-                            $imgProduct = $item->getImgProduct();
-                            $nameProduct = $item->getNameProduct();
-                            $supplierCode = $item->getSupplierCode();
-                            $quantity = $item->getQuantity();
-                            $describeProduct = $item->getDescribe();
-                            $status = $item->getStatus();
-                            $color = $item->getColor();
-                            $targetGender = $item->getTargetGender();
-                            $price = $item->getPrice();
-                            $promotion = $item->getPromotion();
-                            $obj = array(
-                                   "productCode" => $ProductCode,
-                                   "imgProduct" => $imgProduct,
-                                   "nameProduct" => $nameProduct,
-                                   "supplierCode" => $supplierCode,
-                                   "quantity" => $quantity,
-                                   "describeProduct" => $describeProduct,
-                                   "status" => $status,
-                                   "color" => $color,
-                                   "targetGender" => $targetGender,
-                                   "price" => $price,
-                                   "promotion" => $promotion,
-                                   "type" => "shirtProduct"
-                            );
-                            array_push($arr, $obj);
-                     }
+
+                     $ProductCode = $item->getProductCode();
+                     $imgProduct = $item->getImgProduct();
+                     $nameProduct = $item->getNameProduct();
+                     $supplierCode = $item->getSupplierCode();
+                     $quantity = $item->getQuantity();
+                     $describeProduct = $item->getDescribe();
+                     $status = $item->getStatus();
+                     $color = $item->getColor();
+                     $targetGender = $item->getTargetGender();
+                     $price = $item->getPrice();
+                     $promotion = $item->getPromotion();
+                     $obj = array(
+                            "productCode" => $ProductCode,
+                            "imgProduct" => $imgProduct,
+                            "nameProduct" => $nameProduct,
+                            "supplierCode" => $supplierCode,
+                            "quantity" => $quantity,
+                            "describeProduct" => $describeProduct,
+                            "status" => $status,
+                            "color" => $color,
+                            "targetGender" => $targetGender,
+                            "price" => $price,
+                            "promotion" => $promotion,
+                            "type" => "shirtProduct"
+                     );
+                     array_push($arr, $obj);
               }
               foreach ($arr2 as $item) {
-                     if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
-                            $ProductCode = $item->getProductCode();
-                            $imgProduct = $item->getImgProduct();
-                            $nameProduct = $item->getNameProduct();
-                            $supplierCode = $item->getSupplierCode();
-                            $quantity = $item->getQuantity();
-                            $describeProduct = $item->getDescribe();
-                            $status = $item->getStatus();
-                            $color = $item->getColor();
-                            $targetGender = $item->getTargetGender();
-                            $price = $item->getPrice();
-                            $promotion = $item->getPromotion();
-                            $obj = array(
-                                   "productCode" => $ProductCode,
-                                   "imgProduct" => $imgProduct,
-                                   "nameProduct" => $nameProduct,
-                                   "supplierCode" => $supplierCode,
-                                   "quantity" => $quantity,
-                                   "describeProduct" => $describeProduct,
-                                   "status" => $status,
-                                   "color" => $color,
-                                   "targetGender" => $targetGender,
-                                   "price" => $price,
-                                   "promotion" => $promotion,
-                                   "type" => "handbagProduct"
-                            );
-                            array_push($arr, $obj);
-                     }
+
+                     $ProductCode = $item->getProductCode();
+                     $imgProduct = $item->getImgProduct();
+                     $nameProduct = $item->getNameProduct();
+                     $supplierCode = $item->getSupplierCode();
+                     $quantity = $item->getQuantity();
+                     $describeProduct = $item->getDescribe();
+                     $status = $item->getStatus();
+                     $color = $item->getColor();
+                     $targetGender = $item->getTargetGender();
+                     $price = $item->getPrice();
+                     $promotion = $item->getPromotion();
+                     $obj = array(
+                            "productCode" => $ProductCode,
+                            "imgProduct" => $imgProduct,
+                            "nameProduct" => $nameProduct,
+                            "supplierCode" => $supplierCode,
+                            "quantity" => $quantity,
+                            "describeProduct" => $describeProduct,
+                            "status" => $status,
+                            "color" => $color,
+                            "targetGender" => $targetGender,
+                            "price" => $price,
+                            "promotion" => $promotion,
+                            "type" => "handbagProduct"
+                     );
+                     array_push($arr, $obj);
               }
 
               // tính BeginGet và EndGet
@@ -378,54 +374,53 @@ class ProductBLL
               if ($keyword != 'null') {
                      // tra thông tin trên sản phẩm áo
                      foreach ($arrShirt as $item) {
-                            if ($item->getStatus() == '1' && $item->getQuantity() > 1) {
-                                   $ProductCode = $item->getProductCode();
-                                   $imgProduct = $item->getImgProduct();
-                                   $nameProduct = $item->getNameProduct();
-                                   $supplierCode = $item->getSupplierCode();
-                                   $quantity = $item->getQuantity();
-                                   $describeProduct = $item->getDescribe();
-                                   $status = $item->getStatus();
-                                   $color = $item->getColor();
-                                   $targetGender = $item->getTargetGender();
-                                   $price = $item->getPrice();
-                                   $promotion = $item->getPromotion();
-                                   $shirtMaterial = $item->getShirtMaterial();
-                                   $shirtStyle = $item->getShirtStyle();
 
-                                   // Kiểm tra nếu "keyword" xuất hiện trong một trong các thuộc tính
-                                   if (
-                                          strpos($ProductCode, $keyword) !== false ||
-                                          strpos($imgProduct, $keyword) !== false ||
-                                          strpos($nameProduct, $keyword) !== false ||
-                                          strpos($supplierCode, $keyword) !== false ||
-                                          strpos($describeProduct, $keyword) !== false ||
-                                          strpos($color, $keyword) !== false ||
-                                          strpos($targetGender, $keyword) !== false ||
-                                          strpos($price, $keyword) !== false ||
-                                          strpos($promotion, $keyword) !== false ||
-                                          strpos($shirtMaterial, $keyword) !== false ||
-                                          strpos($shirtStyle, $keyword) !== false
-                                   ) {
+                            $ProductCode = $item->getProductCode();
+                            $imgProduct = $item->getImgProduct();
+                            $nameProduct = $item->getNameProduct();
+                            $supplierCode = $item->getSupplierCode();
+                            $quantity = $item->getQuantity();
+                            $describeProduct = $item->getDescribe();
+                            $status = $item->getStatus();
+                            $color = $item->getColor();
+                            $targetGender = $item->getTargetGender();
+                            $price = $item->getPrice();
+                            $promotion = $item->getPromotion();
+                            $shirtMaterial = $item->getShirtMaterial();
+                            $shirtStyle = $item->getShirtStyle();
 
-                                          // Nếu có, thêm item vào mảng result
-                                          $obj = array(
-                                                 "productCode" => $ProductCode,
-                                                 "imgProduct" => $imgProduct,
-                                                 "nameProduct" => $nameProduct,
-                                                 "supplierCode" => $supplierCode,
-                                                 "quantity" => $quantity,
-                                                 "describeProduct" => $describeProduct,
-                                                 "status" => $status,
-                                                 "color" => $color,
-                                                 "targetGender" => $targetGender,
-                                                 "price" => $price,
-                                                 "promotion" => $promotion,
-                                                 "type" => "shirtProduct"
-                                          );
+                            // Kiểm tra nếu "keyword" xuất hiện trong một trong các thuộc tính
+                            if (
+                                   strpos($ProductCode, $keyword) !== false ||
+                                   strpos($imgProduct, $keyword) !== false ||
+                                   strpos($nameProduct, $keyword) !== false ||
+                                   strpos($supplierCode, $keyword) !== false ||
+                                   strpos($describeProduct, $keyword) !== false ||
+                                   strpos($color, $keyword) !== false ||
+                                   strpos($targetGender, $keyword) !== false ||
+                                   strpos($price, $keyword) !== false ||
+                                   strpos($promotion, $keyword) !== false ||
+                                   strpos($shirtMaterial, $keyword) !== false ||
+                                   strpos($shirtStyle, $keyword) !== false
+                            ) {
 
-                                          array_push($result, $obj);
-                                   }
+                                   // Nếu có, thêm item vào mảng result
+                                   $obj = array(
+                                          "productCode" => $ProductCode,
+                                          "imgProduct" => $imgProduct,
+                                          "nameProduct" => $nameProduct,
+                                          "supplierCode" => $supplierCode,
+                                          "quantity" => $quantity,
+                                          "describeProduct" => $describeProduct,
+                                          "status" => $status,
+                                          "color" => $color,
+                                          "targetGender" => $targetGender,
+                                          "price" => $price,
+                                          "promotion" => $promotion,
+                                          "type" => "shirtProduct"
+                                   );
+
+                                   array_push($result, $obj);
                             }
                      }
 
@@ -862,7 +857,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               case 'getArrObjProduct_by_ArrCodeProduct':
                      $productCode = $_POST['code'];
                      $arr = array();
-                     array_push($arr,$productCode);
+                     array_push($arr, $productCode);
                      $temp = $check->getArrObjProduct_by_ArrCodeProduct($arr);
                      echo json_encode($temp);
                      break;

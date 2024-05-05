@@ -133,7 +133,7 @@ async function showData() {
        containerOrderDetail.innerHTML = result;
 
        // set tong tien hoa don
-       document.getElementById('total-money').innerHTML = '$ ' + sumMoney;
+       document.getElementById('total-money').innerHTML = '$ ' + sumMoney.toFixed(2);
 
        // set du lieu payment
        let result1 = '';

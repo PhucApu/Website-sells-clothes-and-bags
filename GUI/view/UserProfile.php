@@ -140,7 +140,7 @@
                                                  </div>
                                                  <hr>
                                           </div>
-                                          <div class="content-main-right" id="content-order">
+                                          <div style="height: 600px; overflow-y: auto; scrollbar-width: thin;" class="content-main-right" id="content-order">
                                                  <div class="item-order">
                                                         <div class="order-start">
                                                                <div class="head-order">

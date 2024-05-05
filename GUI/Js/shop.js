@@ -877,7 +877,7 @@ async function loadItemonHTML_forPagination_2(data) {
     if (data.length > 0) {
         // sản phẩm 
         for (let i of data) {
-            if (i.productCode != null) {
+            if (i.productCode != null && i.status == '1' && i.quantity > 1) {
                 // ma product
                 let productCode = i.productCode;
                 let type = i.type;

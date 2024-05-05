@@ -143,7 +143,7 @@ function showSearchResult(data) {
        let container = document.querySelector('header .search .box-search .result-search');
        for (let item of data) {
               // tim thay san pham
-              if (item.productCode != '') {
+              if (item.productCode != '' && item.status == '1' && item.quantity > 1) {
 
                      let productCode = item.productCode;
                      let type = item.type;

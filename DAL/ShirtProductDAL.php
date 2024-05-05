@@ -251,7 +251,7 @@ class ShirtProductDAL extends AbstractionDAL
                      // Chuẩn bị câu lệnh SQL
                      $stmtProduct = $this->actionSQL->prepare($queryProduct);
                      // Bind các tham số
-                     $stmtProduct->bind_param("sssiisssdis", $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $productCode);
+                     $stmtProduct->bind_param("sssissssdds", $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $productCode);
                      // Thực thi câu lệnh
                      $resultProduct = $stmtProduct->execute();
                      // Đóng câu lệnh

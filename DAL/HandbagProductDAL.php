@@ -230,7 +230,7 @@ class HandbagProductDAL extends AbstractionDAL
                                       promotion = ?
                                   WHERE productCode = ?";
                      $stmtProduct = $this->actionSQL->prepare($queryProduct);
-                     $stmtProduct->bind_param("sssiisssdis", $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $productCode);
+                     $stmtProduct->bind_param("sssissssdds", $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $productCode);
 
                      // Thực hiện truy vấn Product
                      $resultProduct = $stmtProduct->execute();

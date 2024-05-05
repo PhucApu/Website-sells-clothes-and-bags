@@ -89,13 +89,18 @@ class OrderBLL
        // input: username, keyword
        // output: mangr hóa đơn
 
-       function SearchOrder_by_key($username, $keyword)
+       function SearchOrder_by_key($username, $str)
        {
+              $keyword = strtolower($str);
+
               $arrObj = $this->OrderDAL->getListObj_by_UserName($username);
               $result = array();
               if ($arrObj != null) {
                      foreach ($arrObj as $item) {
                             $orderCode = $item->getOrderCode();
+
+                            $orderCode_lowercase = strtolower($orderCode);
+
                             $dateCreated = $item->getDateCreated();
                             $dateDelivery = $item->getDateDelivery();
                             $dateFinish = $item->getDateFinish();
@@ -107,7 +112,7 @@ class OrderBLL
                             $note = $item->getNote();
 
                             if (
-                                   strpos($orderCode, $keyword) !== false
+                                   strpos($orderCode_lowercase, $keyword) !== false
                             ) {
                                    $obj = array(
                                           "orderCode" => $orderCode,

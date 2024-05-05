@@ -121,7 +121,7 @@
                     <div class="desc-and-review">
                         <div class="title">
                             <h4 class="desc selected">description</h4>
-                            <h4 id="rev" class="rev">reviews<span>(0)</span></h4>
+                            <h4 id="rev" class="rev">reviews</h4>
                         </div>
                         <hr>
                         <div class="container-des-re">
@@ -137,15 +137,14 @@
                                 <p>Description: Burgundy, Solid colour</p> -->
                             </div>
                             <div class="content-rev hiddenP">
-                                <h3>Review</h3>
-                                <div id="review" class="review">
+                                <h3 id="count-review">Review</h3>
+                                <div style="height: 220px; overflow-y: auto; scrollbar-width: thin;" id="review" class="review">
                                     <div class="item-review-container">
                                         <div class="item-review">
                                             <img src="../image/avt-review/male.png" alt="" class="avt">
                                             <div class="main-review">
                                                 <div class="content-review">
-                                                    <p class="name-user">Tran Tien Phat</p>
-                                                    <p>Send date: 20/10/2020</p>
+                                                    <p class="name-user">Tran Tien Phat - 20/10/2020</p>
                                                     <div class="text-review">
                                                         <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
                                                     </div>
@@ -237,9 +236,9 @@
                                         <hr>
                                     </div>
                                 </div>
-                                <div class="read-more hide-readmore ">
+                                <!-- <div class="read-more hide-readmore ">
                                     <span style="cursor: pointer;">Read More</span>
-                                </div>
+                                </div> -->
                             </div>
                             <hr>
                         </div>

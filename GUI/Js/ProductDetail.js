@@ -42,7 +42,7 @@ async function getDetailProduct() {
                     } else if (type == 'handbagProduct') {
                         DetailHangbagProduct(data);
                     }
-                    getRelatedProduct(productCode);
+                    await getRelatedProduct(productCode);
 
                     console.log(data);
                     // action();
@@ -92,7 +92,7 @@ async function getRelatedProduct(exceptProduct) {
             let data = await response.json();
 
             console.log(data);
-            RelatedProduct(data, type, exceptProduct);
+            await RelatedProduct(data, type, exceptProduct);
 
         } catch (error) {
             console.error('Error:', error);
@@ -110,7 +110,7 @@ async function getRelatedProduct(exceptProduct) {
             let data = await response.json();
 
             console.log(data);
-            RelatedProduct(data, type, exceptProduct);
+            await RelatedProduct(data, type, exceptProduct);
 
         } catch (error) {
             console.error('Error:', error);
@@ -576,6 +576,21 @@ function addToCart() {
 function activeLoadDataComment(producCode) {
     document.getElementById('rev').onclick = async function () {
         await getCommentData(producCode);
+
+        // let listPostReview = document.querySelectorAll(".item-review-container");
+        // let buttonReadMore = document.querySelector(".read-more");
+
+        // // neu nhieu hon 3 cai review thi hien xem them
+
+        // if (listPostReview.length > 2) {
+        //     buttonReadMore.classList.remove("hide-readmore");
+        //     console.log(listPostReview.length);
+        //     listPostReview.forEach((current, i) => {
+        //         if (i > 2) {
+        //             current.classList.add("hide-readmore");
+        //         }
+        //     })
+        // }
     }
 }
 
@@ -592,6 +607,7 @@ async function getCommentData(productCode) {
         });
         let data = await response.json();
         console.log(data);
+        await showDataCommentHTML(data);
     } catch (error) {
         console.error('Error:', error);
     }
@@ -601,52 +617,55 @@ async function getCommentData(productCode) {
 async function showDataCommentHTML(data) {
     let container = document.getElementById('review');
     let result = '';
+    document.getElementById('count-review').innerHTML = `Review (${data.length})`;
     for (let i = data.length - 1; i >= 0; i--) {
         let item = data[i];
+        let productCode = item.productCode;
         let userName = item.userNameComment;
-        let senDate = item.senDate;
+        let senDate = item.sentDate;
         let codeComment = item.codeComment;
         let content = item.content;
         let likeNumber = item.likeNumber;
         let dislikeNumber = item.dislikeNumber;
-
-        let sex = '';
-        try {
-            let response = await fetch('../../BLL/AccountBLL.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body:
-                    'function=' + encodeURIComponent('getObjAccount') + '&userName=' + encodeURIComponent(userName)
-            });
-            let data = await response.json();
-            if(data.result == 'success'){
-                sex = data.sex;
+        let state = item.state;
+        if (state == '1') {
+            let sex = '';
+            try {
+                let response = await fetch('../../BLL/AccountBLL.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body:
+                        'function=' + encodeURIComponent('getObjAccount') + '&userName=' + encodeURIComponent(userName)
+                });
+                let data = await response.json();
+                if (data.result == 'success') {
+                    sex = data.sex;
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-        if(sex == 'Male'){
-            let string = `
+            if (sex == 'Male') {
+                let string = `
                 <div class="item-review-container">
                     <div class="item-review">
                         <img src="../image/avt-review/male.png" alt="" class="avt">
                         <div class="main-review">
                             <div class="content-review">
-                                <p class="name-user">Tran Tien Phat</p>
+                                <p class="name-user">${userName} - ${senDate}</p>
                                 <div class="text-review">
-                                    <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
+                                    <p>${content}</p>
                                 </div>
                             </div>
                             <div class="behavior">
-                                <div>
+                                <div onclick="updateLikeAndDislikeNumber('${codeComment}','${productCode}','${userName}','null','${senDate}','${content}','${state}','like')">
                                     <i class="fa-solid fa-thumbs-up"></i>
-                                    <span>10</span>
+                                    <span id="${codeComment}-likeNumber">${likeNumber}</span>
                                 </div>
-                                <div>
+                                <div onclick="updateLikeAndDislikeNumber('${codeComment}','${productCode}','${userName}','null','${senDate}','${content}','${state}','dislike')">
                                     <i class="fa-solid fa-thumbs-down"></i>
-                                    <span>3</span>
+                                    <span id="${codeComment}-dislikeNumber">${dislikeNumber}</span>
                                 </div>
                             </div>
                         </div>
@@ -654,11 +673,81 @@ async function showDataCommentHTML(data) {
                     <hr>
                 </div>
             `;
+                result += string;
+            } else {
+                let string = `
+                <div class="item-review-container">
+                    <div class="item-review">
+                        <img src="../image/avt-review/female.png" alt="" class="avt">
+                        <div class="main-review">
+                            <div class="content-review">
+                                <p class="name-user">${userName} - ${senDate}</p>
+                                <div class="text-review">
+                                    <p>${content}</p>
+                                </div>
+                            </div>
+                            <div class="behavior">
+                                <div onclick="updateLikeAndDislikeNumber('${codeComment}','${productCode}','${userName}','null','${senDate}','${content}','${state}','like')">
+                                    <i class="fa-solid fa-thumbs-up"></i>
+                                    <span id="${codeComment}-likeNumber">${likeNumber}</span>
+                                </div>
+                                <div onclick="updateLikeAndDislikeNumber('${codeComment}','${productCode}','${userName}','null','${senDate}','${content}','${state}','dislike')">
+                                    <i class="fa-solid fa-thumbs-down"></i>
+                                    <span id="${codeComment}-dislikeNumber">${dislikeNumber}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            `;
+                result += string;
+            }
         }
-        
+
     }
+    container.innerHTML = result;
 }
 
+// hàm tăng số lượt thích
+async function updateLikeAndDislikeNumber(codeComment, producCode, userNameComment, userNameRepComment, senDate, content, state, likeOrdislike) {
+
+
+    let numberLike = document.getElementById(codeComment + '-likeNumber').innerText;
+    let numberDisLike = document.getElementById(codeComment + '-dislikeNumber').innerText;
+
+    if (likeOrdislike == 'like') {
+        numberLike = Number(numberLike) + 1;
+    }
+    else if (likeOrdislike == 'dislike') {
+        numberDisLike = Number(numberDisLike) + 1;
+    }
+    try {
+        let response = await fetch('../../BLL/CommentBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('updateObj') + '&codeComment=' + encodeURIComponent(codeComment) + '&productCode=' + encodeURIComponent(producCode) + '&userNameComment=' + encodeURIComponent(userNameComment) + '&userNameRepComment=' + encodeURIComponent(userNameRepComment) + '&sentDate=' + encodeURIComponent(senDate) + '&content=' + encodeURIComponent(content) + '&state=' + encodeURIComponent(state) + '&numberLike=' + encodeURIComponent(numberLike) + '&numberDislike=' + encodeURIComponent(numberDisLike)
+        });
+        let data = await response.json();
+        console.log(data);
+        if (data.mess == 'success') {
+            if (likeOrdislike == 'like') {
+                document.getElementById(codeComment + '-likeNumber').innerHTML = numberLike;
+            }
+            else if (likeOrdislike == 'dislike') {
+                document.getElementById(codeComment + '-dislikeNumber').innerHTML = numberDisLike;
+            }
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+
+}
 
 
 
@@ -848,20 +937,9 @@ function action() {
     //     }
     //     btn.textContent = "Go Fullscreen";
     // }
-    const listPostReview = document.querySelectorAll(".item-review-container");
-    const buttonReadMore = document.querySelector(".read-more");
 
-    // neu nhieu hon 3 cai review thi hien xem them
 
-    if (listPostReview.length > 2) {
-        buttonReadMore.classList.remove("hide-readmore");
-        console.log("1");
-        listPostReview.forEach((current, i) => {
-            if (i > 2) {
-                current.classList.add("hide-readmore");
-            }
-        })
-    }
+
 
 }
 
@@ -871,7 +949,7 @@ window.addEventListener('load', async function () {
     // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
     console.log('Trang chi tiết sản phẩm đã load hoàn toàn');
     await getDetailProduct();
-    action();
+
 
     let showSize = this.document.getElementById('size');
     if (showSize != null) {
@@ -881,6 +959,8 @@ window.addEventListener('load', async function () {
             addToCart();
         };
     }
+
+    action();
 
 });
 

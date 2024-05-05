@@ -303,7 +303,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $numberLike = $_POST['numberLike'];
                      $numberDislike = $_POST['numberDislike'];
 
-                     $obj = new CommentDTO($codeComment, $productCode, $userNameComment, $userNameRep, $sentDate, $content, $state, $numberLike, $numberDislike);
+                     $obj = new CommentDTO($codeComment, $productCode, $userNameComment, $userNameRepComment, $sentDate, $content, $state, $numberLike, $numberDislike);
                      $temp = $check->updateObj($obj);
                      echo json_encode($temp);
                      break;
