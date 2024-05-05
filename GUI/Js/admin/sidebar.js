@@ -82,6 +82,11 @@ document.getElementById('logout').onclick = function (event){
 }
 
 
+// hàm được dùng để hiện các chứcc năng phân quyền
+async function permisions(){
+       
+}
+
 // --------------------------------
 function action() {
        const itemMenu = document.querySelectorAll(".sub-menu > ul > li ");
