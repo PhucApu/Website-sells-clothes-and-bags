@@ -1,12 +1,13 @@
 <html lang="en">
-<?php require('../../../config.php')?>
+<?php require('../../../config.php') ?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách hình thức vận chuyển</title>
 
     <link rel="stylesheet" href="../../css/reset.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
@@ -14,7 +15,66 @@
         require('../../css/admin/sidebar.css');
         require('../../css/admin/header_admin.css');
         require('../../css/admin/footer_admin.css');
-        ?>
+        ?>.button {
+            position: relative;
+            width: 150px;
+            height: 35px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border: 1px solid #34974d;
+            background-color: #3aa856;
+            padding: 0;
+        }
+
+        .button,
+        .button__icon,
+        .button__text {
+            transition: all 0.3s;
+        }
+
+        .button .button__text {
+            transform: translateX(20px);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .button .button__icon {
+            position: absolute;
+            transform: translateX(109px);
+            height: 100%;
+            width: 39px;
+            background-color: #34974d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button .svg {
+            width: 30px;
+            stroke: #fff;
+        }
+
+        .button:hover {
+            background: #34974d;
+        }
+
+        .button:hover .button__text {
+            color: transparent;
+        }
+
+        .button:hover .button__icon {
+            width: 148px;
+            transform: translateX(0);
+        }
+
+        .button:active .button__icon {
+            background-color: #2e8644;
+        }
+
+        .button:active {
+            border: 1px solid #2e8644;
+        }
     </style>
 </head>
 
@@ -25,11 +85,18 @@
             <div class="header">
                 <?php require('./header_admin.php'); ?>
             </div>
-            <div class="content-page-sb ">
+            <div class="content-page-sb" style="min-height: 645px;">
                 <div class="container-product">
                     <div class="top-container mt-2">
                         <h2>Danh sách hình thức vận chuyển</h2>
-                        <a href="./addtransport.php" type="button" class="btn btn-primary btn-add">Thêm hình thức vận chuyển</a>
+                        <!-- <a href="./addtransport.php" type="button" class="btn btn-primary btn-add">Thêm hình thức vận chuyển</a> -->
+                        <a type="button" class="button" href="./addtransport.php" style="text-decoration:none;">
+                            <span class="button__text">Thêm mới</span>
+                            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+                                    <line y2="19" y1="5" x2="12" x1="12"></line>
+                                    <line y2="12" y1="12" x2="19" x1="5"></line>
+                                </svg></span>
+                        </a>
                     </div>
                     <div class="mb-3 mt-5">
                         <div class="input-group">
@@ -61,6 +128,15 @@
                 </div>
             </div>
 
+            <ul class="pagination pagination-sm justify-content-end" id="Pagination" style="cursor:pointer; margin-right:1rem;">
+                <!-- <li class="page-item"><a class="page-link">Previous</a></li>
+                    <li class="page-item active"><a class="page-link">1</a></li>
+                    <li class="page-item"><a class="page-link">2</a></li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item"><a class="page-link">Next</a></li> -->
+            </ul>
+
+
             <div class="footer">
                 <?php require('./footer_admin.php'); ?>
             </div>
@@ -69,7 +145,7 @@
 
     <div id="edit-transport">
         <!-- Modal sửa hình thức vận chuyển -->
-        <div class="modal fade" id="editTransport" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="editTransport" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -97,12 +173,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Modal xóa hình thức vận chuyển-->
     <div id="delete-transport">
-        <div class="modal fade" id="deleteTransport" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="deleteTransport" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -121,13 +197,13 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
 
     <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
     <script src="../../Js/admin/transport.js?v=<?php echo $version ?>"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

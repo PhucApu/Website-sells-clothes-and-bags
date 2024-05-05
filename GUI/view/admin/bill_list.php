@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,33 +14,32 @@
         require('../../css/admin/header_admin.css');
         require('../../css/admin/footer_admin.css');
         ?>
-    </style>
+ </style>
 </head>
-
 <body>
-    <div class="container-sb">
+    <div class="container">
         <div class="side-bar"><?php require('./sidebar.php'); ?></div>
         <div class="content">
             <div class="header">
                 <?php require('./header_admin.php'); ?>
-            </div>
-
+            </div>  
+            
             <div class="content-page">
                 <div class="container-fluid">
                     <div class="admin-header">
-                        <div class="admin-header-l">
-                            <h1 class="header-l">Danh sách hóa đơn</h1>
-                        </div>
-                        <div class="admin-header-r">
-                            <ul class="header-r-list">
-                                <li class="header-r-item">
-                                    <a href="./Tongquan.php">Home</a>
-                                </li>
-                                <li class="header-r-item">Danh sách hóa đơn</li>
-                            </ul>
-                        </div>
+                            <div class="admin-header-l">
+                                <h1 class="header-l">Danh sách hóa đơn</h1>
+                            </div>
+                            <div class="admin-header-r">
+                                <ul class="header-r-list">
+                                    <li class="header-r-item">
+                                        <a href="./Tongquan.php">Home</a>
+                                    </li>
+                                    <li class="header-r-item">Danh sách hóa đơn</li>
+                                </ul>
+                            </div>
                     </div>
-
+                    
 
                     <hr>
 
@@ -58,20 +56,15 @@
                         </div>
                         <div class="admin-filter-bottom">
                             <div class="admin-filter-bleft">
-                                <select class="form-control filter-b-item30 filter-b-item">
-                                    <option value="0">Chọn trạng thái</option>
-                                    <option value="1">Chờ duyệt</option>
-                                    <option value="2">Đã duyệt</option>
-                                    <option value="3">Đang chuẩn bị hàng</option>
-                                    <option value="4">Hủy đơn</option>
-                                    <option value="5">Đang giao</option>
-                                    <option value="6">Thành công</option>
-                                </select>
-                                <input class="filter-b-item70 form-control filter-b-item ml-10" type="text" placeholder="Nhập tên khách hàng">
+                                    <select class="form-control filter-b-item30 filter-b-item" style="padding: 0 .75rem!important;">
+                                        <option value="0">Chọn trạng thái</option>
+                                        <option value="1">Chờ duyệt</option><option value="2">Đã duyệt</option><option value="3">Đang chuẩn bị hàng</option><option value="4">Hủy đơn</option><option value="5">Đang giao</option><option value="6">Thành công</option>
+                                    </select>
+                                    <input class="filter-b-item70 form-control filter-b-item ml-10" type="text" placeholder="Nhập tên khách hàng" style="padding: 0 .75rem!important;">
                             </div>
                             <div class="admin-filter-bright">
-                                <input class="filter-b-item70 form-control filter-b-item mr-10" type="text" placeholder="Nhập số điện thoại khách hàng">
-                                <button type="submit" class="filter-b-item30 filter-b-item filter-b-btn">Tìm kiếm</button>
+                            <input class="filter-b-item70 form-control filter-b-item mr-10" type="text" placeholder="Nhập số điện thoại khách hàng" style="padding: 0 .75rem!important;">
+                            <button type="submit" class="filter-b-item30 filter-b-item filter-b-btn">Tìm kiếm</button>
                             </div>
                         </div>
                     </div>
@@ -94,82 +87,71 @@
                                     <th width="">Sửa</th>
                                 </tr>
                             </thead>
-                            <tbody class="fetch-data-table">
-                                <tr>
-                                    <td>1</td>
-                                    <td>Le Tien Hai</td>
-                                    <td>0987654321</td>
-                                    <td>Ho Chi Minh Viet Nam</td>
-                                    <td></td>
-                                    <td>21600</td>
-                                    <td>Chờ duyệt</td>
-                                    <td>08/05/2023 11:31:33</td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
-                                    <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Le Tien Hai</td>
-                                    <td>0987654321</td>
-                                    <td>Ho Chi Minh Viet Nam</td>
-                                    <td></td>
-                                    <td>14300</td>
-                                    <td>Chờ duyệt</td>
-                                    <td>08/05/2023 11:22:55</td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
-                                    <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Le Tien Hai</td>
-                                    <td>0987654321</td>
-                                    <td>Ho Chi Minh Viet Nam</td>
-                                    <td></td>
-                                    <td>42600</td>
-                                    <td>Chờ duyệt</td>
-                                    <td>08/05/2023 11:17:41</td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
-                                    <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Le Tien Hai</td>
-                                    <td>0987654321</td>
-                                    <td>Ho Chi Minh Viet Nam</td>
-                                    <td>.</td>
-                                    <td>3600</td>
-                                    <td>Thành công</td>
-                                    <td>08/05/2023 09:55:55</td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
-                                    <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Le Tien Hai</td>
-                                    <td>0987654321</td>
-                                    <td>Ho Chi Minh Viet Nam</td>
-                                    <td>.</td>
-                                    <td>500</td>
-                                    <td>Chờ duyệt</td>
-                                    <td>08/05/2023 09:54:55</td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
-                                    <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
-                                </tr>
+                            <tbody class="fetch-data-table"><tr>
+                        <td>1</td>
+                            <td>Le Tien Hai</td>
+                            <td>0987654321</td>
+                            <td>Ho Chi Minh Viet Nam</td>
+                            <td></td>
+                            <td>21600</td>
+                            <td>Chờ duyệt</td>
+                            <td>08/05/2023 11:31:33</td>
+                                                        
+                            <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
+                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
+                            </tr>
+                            <tr>
+                        <td>2</td>
+                            <td>Le Tien Hai</td>
+                            <td>0987654321</td>
+                            <td>Ho Chi Minh Viet Nam</td>
+                            <td></td>
+                            <td>14300</td>
+                            <td>Chờ duyệt</td>
+                            <td>08/05/2023 11:22:55</td>
+                                                        
+                            <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
+                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i>Sửa</a></td>
+                            </tr>
+                            <tr>
+                        <td>3</td>
+                            <td>Le Tien Hai</td>
+                            <td>0987654321</td>
+                            <td>Ho Chi Minh Viet Nam</td>
+                            <td></td>
+                            <td>42600</td>
+                            <td>Chờ duyệt</td>
+                            <td>08/05/2023 11:17:41</td>
+                                                        
+                            <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
+                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
+                            </tr>
+                            <tr>
+                        <td>4</td>
+                            <td>Le Tien Hai</td>
+                            <td>0987654321</td>
+                            <td>Ho Chi Minh Viet Nam</td>
+                            <td>.</td>
+                            <td>3600</td>
+                            <td>Thành công</td>
+                            <td>08/05/2023 09:55:55</td>
+                                                        
+                            <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
+                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
+                            </tr>
+                            <tr>
+                        <td>5</td>
+                            <td>Le Tien Hai</td>
+                            <td>0987654321</td>
+                            <td>Ho Chi Minh Viet Nam</td>
+                            <td>.</td>
+                            <td>500</td>
+                            <td>Chờ duyệt</td>
+                            <td>08/05/2023 09:54:55</td>
+                                                        
+                            <td><a href="./bill_list_detail.php" class="btn-table-billDetail">Chi tiết</a></td>
+                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -194,5 +176,4 @@
     </div>
     <script src="../../Js/sidebar.js"></script>
 </body>
-
 </html>

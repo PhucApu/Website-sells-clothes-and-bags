@@ -96,6 +96,9 @@ async function showData() {
        // set dữ liệu
        // set tên
        document.getElementById('fullname').value = dataUser.userName;
+       checkOut(dataUser.userName);
+       // set sdt
+       document.getElementById('phone').value = dataUser.phoneNumber;
 
        // bảng chi tiết hóa đơn
        let containerOrderDetail = document.getElementById('container-order-detail');
@@ -130,28 +133,106 @@ async function showData() {
        containerOrderDetail.innerHTML = result;
 
        // set tong tien hoa don
-       document.getElementById('total-money').innerHTML = '$ '+sumMoney;
+       document.getElementById('total-money').innerHTML = '$ ' + sumMoney;
 
        // set du lieu payment
        let result1 = '';
-       for(let item of dataPayment){
+       result1 += `<option name="payment" value="">select</option>`;
+       for (let item of dataPayment) {
               let codePayments = item.codePayments;
               let namePayment = item.namePayment;
-              
-              let string = `<option value="${codePayments}">${namePayment}</option>`;
+
+              let string = `<option name="payment" value="${codePayments}">${namePayment}</option>`;
               result1 += string;
        }
        document.getElementById('payment').innerHTML = result1;
 
        // set du lieu transport
        let result2 = '';
-       for(let item of dataTransport){
+       result2 += `<option name="payment" value="">select</option>`;
+       for (let item of dataTransport) {
               let codeTransport = item.codeTransport;
               let nameTransport = item.nameTransport;
-              
-              let string = `<option value="${codeTransport}">${nameTransport}</option>`;
+
+              let string = `<option name="transport" value="${codeTransport}">${nameTransport}</option>`;
               result2 += string;
        }
        document.getElementById('transport').innerHTML = result2;
 }
-showData();
+
+function checkOut(userName) {
+       document.getElementById('checkout-button').onclick = async function (event) {
+              event.preventDefault();
+
+
+              // lấy dữ liệu cần thiết
+              // lấy mã thanh toán
+              let codePayment = document.getElementById('payment').value;
+
+              // lấy mã vận chuyển
+              let codeTransport = document.getElementById('transport').value;
+
+              // lấy ghi chú
+              let note = document.getElementById('order-note').value;
+
+              let address = document.getElementById('address').value;
+              console.log(userName, codePayment, codeTransport, note, address);
+
+              if (codePayment != '' && codeTransport != '' && address != '') {
+                     try {
+                            const response = await fetch('../../BLL/OrderBLL.php', {
+                                   method: 'POST',
+                                   headers: {
+                                          'Content-Type': 'application/x-www-form-urlencoded'
+                                   },
+                                   body:
+                                          'function=' + encodeURIComponent('addOrderUser') + '&username=' + encodeURIComponent(userName) + '&deliveryAddress=' + encodeURIComponent(address) + '&note=' + encodeURIComponent(note) + '&state=' + encodeURIComponent('processing') + '&codePayment=' + encodeURIComponent(codePayment) + '&codeTransport=' + encodeURIComponent(codeTransport)
+                            });
+                            const data = await response.json();
+                            console.log(data);
+                            if (data.mess == 'success') {
+                                   await Swal.fire({
+                                          position: "center",
+                                          icon: "success",
+                                          title: `Checkout Success! Order code is ${data.orderCode}`,
+                                   });
+
+                                   // set up để quay lại trang vỏ hàng
+
+                                   let codeValue = btoa('P000');
+                                   let typeValue = btoa('handbagProduct');
+                                   let quantityBuyCode = btoa('0');
+                                   let addCartCode = btoa('true');
+                                   let sizeCode = btoa('S000');
+
+                                   window.location.href = `../../GUI/view/Cart.php?code=${codeValue}&type=${typeValue}&quantityBuy=${quantityBuyCode}&addCart=${addCartCode}&sizeCode=${sizeCode}`;
+                            } else {
+                                   await Swal.fire({
+                                          position: "center",
+                                          icon: "error",
+                                          title: "Checkout Failed",
+                                          showConfirmButton: false,
+                                          timer: 2000
+                                   });
+                            }
+
+                     } catch (error) {
+                            console.error('Error:', error);
+                     }
+              } else {
+                     Swal.fire({
+                            icon: "warning",
+                            title: "Oops...",
+                            text: "Completely fill out all fields marked with a red star !",
+                     });
+              }
+       }
+}
+
+window.addEventListener('load', async function () {
+       // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
+       console.log('Trang Cart đã load hoàn toàn');
+       await showData();
+       // checkLogin_toCart();
+
+});

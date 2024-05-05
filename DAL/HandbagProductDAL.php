@@ -57,7 +57,7 @@ class HandbagProductDAL extends AbstractionDAL
 
                      $result_check1 = $this->actionSQL->query($check_data_orderDetail);
 
-                     if ($result_check1->num_rows < 1 ) {
+                     if ($result_check1->num_rows < 1) {
                             // xóa dữ liệu trong bảng handbagproduct trước
                             $string1 = "DELETE FROM handbagproduct WHERE productCode = '$code'";
 
@@ -197,9 +197,11 @@ class HandbagProductDAL extends AbstractionDAL
        }
 
        // sửa một đối tượng
+
        function upadateObj($obj)
        {
               if ($obj != null) {
+                     // Lấy thông tin từ đối tượng
                      $productCode = $obj->getProductCode();
                      $imgProduct = $obj->getImgProduct();
                      $nameProduct = $obj->getNameProduct();
@@ -214,39 +216,106 @@ class HandbagProductDAL extends AbstractionDAL
                      $bagMaterial = $obj->getBagMaterial();
                      $descriptionMaterial = $obj->getDescriptionMaterial();
 
-                     // Câu lệnh SQL để cập nhật dữ liệu trong bảng Product nếu mã sản phẩm đã tồn tại
-                     $queryProduct = "UPDATE Product 
-                                      SET imgProduct = '$imgProduct', 
-                                          nameProduct = '$nameProduct', 
-                                          supplierCode = '$supplierCode', 
-                                          quantity = $quantity, 
-                                          describeProduct = '$describeProduct', 
-                                          status = '$status', 
-                                          color = '$color', 
-                                          targetGender = '$targetGender', 
-                                          price = $price, 
-                                          promotion = $promotion
-                                      WHERE productCode = '$productCode'";
+                     // Chuẩn bị câu lệnh SQL sử dụng Prepared Statements
+                     $queryProduct = "UPDATE product 
+                                  SET imgProduct = ?, 
+                                      nameProduct = ?, 
+                                      supplierCode = ?, 
+                                      quantity = ?, 
+                                      describeProduct = ?, 
+                                      status = ?, 
+                                      color = ?, 
+                                      targetGender = ?, 
+                                      price = ?, 
+                                      promotion = ?
+                                  WHERE productCode = ?";
+                     $stmtProduct = $this->actionSQL->prepare($queryProduct);
+                     $stmtProduct->bind_param("sssiisssdis", $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $productCode);
 
-                     // Thực hiện truy vấn
-                     $resultProduct = $this->actionSQL->query($queryProduct);
+                     // Thực hiện truy vấn Product
+                     $resultProduct = $stmtProduct->execute();
 
-                     // Câu lệnh SQL để cập nhật dữ liệu trong bảng HandbagProduct nếu mã sản phẩm đã tồn tại
-                     $queryHandbagProduct = "UPDATE HandbagProduct 
-                                             SET bagMaterial = '$bagMaterial',
-                                                 descriptionMaterial = '$descriptionMaterial'
-                                             WHERE productCode = '$productCode'";
+                     // Xử lý lỗi
+                     if (!$resultProduct) {
+                            // Xử lý lỗi khi thực hiện truy vấn
+                            // return false;
+                     }
 
-                     // Thực hiện truy vấn
-                     $resultHandbagProduct = $this->actionSQL->query($queryHandbagProduct);
+                     // Chuẩn bị câu lệnh SQL cho HandbagProduct
+                     $queryHandbagProduct = "UPDATE handbagproduct 
+                                          SET bagMaterial = ?, descriptionMaterial = ?
+                                          WHERE productCode = ?";
+                     $stmtHandbagProduct = $this->actionSQL->prepare($queryHandbagProduct);
+                     $stmtHandbagProduct->bind_param("sss", $bagMaterial, $descriptionMaterial, $productCode);
 
-                     // Kiểm tra và trả về kết quả của cả hai câu lệnh UPDATE
-                     return ($resultProduct !== false && $resultHandbagProduct !== false);
+                     // Thực hiện truy vấn HandbagProduct
+                     $resultHandbagProduct = $stmtHandbagProduct->execute();
+
+                     // Xử lý lỗi
+                     if (!$resultHandbagProduct) {
+                            // Xử lý lỗi khi thực hiện truy vấn
+                            // return false;
+                     }
+
+                     // Trả về kết quả
+                     return ($resultProduct && $resultHandbagProduct);
               } else {
                      // Nếu đối tượng truyền vào là null
                      return false;
               }
        }
+
+       // function upadateObj($obj)
+       // {
+       //        if ($obj != null) {
+       //               $productCode = $obj->getProductCode();
+       //               $imgProduct = $obj->getImgProduct();
+       //               $nameProduct = $obj->getNameProduct();
+       //               $supplierCode = $obj->getSupplierCode();
+       //               $quantity = $obj->getQuantity();
+       //               $describeProduct = $obj->getDescribe();
+       //               $status = $obj->getStatus();
+       //               $color = $obj->getColor();
+       //               $targetGender = $obj->getTargetGender();
+       //               $price = $obj->getPrice();
+       //               $promotion = $obj->getPromotion();
+       //               $bagMaterial = $obj->getBagMaterial();
+       //               $descriptionMaterial = $obj->getDescriptionMaterial();
+
+       //               // Câu lệnh SQL để cập nhật dữ liệu trong bảng Product nếu mã sản phẩm đã tồn tại
+       //               $queryProduct = "UPDATE product 
+       //                                SET imgProduct = '$imgProduct', 
+       //                                    nameProduct = '$nameProduct', 
+       //                                    supplierCode = '$supplierCode', 
+       //                                    quantity = $quantity, 
+       //                                    describeProduct = '$describeProduct', 
+       //                                    status = '$status', 
+       //                                    color = '$color', 
+       //                                    targetGender = '$targetGender', 
+       //                                    price = $price, 
+       //                                    promotion = $promotion
+       //                                WHERE productCode = '$productCode'";
+
+       //               // Thực hiện truy vấn
+       //               $resultProduct = $this->actionSQL->query($queryProduct);
+
+       //               // Câu lệnh SQL để cập nhật dữ liệu trong bảng HandbagProduct nếu mã sản phẩm đã tồn tại
+       //               $queryHandbagProduct = "UPDATE handbagproduct 
+       //                                       SET bagMaterial = '$bagMaterial', descriptionMaterial = '$descriptionMaterial'
+       //                                       WHERE productCode = '$productCode'";
+
+
+
+       //               // Thực hiện truy vấn
+       //               $resultHandbagProduct = $this->actionSQL->query($queryHandbagProduct);
+
+       //               // Kiểm tra và trả về kết quả của cả hai câu lệnh UPDATE
+       //               return ($resultProduct == $resultHandbagProduct);
+       //        } else {
+       //               // Nếu đối tượng truyền vào là null
+       //               return false;
+       //        }
+       // }
 
        // hàm lấy bảng product
        function getProductDATA()

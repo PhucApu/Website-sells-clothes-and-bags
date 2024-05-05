@@ -116,8 +116,8 @@ class TransportBLL
                      if ($result == true) {
                             return array(
                                    "codeTransport" => $codeTransport,
-                                   "namePayments" => $nameTransport,
-                                   "affiliateBank" => $affiliatedCompany,
+                                   "nameTransport" => $nameTransport,
+                                   "affiliatedCompany" => $affiliatedCompany,
                                    "mess" => "success"
                             );
                      } else {
@@ -130,6 +130,8 @@ class TransportBLL
        function searchTransports($str)
        {
               $arr = $this->TransportDAL->getListObj();
+              // Chuyển cả hai chuỗi về chữ thường
+              $keyword = strtolower($str);
 
               $result = array();
               if (count($arr) > 0) {
@@ -138,10 +140,14 @@ class TransportBLL
                             $codeTransport = $item->getCodeTransport();
                             $affiliatedCompany = $item->getAffiliatedCompany();
 
+                            $nameTransport_lowercase = strtolower($nameTransport);
+                            $codeTransport_lowercase = strtolower($codeTransport);
+                            $affiliatedCompany_lowercase = strtolower($affiliatedCompany);
+                            
                             if (
-                                   strpos($nameTransport, $str) !== false ||
-                                   strpos($codeTransport, $str) !== false ||
-                                   strpos($affiliatedCompany, $str) !== false
+                                   strpos($nameTransport_lowercase, $keyword) !== false ||
+                                   strpos($codeTransport_lowercase, $keyword) !== false ||
+                                   strpos($affiliatedCompany_lowercase, $keyword) !== false
                             ) {
 
                                    $obj = array(

@@ -16,6 +16,7 @@ async function getArr() {
               
               //     Display Transport
               showTransport(data);
+              loadPage();
               
               
        } catch (error) {
@@ -63,8 +64,8 @@ function showTransport(data){
                      <td>${i.codeTransport}</td>
                      <td>${i.affiliatedCompany}</td>
                      <td>
-                            <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editTransport-${i.codeTransport}"><i class="fa fa-edit"></i> Sửa</a>
-                            <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTransport-${i.codeTransport}"><i class="fa fa-trash"></i> Xóa</a>
+                            <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editTransport-${i.codeTransport}">Sửa <i class="fa fa-edit"></i></a>
+                            <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTransport-${i.codeTransport}">Xóa <i class="fa fa-trash"></i></a>
                      </td>
               </tr>
               `;
@@ -75,8 +76,8 @@ function showTransport(data){
                             <div class="modal-dialog">
                             <div class="modal-content">
                                    <div class="modal-header">
-                                   <h5 class="modal-title" id="editModalLabel">Cập nhật thông tin hình thức vận chuyển</h5>
-                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          <h5 class="modal-title" id="editModalLabel">Cập nhật thông tin hình thức vận chuyển</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                                    </div>
                                    <div class="modal-body">
                                    <form id="editForm">
@@ -153,9 +154,20 @@ function searchTransports(){
                      const data = await response.json();
                      console.log(data);
                      
-                 // Display Transport
-                     showTransport(data);
-                     
+                     if(data.length == 0){
+                            
+                            console.log('Không có dữ liệu');
+                            
+                            document.querySelector('#Pagination').style.display = 'none';
+                            showTransport(data);
+                     }
+                     else { 
+                            
+                            showTransport(data);
+                            document.querySelector('#Pagination').style.display = 'flex';
+                            loadItem(1,4);
+                            
+                     }
                      
               } catch (error) {
                      console.error('Error:', error);
@@ -169,33 +181,45 @@ function searchTransports(){
               let codeTransportValue = document.getElementById(code).value;
               let nameTransportValue = document.getElementById(name).value;
               let affiliatedCompanyValue = document.getElementById(company).value;
-              try{
-                     const response = await fetch('../../../BLL/TransportBLL.php', {
-                            method: 'POST',
-                            headers: {
-                                   'Content-Type': 'application/x-www-form-urlencoded'
-                            },
-                            body: 'function=' + encodeURIComponent('updateObj')+'&codeTransport=' + encodeURIComponent(codeTransportValue)+
-                            '&nameTransport=' + encodeURIComponent(nameTransportValue)+ '&affiliatedCompany=' + encodeURIComponent(affiliatedCompanyValue)
-                     });
-                     
-                     const data = await response.json();
-                     console.log(data);
-                     if(data.mess === "success"){
-                            await Swal.fire({
-                                   position: "center",
-                                   icon: "success",
-                                   title: "Cập nhật thành công",
-                                   showConfirmButton: false,
-                                   timer: 1500
-                                 });
-                            await getArr();
-                     }
-                     
-                     
-              } catch (error) {
-                     console.error('Error:', error);
-              };      
+
+
+              if(nameTransportValue.trim() === '' || affiliatedCompanyValue.trim() === ''){
+                     Swal.fire({
+                            icon: "error",
+                            title: "Sửa thất bại!",
+                            text: "Không bỏ trống thông tin"
+                          });
+              } else {
+                     try{
+                            const response = await fetch('../../../BLL/TransportBLL.php', {
+                                   method: 'POST',
+                                   headers: {
+                                          'Content-Type': 'application/x-www-form-urlencoded'
+                                   },
+                                   body: 'function=' + encodeURIComponent('updateObj')+'&codeTransport=' + encodeURIComponent(codeTransportValue)+
+                                   '&nameTransport=' + encodeURIComponent(nameTransportValue)+ '&affiliatedCompany=' + encodeURIComponent(affiliatedCompanyValue)
+                            });
+                            
+                            const data = await response.json();
+                            console.log(data);
+                            if(data.mess === "success"){
+                                   await Swal.fire({
+                                          position: "center",
+                                          icon: "success",
+                                          title: "Cập nhật thành công!",
+                                          showConfirmButton: false,
+                                          timer: 1500
+                                        });
+                                   await getArr();
+                                   console.log(data);
+                            }
+                            
+                            
+                     } catch (error) {
+                            console.error('Error:', error);
+                     };
+              }
+                    
        }
 
        //Xóa transport
@@ -231,11 +255,93 @@ function searchTransports(){
 
        }
 
+function loadItem(thisPage, limit) {
+
+       // tính vị trí bắt đầu và kêt thúc
+       let beginGet = limit * (thisPage - 1);
+       let endGet = limit * thisPage - 1;
+
+       // lấy tất cả các dòng dữ liệu có trong bảng
+       let all_data_rows = document.querySelectorAll('#transportList > tr');
+
+       all_data_rows.forEach((item, index) => {
+              if (index >= beginGet && index <= endGet) {
+                     item.style.display = 'table-row';
+              }
+              else {
+                     item.style.display = 'none';
+              }
+       });
+
+       // hàm tính có bao nhieu nút chuyển trang
+       listPage(thisPage, limit, all_data_rows);
+}
+       
+function listPage(thisPage, limit, all_data_rows) {
+       let result = '';
+       let count = Math.ceil(all_data_rows.length / limit);
+       // thêm nút prev
+       
+       if (thisPage != 1) {
+
+              let string = `<li class="page-item" onclick="loadItem(${Number(thisPage) - 1},${limit})"><a class="page-link">Previous</a></li>`;
+              result += string;
+       } else if(thisPage == 1){
+              let string = `<li class="page-item disabled" style="cursor: default;"><a class="page-link">Previous</a></li>`;
+              result += string;
+       }
+       
+       // tính xem có bao nhieu nút
+
+       // lấy container chứa nút phân trang
+       let container = document.getElementById('Pagination');
+
+       for (let i = 1; i <= count; i++) {
+              let string = `<li class="page-item" onclick="loadItem(${i},${limit})"><a class="page-link">${i}</a></li>`;
+              if (i == thisPage) {
+                     string = `<li class="page-item active" onclick="loadItem(${i},${limit})"><a class="page-link">${i}</a></li>`;
+              }
+              result += string;
+       }
+
+       // thêm nút next
+       
+       if (thisPage != count) {
+              let string1 = `<li class="page-item" onclick="loadItem(${Number(thisPage) + 1},${limit})"><a class="page-link">Next</a></li>`;
+              result += string1; 
+       }
+       else if(thisPage == count){
+              let string1 = `<li class="page-item disabled" style="cursor: default;"><a class="page-link">Next</a></li>`;
+              result += string1;
+       }
+
+       container.innerHTML = result;
+}
+       
+function loadPage() {
+       // Lấy danh sách tất cả các thẻ <li> trong <ul> có id là "Panigation"
+       var listItems = document.querySelectorAll('#Pagination li');
+
+       // Duyệt qua từng phần tử trong danh sách
+       listItems.forEach(function (item) {
+              // Kiểm tra xem phần tử hiện tại có class là "active" hay không
+              if (item.classList.contains('active')) {
+                     // Nếu có, lấy nội dung trong thẻ <a> bên trong và chuyển thành số
+                     var activePageText = item.querySelector('a').textContent.trim();
+                     var activePageNumber = parseInt(activePageText);
+                     console.log("Trang đang active: " + activePageNumber);
+                     loadItem(activePageNumber, 4);
+              }
+       });
+}
+
+
 window.addEventListener("load", async function () {
        // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
-       console.log("Trang transport đã load hoàn toàn");
        await getArr();
        searchTransports();
+       loadItem(1,4);
+       console.log("Trang transport đã load hoàn toàn");
 });
 
 

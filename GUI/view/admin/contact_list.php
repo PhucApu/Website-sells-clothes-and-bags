@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require('../../../config.php')?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,20 @@
 
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
     <style>
         <?php
         require('../../css/admin/bill_list_admin.css');
         require('../../css/admin/sidebar.css');
         require('../../css/admin/header_admin.css');
         require('../../css/admin/footer_admin.css');
-        ?>
+        ?> 
  </style>
 </head>
 <body>
-    <div class="container-sb">
+    <div class="container-sb" >
         <div class="side-bar"><?php require('./sidebar.php'); ?></div>
         <div class="content">
             <div class="header">
@@ -55,15 +59,11 @@
                     <div class="admin-filter">
                         <div class="admin-filter-bottom">
                             <div class="admin-filter-bleft">
-                                    <select class="form-control filter-b-item30 filter-b-item">
-                                        <option class="" value="0">Chọn trạng thái</option>
-                                        <option value="1">Chưa xử lí</option><option value="2">Đang xử lí</option><option value="3">Đã xử lí</option>
-                                    </select>
-                                    <input class="filter-b-item70 form-control filter-b-item ml-10" type="text" placeholder="Nhập tên khách hàng">
+                                    <input id="input-search-username" class="filter-b-item100 form-control filter-b-item ml-10" type="text" placeholder="Nhập tên khách hàng">
                             </div>
                             <div class="admin-filter-bright">
-                            <input class="filter-b-item70 form-control filter-b-item mr-10" type="text" placeholder="Nhập email khách hàng">
-                            <button type="submit" class="filter-b-item30 filter-b-item filter-b-btn">Tìm kiếm</button>
+                                <input id="input-search-email" class="filter-b-item70 form-control filter-b-item mr-10" type="text" placeholder="Nhập email khách hàng">
+                                <button id="submit-contact" type="submit" class="filter-b-item30 filter-b-item filter-b-btn">Tìm kiếm</button>
                             </div>
                         </div>
                     </div>
@@ -77,77 +77,22 @@
                                     <th width="5%">STT</th>
                                     <th width="">Họ tên</th>
                                     <th width="">Email</th>
-                                    <th width="">Lới nhắn</th>
-                                    <th width="">Trạng thái</th>
-                                    <th width="">Ghi chú</th>
+                                    <th width="">Lời nhắn</th>
+                                    <th width="">Trả lời</th>
                                     <th width="">Thời gian</th>
-                                    <th width="">Sửa</th><th width="">Xóa</th>
+                                    <th width="">Sửa</th>
+                                    <th width="">Xóa</th>
 
                                 </tr>
                             </thead>
-                            <tbody class="fetch-data-table"><tr>
-                        <td>1</td>
-                            <td>hai tien</td>
-                            <td>tienhaile488@gmail.com</td>
-                            <td>daffffffffff</td>
-                            <td><a href="" class="btn-table-warning dis-pointed-hover">Chưa xử lý</a></td>
-                            <td>Chưa xử lý</td>
-                            <td>07/05/2023 23:25:46</td>
+                            <tbody id="feedBackList" class="fetch-data-table">
                             
-                            
-                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td><td><a href="" onclick="return confirm('Bạn có thật sự muốn xóa!') " class="btn-table-warning"><i class="fa fa-trash"></i>
-                                Xóa</a></td></tr><tr>
-                        <td>2</td>
-                            <td>tienhai</td>
-                            <td>tienhaile488@gmail.com</td>
-                            <td>chao dfsfdasfsad</td>
-                            <td><a href="" class="btn-table-warning dis-pointed-hover">Chưa xử lý</a></td>
-                            <td>Chưa xử lý</td>
-                            <td>07/05/2023 23:24:52</td>
-                            
-                            
-                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td><td><a href="" class="btn-table-warning"><i class="fa fa-trash"></i>
-                                Xóa</a></td></tr><tr>
-                        <td>3</td>
-                            <td>tienhai</td>
-                            <td>tienhaile488@gmail.com</td>
-                            <td>chao buoi sang</td>
-                            <td><a href="" class="btn-table-warning dis-pointed-hover">Chưa xử lý</a></td>
-                            <td>Chưa xử lý</td>
-                            <td>07/05/2023 23:24:31</td>
-                            
-                            
-                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td><td><a href="" onclick="return confirm('Bạn có thật sự muốn xóa!') " class="btn-table-warning"><i class="fa fa-trash"></i>
-                                Xóa</a></td></tr><tr>
-                        <td>4</td>
-                            <td>tienhai</td>
-                            <td>tienhaile488@gmail.com</td>
-                            <td>chao buoi san</td>
-                            <td><a href="" class="btn-table-warning dis-pointed-hover">Chưa xử lý</a></td>
-                            <td>Chưa xử lý</td>
-                            <td>07/05/2023 23:24:10</td>
-                            
-                            
-                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
-                            <td><a href="" onclick="return confirm('Bạn có thật sự muốn xóa!') " class="btn-table-warning"><i class="fa fa-trash"></i>
-                                Xóa</a></td></tr><tr>
-                        <td>5</td>
-                            <td>Tienhai</td>
-                            <td>tienhaile488@gmail.com</td>
-                            <td>cahho buoi sang</td>
-                            <td><a href="" class="btn-table-warning dis-pointed-hover">Chưa xử lý</a></td>
-                            <td>Chưa xử lý</td>
-                            <td>07/05/2023 23:23:51</td>
-                            
-                            
-                            <td><a href="./admin_update.php" class="btn-table-billUpdate"><i class="fa fa-edit"></i> Sửa</a></td>
-                            <td><a href="" onclick="return confirm('Bạn có thật sự muốn xóa!') " class="btn-table-warning"><i class="fa fa-trash"></i>
-                                Xóa</a></td></tr></tbody>
+                            </tbody> 
                         </table>
                     </div>
 
                     <nav aria-label="Page navigation example" class="admin-pageNav">
-                        <ul class="admin-pageNav-list">
+                        <ul class="admin-pageNav-list" id="list-page">
                             <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">Previous</a></li>
                             <li class="admin-pageNav-item active"><a class="admin-pageNav-link" href="">1</a></li>
                             <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">2</a></li>
@@ -162,6 +107,16 @@
             </div>
         </div>
     </div>
-    <script src="../../Js/sidebar.js"></script>
+    <!-- Modal sửa -->
+    <div id="edit-feedback">
+    </div>
+    <!-- Modal xóa-->
+    <div id="delete-feedback">
+    </div>
+
+    <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/feedback.js?v=<?php echo $version ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

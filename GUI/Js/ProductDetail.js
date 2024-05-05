@@ -20,6 +20,8 @@ async function getDetailProduct() {
         let productCode = atob(codeValue);
         let type = atob(typeValue);
 
+        activeLoadDataComment(productCode);
+
         if (type == 'shirtProduct' || type == 'handbagProduct') {
             console.log(productCode + type);
 
@@ -570,6 +572,93 @@ function addToCart() {
     });
 }
 
+// hàm kích hoạt láy dữ liệu bình luận khi click qua mục review
+function activeLoadDataComment(producCode) {
+    document.getElementById('rev').onclick = async function () {
+        await getCommentData(producCode);
+    }
+}
+
+// hàm lấy dữ liệu bình luận về sản phẩm
+async function getCommentData(productCode) {
+    try {
+        let response = await fetch('../../BLL/CommentBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('getArrObj_by_productCode') + '&productCode=' + encodeURIComponent(productCode)
+        });
+        let data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// hàm show dữ liệu lên người dùng xem
+async function showDataCommentHTML(data) {
+    let container = document.getElementById('review');
+    let result = '';
+    for (let i = data.length - 1; i >= 0; i--) {
+        let item = data[i];
+        let userName = item.userNameComment;
+        let senDate = item.senDate;
+        let codeComment = item.codeComment;
+        let content = item.content;
+        let likeNumber = item.likeNumber;
+        let dislikeNumber = item.dislikeNumber;
+
+        let sex = '';
+        try {
+            let response = await fetch('../../BLL/AccountBLL.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:
+                    'function=' + encodeURIComponent('getObjAccount') + '&userName=' + encodeURIComponent(userName)
+            });
+            let data = await response.json();
+            if(data.result == 'success'){
+                sex = data.sex;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        if(sex == 'Male'){
+            let string = `
+                <div class="item-review-container">
+                    <div class="item-review">
+                        <img src="../image/avt-review/male.png" alt="" class="avt">
+                        <div class="main-review">
+                            <div class="content-review">
+                                <p class="name-user">Tran Tien Phat</p>
+                                <div class="text-review">
+                                    <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
+                                </div>
+                            </div>
+                            <div class="behavior">
+                                <div>
+                                    <i class="fa-solid fa-thumbs-up"></i>
+                                    <span>10</span>
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-thumbs-down"></i>
+                                    <span>3</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            `;
+        }
+        
+    }
+}
+
 
 
 
@@ -773,7 +862,7 @@ function action() {
             }
         })
     }
-    
+
 }
 
 // chi thuc hien ham khi trang da load xong

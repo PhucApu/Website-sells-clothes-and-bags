@@ -89,14 +89,14 @@
                             <div class="quantity">
                                 <label>Quantity</label>
                                 <input id="quantityBuy" type="number" step="1" min="1" max="10" name="quantity" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
-                                
+
                                 <div style="margin-top:10px;">(Quantity left in store: 10)</div>
                             </div>
                             <button id='cart'>
                                 <a href="">add to cart</a>
                             </button>
                         </div>
-                        
+
                         <div class="share-link">
                             <label>Share</label>
                             <ul>
@@ -121,7 +121,7 @@
                     <div class="desc-and-review">
                         <div class="title">
                             <h4 class="desc selected">description</h4>
-                            <h4 class="rev">reviews<span>(0)</span></h4>
+                            <h4 id="rev" class="rev">reviews<span>(0)</span></h4>
                         </div>
                         <hr>
                         <div class="container-des-re">
@@ -138,13 +138,14 @@
                             </div>
                             <div class="content-rev hiddenP">
                                 <h3>Review</h3>
-                                <div class="review">
-                                   <div class="item-review-container">
+                                <div id="review" class="review">
+                                    <div class="item-review-container">
                                         <div class="item-review">
                                             <img src="../image/avt-review/male.png" alt="" class="avt">
                                             <div class="main-review">
                                                 <div class="content-review">
                                                     <p class="name-user">Tran Tien Phat</p>
+                                                    <p>Send date: 20/10/2020</p>
                                                     <div class="text-review">
                                                         <p>Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng Sản phẩm tốt chất lượng đúng vs mô tả. Giao hàng nhanh chóng đóng gói kĩ lưỡng</p>
                                                     </div>

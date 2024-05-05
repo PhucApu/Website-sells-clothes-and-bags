@@ -155,6 +155,47 @@ class CommentDAL extends AbstractionDAL
               }
        }
 
+       // lấy một mảng đối tượng dựa theo mã sản phẩm
+       function getArr_by_productCode($productCode)
+       {
+              
+              // Câu lệnh truy vấn
+              $string = "SELECT * FROM Comment WHERE productCode = '$productCode'";
+              $arr = array();
+              // Thực hiện truy vấn
+              $result = $this->actionSQL->query($string);
+
+              if ($result->num_rows > 0) {
+                     while ($data = $result->fetch_assoc()) {
+                            $codeComment = $data['codeComment'];
+                            $productCode = $data['productCode'];
+                            $userNameComment = $data['userNameComment'];
+                            $userNameRepComment = $data['userNameRepComment'];
+                            $sentDate = $data['sentDate'];
+                            $content = $data['content'];
+                            $state = $data['state'];
+                            $likeNumber = $data['likeNumber'];
+                            $dislikeNumber = $data['dislikeNumber'];
+
+                            // giải mã username
+                            $userNameCommentValue = base64_decode($userNameComment);
+
+                            // Tạo đối tượng CommentDTO và trả về
+                            $comment = new CommentDTO($codeComment, $productCode, $userNameCommentValue, $userNameRepComment, $sentDate, $content, $state, $likeNumber, $dislikeNumber);
+
+                            //
+                            array_push($arr, $comment);
+                     }
+
+                     return $arr;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     // echo "Không có dữ liệu được trả về từ truy vấn.";
+                     return null;
+              }
+       }
+
+
        // thêm một đối tượng 
        function addObj($obj)
        {

@@ -151,7 +151,7 @@ class OrderDetailDAL extends AbstractionDAL
                      $orderCode = $obj->getOrderCode();
                      $productCode = $obj->getProductCode();
                      // Kiểm tra xem có bị trùng thuộc tính khóa không
-                     $check = "SELECT * FROM orderDetail WHERE orderCode = '$orderCode' AND productCode = '$productCode'";
+                     $check = "SELECT * FROM orderdetail WHERE orderCode = '$orderCode' AND productCode = '$productCode'";
                      $resultCheck = $this->actionSQL->query($check);
 
                      if ($resultCheck->num_rows < 1) {
@@ -161,7 +161,7 @@ class OrderDetailDAL extends AbstractionDAL
                             $totalMoney = $obj->getTotalMoney();
                             $sizeCode = $obj->getSizeCode();
                             // Câu lệnh truy vấn
-                            $string = "INSERT INTO orderDetail (orderCode, productCode, nameProduct, priceProduct, quantity,sizeCode, totalMoney) VALUES ('$orderCode', '$productCode', '$nameProduct', $priceProduct, $quantity,$sizeCode, $totalMoney)";
+                            $string = "INSERT INTO orderDetail (orderCode, productCode, nameProduct, priceProduct, quantity,sizeCode, totalMoney) VALUES ('$orderCode', '$productCode', '$nameProduct', $priceProduct, $quantity,'$sizeCode', $totalMoney)";
 
                             return $this->actionSQL->query($string);
                      } else {

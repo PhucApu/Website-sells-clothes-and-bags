@@ -90,6 +90,46 @@ class CommentBLL
               }
        }
 
+       // lấy mảng đối tượng bình luận theo mã sản phẩm
+       function getArrObj_by_productCode($productCode){
+              $arr = $this->CommentDAL->getArr_by_productCode($productCode);
+              $result = array();
+              if (count($arr) > 0) {
+                     foreach ($arr as $item) {
+                            // if($item->getState() == "1"){
+                            $codeComment = $item->getCodeComment();
+                            $productCode = $item->getProductCode();
+                            $userNameComment = $item->getUserNameComment();
+                            $userNameRepComment = $item->getUserNameRepComment();
+                            $sentDate = $item->getSentDate();
+                            $content = $item->getContent();
+                            $state = $item->getState();
+                            $likeNumber = $item->getLikeNumber();
+                            $dislikeNumber = $item->getDislikeNumber();
+
+                            $obj = array(
+                                   "codeComment" => $codeComment,
+                                   "productCode" => $productCode,
+                                   "userNameComment" => $userNameComment,
+                                   "userNameRepComment" => $userNameRepComment,
+                                   "sentDate" => $sentDate,
+                                   "content" => $content,
+                                   "state" => $state,
+                                   "likeNumber" => $likeNumber,
+                                   "dislikeNumber" => $dislikeNumber
+                            );
+                            array_push($result, $obj);
+                            // }
+                     }
+                     return $result;
+              } else {
+                     return array(
+                            "mess" => "empty"
+                     );
+              }
+       }
+
+
        //Lấy 1 đối tượng Comment thông qua codeComment
        function getObj($code)
        {
@@ -290,6 +330,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $dislikeNumber = $_POST['dislikeNumber'];
                      $likeNumber = $_POST['likeNumber'];
                      $temp = $check->addObj($productCode,$userNameComment,$userNameRepComment,$content,$state,$dislikeNumber,$likeNumber);
+                     echo json_encode($temp);
+                     break;
+              case 'getArrObj_by_productCode':
+                     $productCode = $_POST['productCode'];
+                     $temp = $check->getArrObj_by_productCode($productCode);
                      echo json_encode($temp);
                      break;
        }

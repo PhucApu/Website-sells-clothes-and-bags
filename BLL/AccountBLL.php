@@ -194,6 +194,32 @@ class AccountBLL
               }
        }
 
+       // lấy một tài khoản theo mã tài khoản
+       function getObjAccount($userName){
+              $obj = $this->AccountDAL->getobj($userName);
+              if($obj != null){
+                     return array(
+                            "userName" => $obj->getUsername(),
+                            "passWord" => $obj->getPassword(),
+                            "dateCreate" => $obj->getDateCreate(),
+                            "accountStatus" => $obj->getAccountStatus(),
+                            "name" => $obj->getName(),
+                            "address" => $obj->getAddress(),
+                            "email" => $obj->getEmail(),
+                            "phoneNumber" => $obj->getPhoneNumber(),
+                            "birth" => $obj->getBirth(),
+                            "sex" => $obj->getSex(),
+                            "codePermission" => $obj->getCodePermission(),
+                            "result" => "success"
+                     );
+              }
+              else{
+                     return array(
+                            "result" => "notFound"
+                     );
+              }
+       }
+
        // tự động logout khi người dùng thoát web đột ngột
        function logout_whenExitPage()
        {
@@ -265,6 +291,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $sex = $_POST['sex'];
                      $codePermission = $_POST['codePermission'];
                      $temp = $check->updateAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
+                     echo json_encode($temp);
+                     break;
+              case 'getObjAccount':
+                     $userName = $_POST['userName'];
+                     $temp = $check->getObjAccount($userName);
                      echo json_encode($temp);
                      break;
        }

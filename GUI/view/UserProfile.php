@@ -51,7 +51,7 @@
                                           <ul class="user-menu-main">
                                                  <li class="menu-active"><i class="fa-regular fa-id-badge"></i>Profile</li>
                                                  <li id="change-password"><i class="fa-solid fa-key"></i>Change Password</li>
-                                                 <li><i class="fa-solid fa-cart-shopping"></i>Order</li>
+                                                 <li id="show-orders"><i class="fa-solid fa-cart-shopping"></i>Order</li>
                                           </ul>
                                    </div>
                                    <div class="content-right">
@@ -134,6 +134,10 @@
                                    <div class="content-right order display_none">
                                           <div class="title-right">
                                                  <h1>Orders</h1>
+                                                 <div>
+                                                        <span style="margin-right: 10px;"><i class="fas fa-search"></i></span>
+                                                        <input id="search-order" type="text" placeholder="Enter ordercode">
+                                                 </div>
                                                  <hr>
                                           </div>
                                           <div class="content-main-right" id="content-order">

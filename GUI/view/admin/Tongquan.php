@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php require('../../../config.php')?>
+<?php require('../../../config.php') ?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,61 +17,16 @@
         require('../../css/admin/header_admin.css');
         require('../../css/admin/footer_admin.css');
         ?>
- </style>
- <script>
-window.onload = function () {
-
-var chart = new CanvasJS.Chart("chartContainer", {
-	exportEnabled: true,
-	animationEnabled: true,
-	title:{
-		text: "Theo danh mục sản phẩm: 295"
-	},
-	legend:{
-		cursor: "pointer",
-		itemclick: explodePie
-	},
-	data: [{
-		type: "pie",
-		showInLegend: true,
-		toolTipContent: "{name}: <strong>{y}</strong>",
-		indexLabel: "{name} - {y}",
-		dataPoints: [
-			{ y: 30, name: "Áo thun", exploded: true },
-			{ y: 50, name: "Áo sơ mi" },
-			{ y: 20, name: "Áo khoác" },
-			{ y: 5, name: "Áo Hoodie" },
-			{ y: 11, name: "Áo Polo" }
-		]
-	}]
-});
-chart.render();
-}
-
-function explodePie (e) {
-	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
-		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
-	} else {
-		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
-	}
-	e.chart.render();
-
-}
-
-
-
-
-// 
-
-</script>
+    </style>
 </head>
+
 <body>
     <div class="container-sb">
         <div class="side-bar"><?php require('./sidebar.php'); ?></div>
         <div class="content">
             <div class="header">
-            <?php require('./header_admin.php'); ?>
-            </div>  
+                <?php require('./header_admin.php'); ?>
+            </div>
             <div class="content-page">
                 <div class="head-content">
                     <p class="title">Tổng quan</p>
@@ -78,15 +34,21 @@ function explodePie (e) {
                 </div>
                 <div class="stat">
                     <div class="item-stat">
-                        <div class="number sub-stat"><span>24</span><p>Đơn đặt hàng</p></div>
+                        <div class="number sub-stat"><span>24</span>
+                            <p>Đơn đặt hàng</p>
+                        </div>
                         <div class="icon-stat "><i class="fa-solid fa-bag-shopping"></i></div>
                     </div>
                     <div class="item-stat">
-                        <div class="number sub-stat"><span>25%</span><p>Tỉ lệ hủy đơn</p></div>
+                        <div class="number sub-stat"><span>25%</span>
+                            <p>Tỉ lệ hủy đơn</p>
+                        </div>
                         <div class="icon-stat "><i class="fa-solid fa-chart-simple"></i></div>
                     </div>
                     <div class="item-stat">
-                        <div class="number sub-stat"><span>185800</span><p>Doanh thu</p></div>
+                        <div class="number sub-stat"><span>185800</span>
+                            <p>Doanh thu</p>
+                        </div>
                         <div class="icon-stat "><i class="fa-solid fa-chart-pie"></i></div>
                     </div>
                 </div>
@@ -105,10 +67,13 @@ function explodePie (e) {
                         </div>
                         <div class="toDate">Từ ngày <input type="date"></div>
                         <div class="endDate">Đến ngày <input type="date"></div>
-                        <div class="buttonSearch">Thống kê <div class="button">Thống kê</div></div>
+                        <div class="buttonSearch">Thống kê <div class="button">Thống kê</div>
+                        </div>
                     </div>
                     <div class="chart">
-                        <div class="pie-chart"><div id="chartContainer" style="height: 370px; width: 100%;"></div></div>
+                        <div class="pie-chart">
+                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="table-stat">
@@ -190,28 +155,16 @@ function explodePie (e) {
             </div>
 
             <div class="footer">
-            <?php require('./footer_admin.php'); ?>
+                <?php require('./footer_admin.php'); ?>
             </div>
         </div>
     </div>
+    <script src="../../Js/admin/tongquan.js?v=<?php echo $version ?>"></script>
     <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
-        const click =document.querySelectorAll(".list-button p");
-
-        function clearClickButton () {
-            click.forEach((current, i) => {
-                if (current.classList.contains("click-button")) {
-                    current.classList.remove("click-button");
-                }
-            });
-        }
-        click.forEach((current, i) => {
-            current.addEventListener("click", () => {
-                clearClickButton();
-                current.classList.add("click-button");
-            });
-        });
+        
     </script>
 </body>
+
 </html>

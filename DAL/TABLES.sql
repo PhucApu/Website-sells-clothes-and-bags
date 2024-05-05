@@ -97,6 +97,8 @@ CREATE TABLE orders
        -- Primary Key, Not Null
        orderCode VARCHAR(255) PRIMARY KEY NOT NULL,
 
+       deliveryAddress VARCHAR(255),
+
        -- Dates
        dateCreated DATE,
        dateDelivery DATE,

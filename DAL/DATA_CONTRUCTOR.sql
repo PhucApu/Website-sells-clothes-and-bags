@@ -543,8 +543,11 @@ INSERT INTO ShirtProduct
        (productCode, shirtMaterial, shirtStyle,descriptionMaterial)
 VALUES
        ('P001', 'Cotton', 'Dress', 'Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products.'),
+       
        ('P002', 'Fabric', 'Halter', "Fabric is a wondrous material, woven from threads of imagination and craftsmanship. Its texture tells stories of meticulous care and artistry. Each thread intertwines with another, creating a tapestry of possibilities. From the soft caress of silk to the rugged resilience of denim, fabric embodies versatility. In the gentle embrace of cotton, there's a whisper of comfort, a promise of warmth on a chilly day. Its fibers breathe life into clothing, making every movement effortless and every touch soothing. Linen, with its natural elegance, brings a sense of airy sophistication, draping gracefully with every fold."),
+
        ('P003', 'Cotton', 'Halter', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
+
        ('P004', 'Fabric', 'Halter', "Fabric is a wondrous material, woven from threads of imagination and craftsmanship. Its texture tells stories of meticulous care and artistry. Each thread intertwines with another, creating a tapestry of possibilities. From the soft caress of silk to the rugged resilience of denim, fabric embodies versatility. In the gentle embrace of cotton, there's a whisper of comfort, a promise of warmth on a chilly day. Its fibers breathe life into clothing, making every movement effortless and every touch soothing. Linen, with its natural elegance, brings a sense of airy sophistication, draping gracefully with every fold."),
        ('P005', 'Cotton', 'T-shirt', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
        ('P006', 'Cotton', 'T-shirt', "Cotton is a remarkable material, cherished for its versatility and comfort. Derived from the fluffy fibers surrounding the seeds of the cotton plant, it is renowned for its softness and breathability. This natural fabric feels gentle against the skin, making it a favorite choice for clothing, bedding, and various textile products."),
@@ -646,11 +649,13 @@ FROM transport
 -- data table orders
 USE  website_sells_clothes_and_bags;
 INSERT INTO orders
-       (orderCode, dateCreated, dateDelivery, dateFinish, userName, totalMoney, codePayments, codeTransport, status, note)
+       (orderCode,deliveryAddress, dateCreated, dateDelivery, dateFinish, userName, totalMoney, codePayments, codeTransport, status, note)
 VALUES
-       ('ORD001', '2024-03-01', '2024-03-05', '2024-03-06', 'UGh1Y0FwdVRydW9uZw==', 150.00, 'PP001', 'EXP001', 'processing', 'Please ensure timely delivery.'),
-       ('ORD002', '2024-03-02', '2024-03-06', '2024-03-07', 'QWxpY2VKb2huc29u', 170.00, 'VS002', 'STD002', 'processing', 'Customer requested expedited shipping.'),
-       ('ORD003', '2024-03-03', '2024-03-07', '2024-03-08', 'UGh1Y0FwdVRydW9uZw==', 70.00, 'MC003', 'EXP001', 'completed', 'Delivered to the customer successfully.');
+       ('ORD001','1010 Pine St' ,'2024-03-01', '2024-03-05', '2024-03-06', 'UGh1Y0FwdVRydW9uZw==', 150.00, 'PP001', 'EXP001', 'processing', 'Please ensure timely delivery.'),
+
+       ('ORD002', '1010 Pine St','2024-03-02', '2024-03-06', '2024-03-07', 'QWxpY2VKb2huc29u', 170.00, 'VS002', 'STD002', 'processing', 'Customer requested expedited shipping.'),
+       
+       ('ORD003', '1010 Pine St','2024-03-03', '2024-03-07', '2024-03-08', 'UGh1Y0FwdVRydW9uZw==', 70.00, 'MC003', 'EXP001', 'completed', 'Delivered to the customer successfully.');
 
 -- check data table orders
 USE  website_sells_clothes_and_bags;

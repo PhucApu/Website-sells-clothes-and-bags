@@ -85,6 +85,51 @@ class OrderBLL
               }
        }
 
+       // tìm kiếm hóa đơn thuộc về người dùng theo mã hóa đơn, dùng bên user
+       // input: username, keyword
+       // output: mangr hóa đơn
+
+       function SearchOrder_by_key($username, $keyword)
+       {
+              $arrObj = $this->OrderDAL->getListObj_by_UserName($username);
+              $result = array();
+              if ($arrObj != null) {
+                     foreach ($arrObj as $item) {
+                            $orderCode = $item->getOrderCode();
+                            $dateCreated = $item->getDateCreated();
+                            $dateDelivery = $item->getDateDelivery();
+                            $dateFinish = $item->getDateFinish();
+                            $userName = $item->getUserName();
+                            $totalMoney = $item->getTotalMoney();
+                            $codePayments = $item->getCodePayments();
+                            $codeTransport = $item->getCodeTransport();
+                            $status = $item->getStatus();
+                            $note = $item->getNote();
+
+                            if (
+                                   strpos($orderCode, $keyword) !== false
+                            ) {
+                                   $obj = array(
+                                          "orderCode" => $orderCode,
+                                          "dateCreated" => $dateCreated,
+                                          "dateDelivery" => $dateDelivery,
+                                          "dateFinish" => $dateFinish,
+                                          "userName" => $userName,
+                                          "totalMoney" => $totalMoney,
+                                          "codePayments" => $codePayments,
+                                          "codeTransport" => $codeTransport,
+                                          "status" => $status,
+                                          "note" => $note
+                                   );
+                                   array_push($result, $obj);
+                            }
+                     }
+                     return $result;
+              }else {
+                     return $result;
+              }
+       }
+
        // lấy mảng chi tiết hóa đơn dựa vào háo đơn dược truyền vào
        // input: mã hóa đơn
        // output: mảng obj các chi tiết hóa đơn của hóa đơn đó
@@ -124,7 +169,7 @@ class OrderBLL
        // thêm hóa đơn bên user
        // input: cần phải đăng nhập và có sản phẩm trong sesion, địa chỉ nhận, số điện thoại, ghi chú, mã thanh toán, mã hình thức thanh toán,status
        // output: thông báo thêm hóa đơn
-       function addOrderUser($username, $note, $status, $codePayment, $codeTransport)
+       function addOrderUser($username, $deliveryAddress, $note, $status, $codePayment, $codeTransport)
        {
               if (session_status() == PHP_SESSION_NONE) {
                      session_start();
@@ -165,11 +210,11 @@ class OrderBLL
                                    $sizeCode = $item['sizeCode'];
                                    $price = $item['price'];
                                    $promotion = $item['promotion'];
-                                   
+
 
                                    // tính tiền nếu co giảm giá
                                    if ($promotion > 0) {
-                                          $price = (float) $price * $promotion / 100;
+                                          $price = (float) $price - $price * $promotion / 100;
                                    }
                                    // tính tổng tiền chi tiết hóa đơn bằng lấy số lượng mua * giá tiền từng cái
                                    $totalMoney = $quantity * $price;
@@ -181,9 +226,11 @@ class OrderBLL
 
                                    array_push($arrCTHD, $objOrderDetail);
                             }
+                            // sau khi lấy tất cả chi tiết trong vỏ hàng thì làm sạch vỏ hàng
+                            $_SESSION['cart'] = array();
 
                             // tạo đối tượng order
-                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $username, $sumMoney, $codePayment, $codeTransport, $status, $note);
+                            $order = new OrderDTO($orderCode, $deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $username, $sumMoney, $codePayment, $codeTransport, $status, $note);
 
                             // thêm đối tượng order vao db
                             $check1 = $this->OrderDAL->addObj($order);
@@ -191,6 +238,7 @@ class OrderBLL
                             // nếu thêm thành công order vào thì thêm các chi tiết vào db, đồng thời cập nhật lại số lượng
                             if ($check1 == true) {
                                    foreach ($arrCTHD as $item) {
+
                                           if ($this->orderDetailDAL->addObj($item) == true) {
                                                  // cập nhật lại số lượng
                                                  $productCode = $item->getProductCode();
@@ -199,6 +247,7 @@ class OrderBLL
                                                  $productShirt = $this->ShirtProductDAL->getObj($productCode);
                                                  // Neu la san pham tui sach
                                                  if ($productHandbag != null) {
+                                                        $quantity = $item->getQuantity();
                                                         //câp nhật lại số lượng tổng
                                                         $productHandbag->setQuantity($productHandbag->getQuantity() - $quantity);
 
@@ -208,7 +257,7 @@ class OrderBLL
                                                  if ($productShirt != null) {
                                                         // cập nhật lại số lượng theo size
                                                         $sizeCode = $item->getSizeCode();
-                                                        $quantity = $item->getSizeCode();
+                                                        $quantity = $item->getQuantity();
 
                                                         $shirtsize = $this->ShirtSizeDAL->getObjByProductCodeAndSizeCode($productCode, $sizeCode);
 
@@ -218,7 +267,7 @@ class OrderBLL
 
                                                         // cập nhật lại số lượng tổng
                                                         $productShirt->setQuantity($productShirt->getQuantity() - $quantity);
-                                                        $this->ShirtSizeDAL->upadateObj($productShirt);
+                                                        $this->ShirtProductDAL->upadateObj($productShirt);
                                                  }
                                           } else {
                                                  $check2 = false;
@@ -228,7 +277,8 @@ class OrderBLL
                             }
                             if ($check1 == $check2) {
                                    return array(
-                                          "mess" => "success"
+                                          "mess" => "success",
+                                          "orderCode" => $orderCode
                                    );
                             } else {
                                    return array(
@@ -653,13 +703,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      break;
               case 'addOrderUser':
                      $username = $_POST['username'];
+                     $deliveryAddress = $_POST['deliveryAddress'];
                      $note = $_POST['note'];
                      $state = $_POST['state'];
                      $codePayment = $_POST['codePayment'];
                      $codeTransport = $_POST['codeTransport'];
 
-                     $temp = $check->addOrderUser($username,$note,$state,$codePayment,$codeTransport);
+                     $temp = $check->addOrderUser($username, $deliveryAddress, $note, $state, $codePayment, $codeTransport);
                      echo json_encode($temp);
                      break;
+              case 'SearchOrder_by_key':
+                     $username = $_POST['username'];
+                     $keyword = $_POST['keyword'];
+
+                     $temp = $check->SearchOrder_by_key($username,$keyword);
+                     echo json_encode($temp);
+                     break;
+
        }
 }

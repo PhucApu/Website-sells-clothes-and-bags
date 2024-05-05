@@ -25,10 +25,10 @@ class ShirtProductDAL extends AbstractionDAL
               // xóa dữ liệu trong bảng shirtproduct, shirtsize trước rồi đến product. Tại do sản phẩm áo có size, nên khi ta xóa sản phẩm áo thì size liên quan đến áo đó cũng mất.
 
               $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
-              
+
 
               $result_check1 = $this->actionSQL->query($check_data_orderDetail);
-              
+
 
               if ($result_check1->num_rows < 1) {
 
@@ -61,10 +61,10 @@ class ShirtProductDAL extends AbstractionDAL
                      // xóa dữ liệu trong bảng shirtproduct, shirtsize trước rồi đến product. Tại do sản phẩm áo có size, nên khi ta xóa sản phẩm áo thì size liên quan đến áo đó cũng mất.
 
                      $check_data_orderDetail = "SELECT * FROM orderdetail WHERE productCode = '$code'";
-                     
+
 
                      $result_check1 = $this->actionSQL->query($check_data_orderDetail);
-                    
+
 
                      if ($result_check1->num_rows < 1) {
 
@@ -214,9 +214,11 @@ class ShirtProductDAL extends AbstractionDAL
        }
 
        // sửa một đối tượng
+
        function upadateObj($obj)
        {
               if ($obj != null) {
+                     // Lấy thông tin từ đối tượng
                      $productCode = $obj->getProductCode();
                      $imgProduct = $obj->getImgProduct();
                      $nameProduct = $obj->getNameProduct();
@@ -232,38 +234,103 @@ class ShirtProductDAL extends AbstractionDAL
                      $shirtStyle = $obj->getShirtStyle();
                      $descriptionMaterial = $obj->getDescriptionMaterial();
 
-                     // Câu lệnh SQL để cập nhật dữ liệu trong bảng Product nếu mã sản phẩm đã tồn tại
+                     // Câu lệnh SQL để cập nhật dữ liệu trong bảng Product
                      $queryProduct = "UPDATE Product 
-                                      SET imgProduct = '$imgProduct', 
-                                          nameProduct = '$nameProduct', 
-                                          supplierCode = '$supplierCode', 
-                                          quantity = $quantity, 
-                                          describeProduct = '$describeProduct', 
-                                          status = '$status', 
-                                          color = '$color', 
-                                          targetGender = '$targetGender', 
-                                          price = $price, 
-                                          promotion = $promotion
-                                      WHERE productCode = '$productCode'";
+                         SET imgProduct = ?, 
+                             nameProduct = ?, 
+                             supplierCode = ?, 
+                             quantity = ?, 
+                             describeProduct = ?, 
+                             status = ?, 
+                             color = ?, 
+                             targetGender = ?, 
+                             price = ?, 
+                             promotion = ?
+                         WHERE productCode = ?";
 
-                     // Thực hiện truy vấn
-                     $resultProduct = $this->actionSQL->query($queryProduct);
+                     // Chuẩn bị câu lệnh SQL
+                     $stmtProduct = $this->actionSQL->prepare($queryProduct);
+                     // Bind các tham số
+                     $stmtProduct->bind_param("sssiisssdis", $imgProduct, $nameProduct, $supplierCode, $quantity, $describeProduct, $status, $color, $targetGender, $price, $promotion, $productCode);
+                     // Thực thi câu lệnh
+                     $resultProduct = $stmtProduct->execute();
+                     // Đóng câu lệnh
+                     $stmtProduct->close();
 
-                     // Câu lệnh SQL để cập nhật dữ liệu trong bảng HandbagProduct nếu mã sản phẩm đã tồn tại
-                     $queryHandbagProduct = "UPDATE shirtproduct 
-                                             SET shirtMaterial = '$shirtMaterial',shirtStyle = '$shirtStyle',descriptionMaterial = '$descriptionMaterial'
-                                             WHERE productCode = '$productCode'";
+                     // Câu lệnh SQL để cập nhật dữ liệu trong bảng ShirtProduct
+                     $queryShirtProduct = "UPDATE ShirtProduct 
+                              SET shirtMaterial = ?, 
+                                  shirtStyle = ?,
+                                  descriptionMaterial = ?
+                              WHERE productCode = ?";
 
-                     // Thực hiện truy vấn
-                     $resultHandbagProduct = $this->actionSQL->query($queryHandbagProduct);
+                     // Chuẩn bị câu lệnh SQL
+                     $stmtShirtProduct = $this->actionSQL->prepare($queryShirtProduct);
+                     // Bind các tham số
+                     $stmtShirtProduct->bind_param("ssss", $shirtMaterial, $shirtStyle, $descriptionMaterial, $productCode);
+                     // Thực thi câu lệnh
+                     $resultShirtProduct = $stmtShirtProduct->execute();
+                     // Đóng câu lệnh
+                     $stmtShirtProduct->close();
 
                      // Kiểm tra và trả về kết quả của cả hai câu lệnh UPDATE
-                     return ($resultProduct !== false && $resultHandbagProduct !== false);
+                     return ($resultProduct && $resultShirtProduct);
               } else {
                      // Nếu đối tượng truyền vào là null
                      return false;
               }
        }
+
+       // function upadateObj($obj)
+       // {
+       //        if ($obj != null) {
+       //               $productCode = $obj->getProductCode();
+       //               $imgProduct = $obj->getImgProduct();
+       //               $nameProduct = $obj->getNameProduct();
+       //               $supplierCode = $obj->getSupplierCode();
+       //               $quantity = $obj->getQuantity();
+       //               $describeProduct = $obj->getDescribe();
+       //               $status = $obj->getStatus();
+       //               $color = $obj->getColor();
+       //               $targetGender = $obj->getTargetGender();
+       //               $price = $obj->getPrice();
+       //               $promotion = $obj->getPromotion();
+       //               $shirtMaterial = $obj->getShirtMaterial();
+       //               $shirtStyle = $obj->getShirtStyle();
+       //               $descriptionMaterial = $obj->getDescriptionMaterial();
+
+       //               // Câu lệnh SQL để cập nhật dữ liệu trong bảng Product nếu mã sản phẩm đã tồn tại
+       //               $queryProduct = "UPDATE Product 
+       //                                SET imgProduct = '$imgProduct', 
+       //                                    nameProduct = '$nameProduct', 
+       //                                    supplierCode = '$supplierCode', 
+       //                                    quantity = $quantity, 
+       //                                    describeProduct = '$describeProduct', 
+       //                                    status = '$status', 
+       //                                    color = '$color', 
+       //                                    targetGender = '$targetGender', 
+       //                                    price = $price, 
+       //                                    promotion = $promotion
+       //                                WHERE productCode = '$productCode'";
+
+       //               // Thực hiện truy vấn
+       //               $resultProduct = $this->actionSQL->query($queryProduct);
+
+       //               // Câu lệnh SQL để cập nhật dữ liệu trong bảng HandbagProduct nếu mã sản phẩm đã tồn tại
+       //               $queryHandbagProduct = "UPDATE shirtproduct 
+       //                                       SET shirtMaterial = '$shirtMaterial',shirtStyle = '$shirtStyle',descriptionMaterial = '$descriptionMaterial'
+       //                                       WHERE productCode = '$productCode'";
+
+       //               // Thực hiện truy vấn
+       //               $resultHandbagProduct = $this->actionSQL->query($queryHandbagProduct);
+
+       //               // Kiểm tra và trả về kết quả của cả hai câu lệnh UPDATE
+       //               return ($resultProduct !== false && $resultHandbagProduct !== false);
+       //        } else {
+       //               // Nếu đối tượng truyền vào là null
+       //               return false;
+       //        }
+       // }
 
        // lay data product
        function getProductDATA()

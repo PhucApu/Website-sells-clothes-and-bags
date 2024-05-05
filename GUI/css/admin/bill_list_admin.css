@@ -105,6 +105,14 @@ html, body {margin: 0; height: 100%; overflow-x: hidden;}
     width: 30%;
 }
 
+.d-none-btn {
+    display: none;
+}
+
+.filter-b-item100 {
+    width: 100%;
+}
+
 .filter-b-item70 {
     width: 70%;
 }

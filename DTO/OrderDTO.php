@@ -6,6 +6,9 @@ class OrderDTO {
    
        // Thuộc tính cho ngày tạo đơn hàng
        private $dateCreated;
+
+       // thuộc tính địa chỉ giao hàng
+       private $deliveryAddress;
    
        // Thuộc tính cho ngày giao hàng dự kiến
        private $dateDelivery;
@@ -34,6 +37,7 @@ class OrderDTO {
        // Constructor
        public function __construct(
            $orderCode,
+           $deliveryAddress,
            $dateCreated,
            $dateDelivery,
            $dateFinish,
@@ -45,6 +49,7 @@ class OrderDTO {
            $note
        ) {
            $this->orderCode = $orderCode;
+           $this->deliveryAddress = $deliveryAddress;
            $this->dateCreated = $dateCreated;
            $this->dateDelivery = $dateDelivery;
            $this->dateFinish = $dateFinish;
@@ -64,7 +69,17 @@ class OrderDTO {
        public function setOrderCode($orderCode) {
            $this->orderCode = $orderCode;
        }
+
+       // Getter và Setter cho $orderCode
+       public function getDeliveryAddress() {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress($deliveryAddress) {
+        $this->deliveryAddress = $deliveryAddress;
+    }
    
+
        // Getter và Setter cho $dateCreated
        public function getDateCreated() {
            return $this->dateCreated;

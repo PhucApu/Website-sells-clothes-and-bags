@@ -16,7 +16,7 @@ async function getInfor() {
         if (result.result == 'success') {
 
             showInfor(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.birth, result.sex);
-            await getArrOrder(result.userName);
+
             save_change_password(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.birth, result.sex);
 
         } else {
@@ -107,16 +107,31 @@ function showInfor(username, password, name, email, address, phone, dateCreate, 
     }
 
     showPassWord(password);
+    showOrder_view(username);
 }
 
+// khi mà click xuống phần đổi mật khẩu mới load
 function showPassWord(passWord) {
-
     document.getElementById('change-password').onclick = function () {
         let currentPasswordInput = document.getElementById('currentpassword');
         if (currentPasswordInput !== null) {
             currentPasswordInput.value = passWord;
             console.log(passWord);
         }
+    }
+}
+
+// khi mà click xuống order mới load
+function showOrder_view(username) {
+    document.getElementById('show-orders').onclick = async function () {
+        let container = document.getElementById('content-order');
+        container.innerHTML = `
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+        `;
+        await Search_order(username);
+        // await getArrOrder(username);
     }
 }
 
@@ -378,6 +393,98 @@ async function getArrOrder(username) {
     }
 }
 
+// tìm kiến hóa đơn của người dùng
+async function Search_order(username) {
+
+    let keyword = document.getElementById('search-order').value;
+
+    if (keyword != '') {
+        try {
+            const response = await fetch('../../BLL/OrderBLL.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'function=' + encodeURIComponent('SearchOrder_by_key') + '&username=' + encodeURIComponent(username) + '&keyword=' + encodeURIComponent(keyword)
+            });
+            const data = await response.json();
+            console.log(data);
+            let container = document.getElementById('content-order');
+            container.innerHTML = `
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    `;
+            if (data.length > 0) {
+                await getArrOrderDetail(data);
+                // return data;
+            } else {
+                container.innerHTML = `
+                        <h1>NOT FOUND</h1>
+                    `;
+                return null;
+            }
+
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    } else {
+        let container = document.getElementById('content-order');
+        container.innerHTML = `
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    `;
+        await getArrOrder(username);
+    }
+
+    document.getElementById('search-order').oninput = async function () {
+        // lấy giá trị của keyword
+        let keyword = document.getElementById('search-order').value;
+
+        if (keyword != '') {
+            try {
+                const response = await fetch('../../BLL/OrderBLL.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'function=' + encodeURIComponent('SearchOrder_by_key') + '&username=' + encodeURIComponent(username) + '&keyword=' + encodeURIComponent(keyword)
+                });
+                const data = await response.json();
+                console.log(data);
+                let container = document.getElementById('content-order');
+                container.innerHTML = `
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    `;
+                if (data.length > 0) {
+                    await getArrOrderDetail(data);
+                    // return data;
+                } else {
+                    await getArrOrder(username);
+                    return null;
+                }
+
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        } else {
+            let container = document.getElementById('content-order');
+            container.innerHTML = `
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    `;
+            await getArrOrder(username);
+        }
+    }
+
+}
+
 async function getArrOrderDetail(dataOrders) {
     let dataOrderDetails = [];
     for (let i of dataOrders) {
@@ -425,7 +532,7 @@ async function getProductDetail(dataOrders, dataOrderDetails) {
             if (data != null) {
                 // console.log(data);
                 // showOrder(dataOrders, dataOrderDetails, data);
-                for(let item of data){
+                for (let item of data) {
                     dataProducts.push(item);
                 }
                 // return data;
@@ -438,16 +545,17 @@ async function getProductDetail(dataOrders, dataOrderDetails) {
             console.error('Error:', error);
         }
     }
-    showOrder(dataOrders,dataOrderDetails,dataProducts);
+    showOrder(dataOrders, dataOrderDetails, dataProducts);
 
 }
 
 function showOrder(dataOrders, dataOrderDetails, dataProducts) {
 
-    console.log(dataOrders,dataOrderDetails,dataProducts);
+    console.log(dataOrders, dataOrderDetails, dataProducts);
     let container = document.getElementById('content-order');
     let result = '';
-    for (let order of dataOrders) {
+    for (let i = dataOrders.length - 1; i >=0 ; i--) {
+        let order = dataOrders[i];
         let orderCode = order.orderCode;
         let status = order.status;
         let totalMoney = order.totalMoney;
@@ -494,7 +602,7 @@ function showOrder(dataOrders, dataOrderDetails, dataProducts) {
                                 </div>
                                 <div class="price-product">
                                         <span>${price}$</span>
-                                        <span>${(price * promotion / 100).toFixed(2)}$</span>
+                                        <span>${(price - price * promotion / 100).toFixed(2)}$</span>
                                 </div>
                         </div>
                     </div>

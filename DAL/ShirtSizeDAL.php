@@ -203,7 +203,7 @@ class ShirtSizeDAL extends AbstractionDAL
                      // Câu lệnh UPDATE
                      $updateQuery = "UPDATE ShirtSize 
                                      SET productCode = '$productCode', 
-                                         quantity = '$quantity' 
+                                         quantity = $quantity 
                                          WHERE sizeCode = '$sizeCode' AND productCode = '$productCode'";
 
                      // Thực hiện truy vấn

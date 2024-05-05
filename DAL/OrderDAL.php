@@ -70,6 +70,7 @@ class OrderDAL extends AbstractionDAL
               if ($result->num_rows > 0) {
                      while ($data = $result->fetch_assoc()) {
                             $orderCode = $data["orderCode"];
+                            $deliveryAddress = $data["deliveryAddress"];
                             $dateCreated = $data["dateCreated"];
                             $dateDelivery = $data["dateDelivery"];
                             $dateFinish = $data["dateFinish"];
@@ -83,7 +84,7 @@ class OrderDAL extends AbstractionDAL
                             // giải mã username
                             $userNameValue = base64_decode($userName);
 
-                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            $order = new OrderDTO($orderCode,$deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                             $orders[] = $order;
                      }
                      return $orders;
@@ -109,6 +110,7 @@ class OrderDAL extends AbstractionDAL
               if ($result->num_rows > 0) {
                      while ($data = $result->fetch_assoc()) {
                             $orderCode = $data["orderCode"];
+                            $deliveryAddress = $data['deliveryAddress'];
                             $dateCreated = $data["dateCreated"];
                             $dateDelivery = $data["dateDelivery"];
                             $dateFinish = $data["dateFinish"];
@@ -122,7 +124,7 @@ class OrderDAL extends AbstractionDAL
                             // giải mã username
                             $userNameValue = base64_decode($userName);
 
-                            $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            $order = new OrderDTO($orderCode,$deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                             $orders[] = $order;
                      }
                      return $orders;
@@ -146,6 +148,7 @@ class OrderDAL extends AbstractionDAL
               if ($result->num_rows > 0) {
                      $data = $result->fetch_assoc();
                      $orderCode = $data["orderCode"];
+                     $deliveryAddress = $data['deliveryAddress'];
                      $dateCreated = $data["dateCreated"];
                      $dateDelivery = $data["dateDelivery"];
                      $dateFinish = $data["dateFinish"];
@@ -160,7 +163,7 @@ class OrderDAL extends AbstractionDAL
                      $userNameValue = base64_decode($userName);
 
                      // Tạo đối tượng OrderDTO và trả về
-                     $order = new OrderDTO($orderCode, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                     $order = new OrderDTO($orderCode,$deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                      return $order;
               } else {
                      // Trường hợp không có dữ liệu trả về
@@ -187,6 +190,7 @@ class OrderDAL extends AbstractionDAL
                      if ($resultCheck->num_rows < 1) {
                             // Lấy các thuộc tính khác từ đối tượng
                             $dateCreated = $obj->getDateCreated();
+                            $deliveryAddress = $obj->getDeliveryAddress();
                             $dateDelivery = $obj->getDateDelivery();
                             $dateFinish = $obj->getDateFinish();
                             $userName = $obj->getUserName();
@@ -201,8 +205,8 @@ class OrderDAL extends AbstractionDAL
                             $userName_encode = base64_encode($userName);
 
                             // Câu lệnh truy vấn để thêm đối tượng vào bảng orders
-                            $insertQuery = "INSERT INTO orders (orderCode, dateCreated, dateDelivery, dateFinish, userName, totalMoney, codePayments, codeTransport, status, note) 
-                                         VALUES ('$orderCode', '$dateCreated', '$dateDelivery', '$dateFinish', '$userName_encode', $totalMoney, '$codePayments', '$codeTransport', '$status', '$note')";
+                            $insertQuery = "INSERT INTO orders (orderCode,deliveryAddress, dateCreated, dateDelivery, dateFinish, userName, totalMoney, codePayments, codeTransport, status, note) 
+                                         VALUES ('$orderCode','$deliveryAddress', '$dateCreated', '$dateDelivery', '$dateFinish', '$userName_encode', $totalMoney, '$codePayments', '$codeTransport', '$status', '$note')";
 
                             // Thực hiện truy vấn
                             return $this->actionSQL->query($insertQuery);
@@ -222,6 +226,7 @@ class OrderDAL extends AbstractionDAL
               if ($obj != null) {
                      // Lấy các thuộc tính từ đối tượng
                      $orderCode = $obj->getOrderCode();
+                     $deliveryAddress = $obj->getDeliveryAddress();
                      $dateCreated = $obj->getDateCreated();
                      $dateDelivery = $obj->getDateDelivery();
                      $dateFinish = $obj->getDateFinish();
@@ -237,7 +242,8 @@ class OrderDAL extends AbstractionDAL
 
                      // Câu lệnh UPDATE
                      $query = "UPDATE orders 
-                               SET dateCreated = '$dateCreated', 
+                               SET deliveryAddress = '$deliveryAddress',
+                                   dateCreated = '$dateCreated', 
                                    dateDelivery = '$dateDelivery', 
                                    dateFinish = '$dateFinish', 
                                    userName = '$userName_encode', 
