@@ -208,19 +208,19 @@ class PermissionsDetailDAL extends AbstractionDAL
 
 // check
 
-$check = new PermissionsDetailDAL();
-// $data = $check->getListobj();
+// $check = new PermissionsDetailDAL();
+// // $data = $check->getListobj();
 
-// print_r($data);
+// // print_r($data);
 
-// $data1 = $check->getByPermission('admin');
-// print_r($data1);
+// // $data1 = $check->getByPermission('admin');
+// // print_r($data1);
 
-// $data2 = $check->getByFunctionCode('supplier');
-// print_r($data2);
+// // $data2 = $check->getByFunctionCode('supplier');
+// // print_r($data2);
 
-$permissionsDeatail = new PermissionsDetailDTO('user', 'test', 0, 1, 0, 0);
+// $permissionsDeatail = new PermissionsDetailDTO('user', 'test', 0, 1, 0, 0);
 
-echo $check->addObj($permissionsDeatail);
+// echo $check->addObj($permissionsDeatail);
 
 // echo $check->delete($permissionsDeatail);

@@ -39,6 +39,53 @@ class OrderBLL
               $this->ShirtSizeDAL = new ShirtSizeDAL();
        }
 
+       // lấy mảng hóa đơn
+       // input: ...
+       // output: ...
+       function getArrOrder()
+       {
+              $arrObj = $this->OrderDAL->getListObj();
+              $result = array();
+              if ($arrObj != null) {
+                     if (count($arrObj) > 0) {
+                            foreach ($arrObj as $item) {
+                                   $orderCode = $item->getOrderCode();
+                                   $dateCreated = $item->getDateCreated();
+                                   $dateDelivery = $item->getDateDelivery();
+                                   $deliveryAddress = $item->getDeliveryAddress();
+                                   $dateFinish = $item->getDateFinish();
+                                   $userName = $item->getUserName();
+                                   $totalMoney = $item->getTotalMoney();
+                                   $codePayments = $item->getCodePayments();
+                                   $codeTransport = $item->getCodeTransport();
+                                   $status = $item->getStatus();
+                                   $note = $item->getNote();
+
+                                   $obj = array(
+                                          "orderCode" => $orderCode,
+                                          "dateCreated" => $dateCreated,
+                                          "dateDelivery" => $dateDelivery,
+                                          "deliveryAddress" => $deliveryAddress,
+                                          "dateFinish" => $dateFinish,
+                                          "userName" => $userName,
+                                          "totalMoney" => $totalMoney,
+                                          "codePayments" => $codePayments,
+                                          "codeTransport" => $codeTransport,
+                                          "status" => $status,
+                                          "note" => $note
+                                   );
+
+                                   array_push($result, $obj);
+                            }
+                            return $result;
+                     } else {
+                            return $result;
+                     }
+              } else {
+                     return $result;
+              }
+       }
+
        // lấy mảng hóa đơn dựa theo mã username
        // input: mã username
        // output: mảng chứa các đối tượng hóa đơn
@@ -53,6 +100,7 @@ class OrderBLL
                                    $orderCode = $item->getOrderCode();
                                    $dateCreated = $item->getDateCreated();
                                    $dateDelivery = $item->getDateDelivery();
+                                   $deliveryAddress = $item->getDeliveryAddress();
                                    $dateFinish = $item->getDateFinish();
                                    $userName = $item->getUserName();
                                    $totalMoney = $item->getTotalMoney();
@@ -65,6 +113,7 @@ class OrderBLL
                                           "orderCode" => $orderCode,
                                           "dateCreated" => $dateCreated,
                                           "dateDelivery" => $dateDelivery,
+                                          "deliveryAddress" => $deliveryAddress,
                                           "dateFinish" => $dateFinish,
                                           "userName" => $userName,
                                           "totalMoney" => $totalMoney,
@@ -77,6 +126,223 @@ class OrderBLL
                                    array_push($result, $obj);
                             }
                             return $result;
+                     } else {
+                            return $result;
+                     }
+              } else {
+                     return $result;
+              }
+       }
+
+       // lấy danh sach hóa đơn tư ngày A đến ngày B
+       // input: dateA và dateB
+       // output: mảng chứa các đối tượng order
+       function getArrOrder_by_Date_State_UserName($dateStart, $dateEnd, $stateNeed, $keyword)
+       {
+              $arrObj = $this->OrderDAL->getListObj_by_Date($dateStart, $dateEnd);
+              $result = array();
+
+              $keyword_lowercase = strtolower($keyword);
+              // $state_tolowercase = strtolower($stateNeed);
+              $check_keyword = 0;
+              $check_state = 0;
+              if ($keyword_lowercase != 'empty') {
+                     $check_keyword = 1;
+              }
+              if ($stateNeed != 'empty') {
+                     $check_state = 1;
+              }
+
+
+              if ($arrObj != null) {
+                     if (count($arrObj) > 0) {
+                            if ($check_keyword == 1 && $check_state == 1) {
+                                   foreach ($arrObj as $item) {
+                                          $orderCode = $item->getOrderCode();
+                                          $dateCreated = $item->getDateCreated();
+                                          $deliveryAddress = $item->getDeliveryAddress();
+                                          $dateDelivery = $item->getDateDelivery();
+                                          $dateFinish = $item->getDateFinish();
+                                          $userName = $item->getUserName();
+                                          $totalMoney = $item->getTotalMoney();
+                                          $codePayments = $item->getCodePayments();
+                                          $codeTransport = $item->getCodeTransport();
+                                          $status = $item->getStatus();
+                                          $note = $item->getNote();
+
+                                          // Áp dụng strtolower cho các biến còn lại
+                                          $orderCode_lowercase = strtolower($orderCode);
+                                          $dateCreated_lowercase = strtolower($dateCreated);
+                                          $dateDelivery_lowercase = strtolower($dateDelivery);
+                                          $dateFinish_lowercase = strtolower($dateFinish);
+                                          $userName_lowercase = strtolower($userName);
+                                          $codePayments_lowercase = strtolower($codePayments);
+                                          $codeTransport_lowercase = strtolower($codeTransport);
+                                          $deliveryAddress_lowercase = strtolower($deliveryAddress);
+                                          $status_lowercase = strtolower($status);
+                                          $note_lowercase = strtolower($note);
+                                          if ($status == $stateNeed) {
+
+                                                 if (
+                                                        strpos($orderCode_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($dateCreated_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($dateDelivery_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($dateFinish_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($userName_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($codePayments_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($codeTransport_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($note_lowercase, $keyword_lowercase) !== false ||
+                                                        strpos($deliveryAddress_lowercase, $keyword_lowercase) !== false
+                                                 ) {
+                                                        $obj = array(
+                                                               "orderCode" => $orderCode,
+                                                               "dateCreated" => $dateCreated,
+                                                               "dateDelivery" => $dateDelivery,
+                                                               "deliveryAddress" => $deliveryAddress,
+                                                               "dateFinish" => $dateFinish,
+                                                               "userName" => $userName,
+                                                               "totalMoney" => $totalMoney,
+                                                               "codePayments" => $codePayments,
+                                                               "codeTransport" => $codeTransport,
+                                                               "status" => $status,
+                                                               "note" => $note
+                                                        );
+
+                                                        array_push($result, $obj);
+                                                 }
+                                          }
+                                   }
+                                   return $result;
+                            } elseif ($check_keyword == 1 && $check_state == 0) {
+                                   foreach ($arrObj as $item) {
+                                          $orderCode = $item->getOrderCode();
+                                          $dateCreated = $item->getDateCreated();
+                                          $deliveryAddress = $item->getDeliveryAddress();
+                                          $dateDelivery = $item->getDateDelivery();
+                                          $dateFinish = $item->getDateFinish();
+                                          $userName = $item->getUserName();
+                                          $totalMoney = $item->getTotalMoney();
+                                          $codePayments = $item->getCodePayments();
+                                          $codeTransport = $item->getCodeTransport();
+                                          $status = $item->getStatus();
+                                          $note = $item->getNote();
+
+                                          // Áp dụng strtolower cho các biến còn lại
+                                          $orderCode_lowercase = strtolower($orderCode);
+                                          $dateCreated_lowercase = strtolower($dateCreated);
+                                          $dateDelivery_lowercase = strtolower($dateDelivery);
+                                          $dateFinish_lowercase = strtolower($dateFinish);
+                                          $userName_lowercase = strtolower($userName);
+                                          $codePayments_lowercase = strtolower($codePayments);
+                                          $codeTransport_lowercase = strtolower($codeTransport);
+                                          $deliveryAddress_lowercase = strtolower($deliveryAddress);
+                                          $status_lowercase = strtolower($status);
+                                          $note_lowercase = strtolower($note);
+                                          if (
+                                                 strpos($orderCode_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($dateCreated_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($dateDelivery_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($dateFinish_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($userName_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($codePayments_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($codeTransport_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($note_lowercase, $keyword_lowercase) !== false ||
+                                                 strpos($deliveryAddress_lowercase, $keyword_lowercase) !== false
+                                          ) {
+                                                 $obj = array(
+                                                        "orderCode" => $orderCode,
+                                                        "dateCreated" => $dateCreated,
+                                                        "dateDelivery" => $dateDelivery,
+                                                        "deliveryAddress" => $deliveryAddress,
+                                                        "dateFinish" => $dateFinish,
+                                                        "userName" => $userName,
+                                                        "totalMoney" => $totalMoney,
+                                                        "codePayments" => $codePayments,
+                                                        "codeTransport" => $codeTransport,
+                                                        "status" => $status,
+                                                        "note" => $note
+                                                 );
+
+                                                 array_push($result, $obj);
+                                          }
+                                   }
+                                   return $result;
+                            } elseif ($check_keyword == 0 && $check_state == 1) {
+                                   foreach ($arrObj as $item) {
+                                          $orderCode = $item->getOrderCode();
+                                          $dateCreated = $item->getDateCreated();
+                                          $deliveryAddress = $item->getDeliveryAddress();
+                                          $dateDelivery = $item->getDateDelivery();
+                                          $dateFinish = $item->getDateFinish();
+                                          $userName = $item->getUserName();
+                                          $totalMoney = $item->getTotalMoney();
+                                          $codePayments = $item->getCodePayments();
+                                          $codeTransport = $item->getCodeTransport();
+                                          $status = $item->getStatus();
+                                          $note = $item->getNote();
+
+                                          // Áp dụng strtolower cho các biến còn lại
+                                          $orderCode_lowercase = strtolower($orderCode);
+                                          $dateCreated_lowercase = strtolower($dateCreated);
+                                          $dateDelivery_lowercase = strtolower($dateDelivery);
+                                          $dateFinish_lowercase = strtolower($dateFinish);
+                                          $userName_lowercase = strtolower($userName);
+                                          $codePayments_lowercase = strtolower($codePayments);
+                                          $codeTransport_lowercase = strtolower($codeTransport);
+                                          $deliveryAddress_lowercase = strtolower($deliveryAddress);
+                                          $status_lowercase = strtolower($status);
+                                          $note_lowercase = strtolower($note);
+                                          if ($status == $stateNeed) {
+                                                 $obj = array(
+                                                        "orderCode" => $orderCode,
+                                                        "dateCreated" => $dateCreated,
+                                                        "dateDelivery" => $dateDelivery,
+                                                        "deliveryAddress" => $deliveryAddress,
+                                                        "dateFinish" => $dateFinish,
+                                                        "userName" => $userName,
+                                                        "totalMoney" => $totalMoney,
+                                                        "codePayments" => $codePayments,
+                                                        "codeTransport" => $codeTransport,
+                                                        "status" => $status,
+                                                        "note" => $note
+                                                 );
+
+                                                 array_push($result, $obj);
+                                          }
+                                   }
+                                   return $result;
+                            } else {
+                                   foreach ($arrObj as $item) {
+                                          $orderCode = $item->getOrderCode();
+                                          $dateCreated = $item->getDateCreated();
+                                          $deliveryAddress = $item->getDeliveryAddress();
+                                          $dateDelivery = $item->getDateDelivery();
+                                          $dateFinish = $item->getDateFinish();
+                                          $userName = $item->getUserName();
+                                          $totalMoney = $item->getTotalMoney();
+                                          $codePayments = $item->getCodePayments();
+                                          $codeTransport = $item->getCodeTransport();
+                                          $status = $item->getStatus();
+                                          $note = $item->getNote();
+
+                                          $obj = array(
+                                                 "orderCode" => $orderCode,
+                                                 "dateCreated" => $dateCreated,
+                                                 "dateDelivery" => $dateDelivery,
+                                                 "deliveryAddress" => $deliveryAddress,
+                                                 "dateFinish" => $dateFinish,
+                                                 "userName" => $userName,
+                                                 "totalMoney" => $totalMoney,
+                                                 "codePayments" => $codePayments,
+                                                 "codeTransport" => $codeTransport,
+                                                 "status" => $status,
+                                                 "note" => $note
+                                          );
+
+                                          array_push($result, $obj);
+                                   }
+                                   return $result;
+                            }
                      } else {
                             return $result;
                      }
@@ -130,7 +396,7 @@ class OrderBLL
                             }
                      }
                      return $result;
-              }else {
+              } else {
                      return $result;
               }
        }
@@ -219,7 +485,7 @@ class OrderBLL
 
                                    // tính tiền nếu co giảm giá
                                    if ($promotion > 0) {
-                                          $price = (float) $price - $price * $promotion / 100;
+                                          $price = (float) ($price - $price * $promotion / 100);
                                    }
                                    // tính tổng tiền chi tiết hóa đơn bằng lấy số lượng mua * giá tiền từng cái
                                    $totalMoney = $quantity * $price;
@@ -227,7 +493,7 @@ class OrderBLL
                                    // tinh tong tien cho hoa don
                                    $sumMoney += $totalMoney;
 
-                                   $objOrderDetail = new OrderDetailDTO($orderCode, $productCode, $nameProduct, $quantity, $sizeCode, $price, $totalMoney);
+                                   $objOrderDetail = new OrderDetailDTO($orderCode,$productCode, $nameProduct, $quantity, $sizeCode, $price, $totalMoney);
 
                                    array_push($arrCTHD, $objOrderDetail);
                             }
@@ -662,6 +928,55 @@ class OrderBLL
                      session_destroy();
               }
        }
+
+       // cập nhật trạng thái đơn hàng: completed,processing, cancelled
+       function updateStateOrder($orderCode, $status)
+       {
+              $result = $this->OrderDAL->updateState_by_orderCode($orderCode, $status);
+
+              if ($result == true) {
+                     return array(
+                            "mess" => "success"
+                     );
+              }
+              return array(
+                     "mess" => "failed"
+              );
+       }
+
+       // lấy một đối tượng hóa đơn dựa theo mã hóa đơn
+       function getObjOrder($orderCode)
+       {
+              $item = $this->OrderDAL->getObj($orderCode);
+              if ($item != null) {
+                     $orderCode = $item->getOrderCode();
+                     $dateCreated = $item->getDateCreated();
+                     $deliveryAddress = $item->getDeliveryAddress();
+                     $dateDelivery = $item->getDateDelivery();
+                     $dateFinish = $item->getDateFinish();
+                     $userName = $item->getUserName();
+                     $totalMoney = $item->getTotalMoney();
+                     $codePayments = $item->getCodePayments();
+                     $codeTransport = $item->getCodeTransport();
+                     $status = $item->getStatus();
+                     $note = $item->getNote();
+                     return array(
+                            "orderCode" => $orderCode,
+                            "dateCreated" => $dateCreated,
+                            "dateDelivery" => $dateDelivery,
+                            "deliveryAddress" => $deliveryAddress,
+                            "dateFinish" => $dateFinish,
+                            "userName" => $userName,
+                            "totalMoney" => $totalMoney,
+                            "codePayments" => $codePayments,
+                            "codeTransport" => $codeTransport,
+                            "status" => $status,
+                            "note" => $note
+                     );
+              } else {
+                     return array();
+              }
+       }
 }
 
 // muc luc
@@ -721,9 +1036,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $username = $_POST['username'];
                      $keyword = $_POST['keyword'];
 
-                     $temp = $check->SearchOrder_by_key($username,$keyword);
+                     $temp = $check->SearchOrder_by_key($username, $keyword);
                      echo json_encode($temp);
                      break;
-
+              case 'getArrOrder':
+                     $temp = $check->getArrOrder();
+                     echo json_encode($temp);
+                     break;
+              case 'getArrOrder_by_Date_State_UserName':
+                     $dateStart = $_POST['dateStart'];
+                     $dateEnd = $_POST['dateEnd'];
+                     $keyword = $_POST['keyword'];
+                     $stateNeed = $_POST['stateNeed'];
+                     $temp = $check->getArrOrder_by_Date_State_UserName($dateStart, $dateEnd, $stateNeed, $keyword);
+                     echo json_encode($temp);
+                     break;
+              case 'updateStateOrder':
+                     $orderCode = $_POST['orderCode'];
+                     $state = $_POST['state'];
+                     $temp = $check->updateStateOrder($orderCode, $state);
+                     echo json_encode($temp);
+                     break;
+              case 'getObjOrder':
+                     $orderCode = $_POST['orderCode'];
+                     $temp = $check->getObjOrder($orderCode);
+                     echo json_encode($temp);
+                     break;
        }
 }

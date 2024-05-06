@@ -12,8 +12,9 @@ async function checkLogin() {
               const data = await response.json();
               console.log(data);
               let result = data[0];
-              if (result.result == 'success') {
+              if (result.result == 'success' && result.codePermission != 'user') {
                      setLogin(result.userName);
+                     getDataPermission(result.codePermission);
               } else {
                      setLogin('');
               }
@@ -27,11 +28,66 @@ async function checkLogin() {
 }
 // checkLogin();
 
+async function getDataPermission(codePermission) {
+       try {
+              const response = await fetch('../../../BLL/PermissionBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body:
+                            'function=' + encodeURIComponent('getArrPermissionDetail') + '&codePermission=' + encodeURIComponent(codePermission)
+              });
+              const data = await response.json();
+              console.log(data);
+
+              if(data != null){
+                     // setUpPermission(data.permissionDetail,codePermission)
+              }
+              
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+
+// setup các chức năng được truy cập
+function setUpPermission(dataPermissionDetail,codePermission){
+       let permision_Permission = document.getElementById('user-group');
+       let account_Permission = document.getElementById('user-management');
+       let comment_Permission = document.getElementById('comment-management');
+       let feedback_Permission = document.getElementById('contact-management');
+       let order_Permission = document.getElementById('bill-management');
+       let payment_Permission = document.getElementById('payment-management');
+       let product_Permission = document.getElementById('product-management');
+       let size_Permission = document.getElementById('');
+       let supplier_Permission = document.getElementById('supplier-management');
+       let transport_Permission = document.getElementById('transportation-management');
+
+       
+       
+       for(let item of dataPermissionDetail){
+
+              // quản lý feedback
+              if(item.functionCode == "feedback" && item.seePermission == "1"){
+                     feedback_Permission.style.display = 'inline-block';
+              }else{
+                     feedback_Permission.style.display = 'none';
+              }
+
+              // quản lý comment
+              if(item.functionCode == "comment" && item.seePermission == "1"){
+                     comment_Permission.style.display = 'inline-block';
+              }else{
+                     comment_Permission.style.display = 'none';
+              }
+
+       }
+}
+
 function setLogin(username) {
        let loginContainer1 = document.getElementById('info');
        let loginContainer2 = document.getElementById('info-header');
-       console.log(loginContainer1);
-       console.log(loginContainer2);
+
        if (username != '') {
               let string = `
                      <img src="../../image/avt.jpg" alt="" class="avt">
@@ -76,15 +132,15 @@ async function logOutWhenExitingPage() {
 window.addEventListener('unload', function (event) {
        logOutWhenExitingPage();
 });
-document.getElementById('logout').onclick = function (event){
+document.getElementById('logout').onclick = function (event) {
        logOutWhenExitingPage();
        setLogin('');
 }
 
 
 // hàm được dùng để hiện các chứcc năng phân quyền
-async function permisions(){
-       
+async function permisions() {
+
 }
 
 // --------------------------------

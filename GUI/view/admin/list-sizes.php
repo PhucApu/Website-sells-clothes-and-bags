@@ -56,6 +56,13 @@
                     </table>
                 </div>
             </div>
+            <ul class="pagination pagination-sm justify-content-end" id="Pagination" style="cursor:pointer; margin-right:1rem;">
+                <!-- <li class="page-item"><a class="page-link">Previous</a></li>
+                    <li class="page-item active"><a class="page-link">1</a></li>
+                    <li class="page-item"><a class="page-link">2</a></li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item"><a class="page-link">Next</a></li> -->
+            </ul>
 
             <div class="footer">
             <?php require('./footer_admin.php'); ?>

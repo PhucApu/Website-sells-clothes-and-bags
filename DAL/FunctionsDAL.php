@@ -1,8 +1,8 @@
 <?php
 
 // import
-require('../DAL/AbstractionDAL.php');
-require('../DTO/FunctionsDTO.php');
+// require('../DAL/AbstractionDAL.php');
+// require('../DTO/FunctionsDTO.php');
 
 class FunctionsDAL extends AbstractionDAL
 {

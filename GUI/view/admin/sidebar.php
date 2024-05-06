@@ -33,28 +33,28 @@
                         <li><a href="./list-sizes.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách size</span></a></li>
                     </ul>
                 </li>
-                <li id="supplier-management" ><a href="#!"><span class="box-cont"><i class="fa-solid fa-warehouse"></i></span><span>Quản lý nhà cung cấp</span><i class="fas fa-angle-left"></i></a>
+                <li id="supplier-management" ><a href="#"><span class="box-cont"><i class="fa-solid fa-warehouse"></i></span><span>Quản lý nhà cung cấp</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="./list-suppliers.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
                         <li><a href="./addsupplier.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                     </ul>
                 </li>
-                <li id="payment-management"><a href="#!"><span class="box-cont"><i class="fa-solid fa-money-bill"></i></span><span>Quản lý thanh toán</span><i class="fas fa-angle-left"></i></a>
+                <li id="payment-management"><a href="../admin/list-payment.php"><span class="box-cont"><i class="fa-solid fa-money-bill"></i></span><span>Quản lý thanh toán</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
-                        <li><a href="#!"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="#!"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
+                        <li><a href="../admin/list-payment.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
+                        <li><a href="../admin/add-payment.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                     </ul>
                 </li>
-                <li id="transportation-management"><a href="#!"><span class="box-cont"><i class="fa-solid fa-truck-fast"></i></span><span>Quản lý vận chuyển</span><i class="fas fa-angle-left"></i></a>
+                <li id="transportation-management"><a href="../admin/list-transport.php"><span class="box-cont"><i class="fa-solid fa-truck-fast"></i></span><span>Quản lý vận chuyển</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
-                        <li><a href="#!"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="#!"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
+                        <li><a href="../admin/list-transport.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
+                        <li><a href="../admin/addtransport.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                     </ul>
                 </li>
                 <li id="bill-management"><a href="#!"><span class="box-cont"><i class="fas fa-file-invoice-dollar"></i></span><span>Quản lý hóa đơn</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="./bill_list.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="./bill_detail.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Trạng thái hóa đơn</span></a></li>
+                        <!-- <li><a href="./bill_detail.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Trạng thái hóa đơn</span></a></li> -->
                     </ul>
                 </li>
                 <li id="contact-management"><a href="#!"><span class="box-cont"><i class="fas fa-phone-alt"></i></span><span>Quản lý liên hệ</span><i class="fas fa-angle-left"></i></a>
@@ -63,7 +63,7 @@
                         <li><a href="./contact_list_noti.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>DS nhận thông báo</span></a></li>
                     </ul>
                 </li>
-                <li><a href="#!"><span class="box-cont"><i class="fas fa-comments"></i></span><span>Quản lý đánh giá</span><i class="fas fa-angle-left"></i></a>
+                <li id="comment-management"><a href="#!"><span class="box-cont"><i class="fas fa-comments"></i></span><span>Quản lý đánh giá</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="./evaluate_list.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
                     </ul>

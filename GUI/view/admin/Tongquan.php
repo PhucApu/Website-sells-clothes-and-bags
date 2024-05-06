@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/admin/tongquan.css">
     <style>
         <?php
@@ -34,19 +36,19 @@
                 </div>
                 <div class="stat">
                     <div class="item-stat">
-                        <div class="number sub-stat"><span>24</span>
-                            <p>Đơn đặt hàng</p>
+                        <div class="number sub-stat"><span id="number-buy">24</span>
+                            <p >Số sản phẩm đã bán</p>
                         </div>
                         <div class="icon-stat "><i class="fa-solid fa-bag-shopping"></i></div>
                     </div>
-                    <div class="item-stat">
+                    <!-- <div class="item-stat">
                         <div class="number sub-stat"><span>25%</span>
                             <p>Tỉ lệ hủy đơn</p>
                         </div>
                         <div class="icon-stat "><i class="fa-solid fa-chart-simple"></i></div>
-                    </div>
+                    </div> -->
                     <div class="item-stat">
-                        <div class="number sub-stat"><span>185800</span>
+                        <div class="number sub-stat"><span id="revenue">185800</span>
                             <p>Doanh thu</p>
                         </div>
                         <div class="icon-stat "><i class="fa-solid fa-chart-pie"></i></div>
@@ -56,18 +58,15 @@
                     <div class="filter">
                         <div class="search">
                             <span>Tìm kiếm sản phẩm</span>
-                            <select>
+                            <select id="type-product">
                                 <option value="0" selected>Lựa chọn sản phẩm theo danh mục</option>
-                                <option value="1">Áo Thun</option>
-                                <option value="2">Áo Hoodie</option>
-                                <option value="3">Áo Sơ Mi</option>
-                                <option value="4">Áo Polo</option>
-                                <option value="5">Áo Khoác</option>
+                                <option value="1">Áo</option>
+                                <option value="2">Túi sách</option>
                             </select>
                         </div>
-                        <div class="toDate">Từ ngày <input type="date"></div>
-                        <div class="endDate">Đến ngày <input type="date"></div>
-                        <div class="buttonSearch">Thống kê <div class="button">Thống kê</div>
+                        <div  class="toDate">Từ ngày <input id="toDate" type="date"></div>
+                        <div  class="endDate">Đến ngày <input id="endDate" type="date"></div>
+                        <div style="cursor: pointer;" id="buttonSearch" onclick="ThongKe()" class="buttonSearch">Thống kê <div class="button">Thống kê</div>
                         </div>
                     </div>
                     <div class="chart">
@@ -90,7 +89,7 @@
                                 <th>Tổng tiền</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="data-table">
                             <tr>
                                 <td>1</td>
                                 <td>Áo Thun Adidas D4R Xanh</td>
@@ -162,9 +161,8 @@
     <script src="../../Js/admin/tongquan.js?v=<?php echo $version ?>"></script>
     <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-    <script>
-        
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

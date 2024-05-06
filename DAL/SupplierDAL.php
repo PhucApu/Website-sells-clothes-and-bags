@@ -25,7 +25,7 @@ class SupplierDAL extends AbstractionDAL
               // do bảng enetrBallot có tham chiếu khóa ngoại đến thuộc tính khóa codeSupplier của bảng Supplier
               // kiểm tra nếu có khóa ngoại tham chiếu đến thì không được xóa
 
-              $check_data_Supplier = "SELECT * FROM productCode WHERE supplierCode = '$code'";
+              $check_data_Supplier = "SELECT * FROM product WHERE supplierCode = '$code'";
 
               $resutl_1 = $this->actionSQL->query($check_data_Supplier);
 
@@ -46,7 +46,7 @@ class SupplierDAL extends AbstractionDAL
                      // do bảng enetrBallot có tham chiếu khóa ngoại đến thuộc tính khóa codeSupplier của bảng Supplier
                      // kiểm tra nếu có khóa ngoại tham chiếu đến thì không được xóa
 
-                     $check_data_Supplier = "SELECT * FROM productCode WHERE supplierCode = '$code'";
+                     $check_data_Supplier = "SELECT * FROM product WHERE supplierCode = '$code'";
 
                      $resutl_1 = $this->actionSQL->query($check_data_Supplier);
 

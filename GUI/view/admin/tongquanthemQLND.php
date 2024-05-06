@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require('../../../config.php') ?>
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +9,9 @@
 
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
         <?php require('../../css/admin/sidebar.css');
         require('../../css/admin/header_admin.css');
@@ -26,21 +30,33 @@
             </div>
             <div class="content-page">
                 <h1>THÊM NGƯỜI DÙNG</h1>
-                <form action="them-nguoi-dung.php" method="post" onsubmit="return validateForm()">
+                <form action="">
                     <div class="form-container">
                         <div class="inputtotal">
                             <div class="input1">
                                 <div class=" form-group">
-                                    <label for="ho_ten">Họ tên:</label>
-                                    <input type="text" id="ho_ten" name="ho_ten" placeholder="Nhập họ tên">
+                                    <label for="ho_ten">Tên đăng nhập:</label>
+                                    <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập">
                                 </div>
                                 <div class="form-group">
                                     <label for="mat_khau">Mật khẩu:</label>
-                                    <input type="password" id="mat_khau" name="mat_khau" placeholder="Nhập mật khẩu">
+                                    <input type="password" id="passWord" name="mat_khau" placeholder="Nhập mật khẩu">
                                 </div>
                                 <div class="form-group">
                                     <label for="nhap_lai_mat_khau">Nhập lại mật khẩu:</label>
-                                    <input type="password" id="nhap_lai_mat_khau" name="nhap_lai_mat_khau" placeholder="Nhập lại mật khẩu">
+                                    <input type="password" id="confirmPassWord" name="confirmPassWord" placeholder="Nhập lại mật khẩu">
+                                </div>
+
+
+                                <input type="hidden" id="dateCreated" name="dateCreated">
+
+                                <div class=" form-group">
+                                    <label for="ho_ten">Họ tên:</label>
+                                    <input type="text" id="name" name="name" placeholder="Nhập họ tên">
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Địa chỉ:</label>
+                                    <input type="address" id="address" name="address" placeholder="Nhập địa chỉ">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email:</label>
@@ -48,13 +64,24 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="so_dien_thoai">Số điện thoại:</label>
-                                    <input type="text" id="so_dien_thoai" name="so_dien_thoai" placeholder="Nhập số điện thoại">
+                                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại">
                                 </div>
                             </div>
                             <div class="input2">
                                 <div class="form-group">
+                                    <label for="date">Ngày sinh:</label>
+                                    <input type="date" id="birth" name="" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sex">Giới tính:</label>
+                                    <select id="sex" name="sex">
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="nhom_nguoi_dung">Nhóm người dùng:</label>
-                                    <select id="nhom_nguoi_dung" name="nhom_nguoi_dung">
+                                    <select id="codePermission" name="codePermissions">
                                         <option value="">Chọn nhóm người dùng</option>
                                         <option value="1">Quản trị viên</option>
                                         <option value="2">Nhân viên</option>
@@ -62,118 +89,38 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="trang_thai_nguoi_dung">Trạng thái người dùng:</label>
-                                    <select id="trang_thai_nguoi_dung" name="trang_thai_nguoi_dung">
+                                    <select id="accountStatus" name="accountStatus">
                                         <option value="">Chọn trạng thái người dùng</option>
                                         <option value="1">Kích hoạt</option>
                                         <option value="0">Chưa kích hoạt</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="kieu_nguoi_dung">Kiểu người dùng:</label>
                                     <select id="kieu_nguoi_dung" name="kieu_nguoi_dung">
                                         <option value="">Chọn kiểu người dùng</option>
                                         <option value="1">Người dùng</option>
                                         <option value="2">Khách hàng</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Thêm người dùng</button>
+                        <button type="submit" class="btn btn-primary" onclick="addObj(event)">Thêm người
+                            dùng</button>
                         <a href="./tongquanQLND.php" class="btn btn-secondary">Quay lại</a>
                 </form>
             </div>
-            <script>
-                function validateForm() {
-                    // Lấy giá trị từ các ô nhập liệu
-                    const hoTen = document.getElementById("ho_ten").value;
-                    const matKhau = document.getElementById("mat_khau").value;
-                    const nhapLaiMatKhau = document.getElementById("nhap_lai_mat_khau").value;
-                    const email = document.getElementById("email").value;
-                    const soDienThoai = document.getElementById("so_dien_thoai").value;
-                    const nhomNguoiDung = document.getElementById("nhom_nguoi_dung").value;
-                    const trangThaiNguoiDung = document.getElementById("trang_thai_nguoi_dung").value;
-                    const kieuNguoiDung = document.getElementById("kieu_nguoi_dung").value;
 
-                    // Kiểm tra họ tên
-                    if (hoTen === "") {
-                        alert("Họ tên không được để trống!");
-                        return false;
-                    }
-
-                    // Kiểm tra mật khẩu
-                    if (matKhau === "") {
-                        alert("Mật khẩu không được để trống!");
-                        return false;
-                    }
-
-                    // Kiểm tra nhập lại mật khẩu
-                    if (nhapLaiMatKhau === "") {
-                        alert("Nhập lại mật khẩu không được để trống!");
-                        return false;
-                    }
-
-                    // Kiểm tra mật khẩu trùng khớp
-                    if (matKhau !== nhapLaiMatKhau) {
-                        alert("Mật khẩu và nhập lại mật khẩu không trùng khớp!");
-                        return false;
-                    }
-
-                    // Kiểm tra email
-                    if (email === "") {
-                        alert("Email không được để trống!");
-                        return false;
-                    }
-
-                    // Kiểm tra định dạng email
-                    const regexEmail =
-                        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    if (!regexEmail.test(email)) {
-                        alert("Email không đúng định dạng!");
-                        return false;
-                    }
-
-                    // Kiểm tra số điện thoại
-                    if (soDienThoai === "") {
-                        alert("Số điện thoại không được để trống!");
-                        return false;
-                    }
-
-                    // Kiểm tra định dạng số điện thoại
-                    const regexSoDienThoai = /^(\d{10,11})$/;
-                    if (!regexSoDienThoai.test(soDienThoai)) {
-                        alert("Số điện thoại không đúng định dạng!");
-                        return false;
-                    }
-
-                    // Kiểm tra nhóm người dùng
-                    if (nhomNguoiDung === "") {
-                        alert("Chọn nhóm người dùng!");
-                        return false;
-                    }
-
-                    // Kiểm tra trạng thái người dùng
-                    if (trangThaiNguoiDung === "") {
-                        alert("Chọn trạng thái người dùng!");
-                        return false;
-                    }
-
-                    // Kiểm tra kiểu người dùng
-                    if (kieuNguoiDung === "") {
-                        alert("Chọn kiểu người dùng!");
-                        return false;
-                    }
-
-                    // Trả về true nếu tất cả các điều kiện đều thỏa mãn
-                    return true;
-                }
-            </script>
         </div>
         <div class="footer">
             <?php require('./footer_admin.php'); ?>
         </div>
     </div>
     </div>
-    <script src="../../Js/sidebar.js"></script>
+    <script src="../../Js/sidebar.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/adduser.js?v=<?php echo $version ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

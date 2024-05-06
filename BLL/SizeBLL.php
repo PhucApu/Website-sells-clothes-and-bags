@@ -67,7 +67,7 @@ class SizeBLL
                             $nameSize = $item->getSizeName();
                             $codeSize = $item->getSizeCode();
 
-                            if (strpos($nameSize, $str) !== false || strpos($codeSize, $str) !== false) {
+                            if (strpos(strtolower($nameSize), $str) !== false || strpos(strtolower($codeSize), $str) !== false) {
                                    $obj = array(
                                           "sizeName" => $nameSize,
                                           "sizeCode" => $codeSize,

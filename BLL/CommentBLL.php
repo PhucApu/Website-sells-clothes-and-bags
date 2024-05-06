@@ -34,20 +34,18 @@ class CommentBLL
               // lấy các thông tin khác
               $dateSend = date('Y-m-d');
 
-              $obj = new CommentDTO($commentCode,$productCode,$userNameComment,$userNameRepComment,$dateSend,$content,$state,$likeNumber,$dislikeNumber);
+              $obj = new CommentDTO($commentCode, $productCode, $userNameComment, $userNameRepComment, $dateSend, $content, $state, $likeNumber, $dislikeNumber);
               $check = $this->CommentDAL->addObj($obj);
 
-              if($check == true){
+              if ($check == true) {
                      return array(
                             "mess" => "success"
                      );
-              }else{
+              } else {
                      return array(
                             "mess" => "failed"
                      );
               }
-
-              
        }
 
        // lấy mảng đối tượng Comment
@@ -91,7 +89,8 @@ class CommentBLL
        }
 
        // lấy mảng đối tượng bình luận theo mã sản phẩm
-       function getArrObj_by_productCode($productCode){
+       function getArrObj_by_productCode($productCode)
+       {
               $arr = $this->CommentDAL->getArr_by_productCode($productCode);
               $result = array();
               if (count($arr) > 0) {
@@ -232,13 +231,13 @@ class CommentBLL
                             $state = $item->getState();
 
                             if (
-                                   strpos($productCode, $str) !== false ||
-                                   strpos($codeComment, $str) !== false ||
-                                   strpos($userNameComment, $str) !== false ||
-                                   strpos($likeNumber, $str) !== false ||
-                                   strpos($content, $str) !== false ||
-                                   strpos($sentDate, $str) !== false ||
-                                   strpos($state, $str) !== false
+                                   strpos(strtolower($productCode), $str) !== false ||
+                                   strpos(strtolower($codeComment), $str) !== false ||
+                                   strpos(strtolower($userNameComment), $str) !== false ||
+                                   strpos(strtolower($likeNumber), $str) !== false ||
+                                   strpos(strtolower($content), $str) !== false ||
+                                   strpos(strtolower($sentDate), $str) !== false ||
+                                   strpos(strtolower($state), $str) !== false
                             ) {
 
                                    $obj = array(
@@ -329,7 +328,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $state = $_POST['state'];
                      $dislikeNumber = $_POST['dislikeNumber'];
                      $likeNumber = $_POST['likeNumber'];
-                     $temp = $check->addObj($productCode,$userNameComment,$userNameRepComment,$content,$state,$dislikeNumber,$likeNumber);
+                     $temp = $check->addObj($productCode, $userNameComment, $userNameRepComment, $content, $state, $dislikeNumber, $likeNumber);
                      echo json_encode($temp);
                      break;
               case 'getArrObj_by_productCode':

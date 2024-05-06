@@ -33,7 +33,7 @@ async function getArrOrderDetail_1() {
                 // Lấy giá trị của tham số 'code' từ URL hiện tại
                 let codeOrderValue = urlParams.get('orderCode');
                 let status = urlParams.get('status');
-                if (codeOrderValue != null && (status == 'processing' || status == 'completed' || status == 'rejected')) {
+                if (codeOrderValue != null && codeOrderValue != '' && (status == 'processing' || status == 'completed' || status == 'rejected')) {
                         const response = await fetch('../../BLL/OrderBLL.php', {
                                 method: 'POST',
                                 headers: {

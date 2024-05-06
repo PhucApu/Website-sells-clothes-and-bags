@@ -84,7 +84,7 @@ class OrderDAL extends AbstractionDAL
                             // giải mã username
                             $userNameValue = base64_decode($userName);
 
-                            $order = new OrderDTO($orderCode,$deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            $order = new OrderDTO($orderCode, $deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                             $orders[] = $order;
                      }
                      return $orders;
@@ -124,7 +124,43 @@ class OrderDAL extends AbstractionDAL
                             // giải mã username
                             $userNameValue = base64_decode($userName);
 
-                            $order = new OrderDTO($orderCode,$deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            $order = new OrderDTO($orderCode, $deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                            $orders[] = $order;
+                     }
+                     return $orders;
+              } else {
+                     // Trường hợp không có dữ liệu trả về
+                     return null;
+              }
+       }
+
+       // lấy ra mảng đối tượng trong khoảng thời gian
+       function getListObj_by_Date($dateStart, $dateEnd)
+       {
+              $sql = "SELECT * FROM orders od  WHERE od.dateCreated  BETWEEN '$dateStart' AND '$dateEnd'";
+
+              // Thực hiện truy suất
+              $result = $this->actionSQL->query($sql);
+
+              $orders = array();
+              if ($result->num_rows > 0) {
+                     while ($data = $result->fetch_assoc()) {
+                            $orderCode = $data["orderCode"];
+                            $deliveryAddress = $data['deliveryAddress'];
+                            $dateCreated = $data["dateCreated"];
+                            $dateDelivery = $data["dateDelivery"];
+                            $dateFinish = $data["dateFinish"];
+                            $userName = $data["userName"];
+                            $totalMoney = $data["totalMoney"];
+                            $codePayments = $data["codePayments"];
+                            $codeTransport = $data["codeTransport"];
+                            $status = $data["status"];
+                            $note = $data["note"];
+
+                            // giải mã username
+                            $userNameValue = base64_decode($userName);
+
+                            $order = new OrderDTO($orderCode, $deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                             $orders[] = $order;
                      }
                      return $orders;
@@ -163,7 +199,7 @@ class OrderDAL extends AbstractionDAL
                      $userNameValue = base64_decode($userName);
 
                      // Tạo đối tượng OrderDTO và trả về
-                     $order = new OrderDTO($orderCode,$deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
+                     $order = new OrderDTO($orderCode, $deliveryAddress, $dateCreated, $dateDelivery, $dateFinish, $userNameValue, $totalMoney, $codePayments, $codeTransport, $status, $note);
                      return $order;
               } else {
                      // Trường hợp không có dữ liệu trả về
@@ -172,8 +208,8 @@ class OrderDAL extends AbstractionDAL
               }
        }
 
-       
-       
+
+
 
        // thêm một đối tượng 
        function addObj($obj)
@@ -201,7 +237,7 @@ class OrderDAL extends AbstractionDAL
                             $note = $obj->getNote();
 
                             // mã hóa username
-                            
+
                             $userName_encode = base64_encode($userName);
 
                             // Câu lệnh truy vấn để thêm đối tượng vào bảng orders
@@ -260,6 +296,16 @@ class OrderDAL extends AbstractionDAL
                      // Trả về false nếu đối tượng rỗng
                      return false;
               }
+       }
+
+       // cap nhat trang thai don hang
+       function updateState_by_orderCode($orderCode, $status)
+       {
+              $query = "UPDATE orders 
+              SET status = '$status'
+              WHERE orderCode = '$orderCode'";
+              // Thực hiện truy vấn
+              return $this->actionSQL->query($query);
        }
 }
 

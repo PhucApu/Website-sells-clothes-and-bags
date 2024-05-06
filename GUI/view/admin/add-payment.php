@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm nhà cung cấp mới</title>
+    <title>Thêm hình thức thanh toán</title>
 
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -29,40 +29,32 @@
                 <?php require('./header_admin.php'); ?>
             </div>
             <div class="content-page-sb ">
-                <div style="width: 1150px;">
-                    <h2 style="text-align:center;">Thêm nhà cung cấp</h2>
+                <div>
+                    <h2 style="text-align:center;">Thêm hình thức thanh toán</h2>
                     <div class="container-fluid">
                         <form id="addForm">
                             <div class="mb-3">
-                                <label for="supplierCode" class="form-label">Mã nhà cung cấp</label>
-                                <input type="text" class="form-control" id="supplierCode" name="supplierCode">
+                                <label for="codePayments" class="form-label">Mã hình thức thanh toán</label>
+                                <input type="text" class="form-control" id="codePaymentsInput" name="codePayments">
                             </div>
                             <div class="mb-3">
-                                <label for="nameSupplier" class="form-label">Tên nhà cung cấp</label>
-                                <input type="text" class="form-control" id="nameSupplier" name="nameSupplier">
+                                <label for="namePayment" class="form-label">Tên hình thức thanh toán</label>
+                                <input type="text" class="form-control" id="namePaymentInput" name="namePayment">
                             </div>
                             <div class="mb-3">
-                                <label for="address" class="form-label">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" name="address">
+                                <label for="affiliatedBank" class="form-label">Ngân hàng liên kết</label>
+                                <input type="text" class="form-control" id="affiliatedBankInput" name="affiliatedBank">
                             </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email">
+                            <div class="group-btn d-flex" style="justify-content: space-between;">
+                                <div class="button-back">
+                                    <button class="btn btn-secondary"><a href="list-payment.php" style="text-decoration:none;" class="text-white">Quay lại</a></button>
+                                </div>
+                                <div class="button-add" style=" margin-bottom: 2rem;">
+                                    <button type="submit" class="btn btn-primary" onclick="add_PaymentsObj(event)">Thêm
+                                        hình thức
+                                        thanh toán</button>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="brandSupplier" class="form-label">Thương hiệu cung cấp</label>
-                                <input type="text" class="form-control" id="brandSupplier" name="brandSupplier">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phoneNumber" class="form-label">Số điện thoại</label>
-                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
-                            </div>
-                            <div class="group-btn" style="text-align:right; margin-bottom: 2rem;">
-                                <a href="./list-suppliers.php" type="" class="btn btn-primary">Quay lại</a>
-                                <button type="submit" class="btn btn-primary" onclick="addObj(event)">Thêm nhà cung
-                                    cấp</button>
-                            </div>
-
                         </form>
                     </div>
                 </div>
@@ -74,7 +66,7 @@
         </div>
     </div>
     <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
-    <script src="../../Js/admin/addsupplier.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/addpayment.js?v=<?php echo $version ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 </body>

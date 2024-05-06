@@ -237,6 +237,24 @@ class AccountDAL extends AbstractionDAL
                      return false;
               }
        }
+
+       function updateStateUser($userName, $accountStatus)
+       {
+              // Câu lệnh UPDATE
+              if ($accountStatus == '1') {
+                     $string = "UPDATE accounts 
+                                SET 
+                                accountStatus = '0'
+                                WHERE userName = '$userName'";
+              } else {
+                     $string = "UPDATE accounts 
+                                SET 
+                                accountStatus = '1'
+                                WHERE userName = '$userName'";
+              }
+
+              return $this->actionSQL->query($string);
+       }
 }
 
 // check

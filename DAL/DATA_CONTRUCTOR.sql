@@ -1000,6 +1000,41 @@ FROM product pr
 
 
 
+--- Thống kê các số sản phẩm bán được trong khoảng thời gian từ A đến B
+-- input: bảng chi tiết háo đơn, bản sản phẩm
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode, pr.imgProduct ,pr.price, pr.nameProduct, pr.quantity as quantityStore, SUM(oddt.quantity) as quantityBuy
+FROM product pr , orderdetail oddt , orders od
+WHERE pr.productCode = oddt.productCode AND od.orderCode = oddt.orderCode AND od.dateCreated BETWEEN '2000-01-01' AND '2024-05-06'
+GROUP BY pr.productCode
+
+
+--- Thống kê các số sản phẩm túi bán được trong khoảng thời gian từ A đến B
+-- input: bảng chi tiết háo đơn, bản sản phẩm
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode , pr.imgProduct ,pr.price, pr.nameProduct, pr.quantity as quantityStore, SUM(oddt.quantity) as quantityBuy
+FROM product pr ,handbagproduct hbpr , orderdetail oddt , orders od
+WHERE pr.productCode = oddt.productCode AND hbpr.productCode = pr.productCode AND od.orderCode = oddt.orderCode AND od.dateCreated BETWEEN '2024-05-05' AND '2024-05-06'
+GROUP BY pr.productCode
+
+
+--- Thống kê các số sản phẩm áo bán được trong khoảng thời gian từ A đến B
+-- input: bảng chi tiết háo đơn, bản sản phẩm
+USE  website_sells_clothes_and_bags;
+SELECT pr.productCode , pr.imgProduct,pr.price, pr.nameProduct, pr.quantity as quantityStore, SUM(oddt.quantity) as quantityBuy
+FROM product pr ,shirtproduct shpr , orderdetail oddt, orders od
+WHERE pr.productCode = oddt.productCode AND shpr.productCode = pr.productCode AND od.orderCode = oddt.orderCode AND od.dateCreated BETWEEN '2024-05-05' AND '2024-05-06'
+GROUP BY pr.productCode
+
+
+-- 
+USE  website_sells_clothes_and_bags;
+SELECT * FROM orders od  WHERE od.dateCreated  BETWEEN '2024-05-05' AND '2024-05-06'
+
+
+USE  website_sells_clothes_and_bags;
+SELECT * FROM permissionsDetail WHERE codePermissions = 'user'
+
 
 
 
