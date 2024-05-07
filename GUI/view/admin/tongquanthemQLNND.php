@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require('../../../config.php') ?>
 
 <head>
     <meta charset="UTF-8">
@@ -7,14 +8,18 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
-    <?php require('../../css/admin/sidebar.css');
-    require('../../css/admin/header_admin.css');
-    require('../../css/admin/footer_admin.css');
-    // require('../../css/admin/danhsachnguoidung2.css');
-    require('../../css/admin/QLND.css');
-    ?>
+        <?php require('../../css/admin/sidebar.css');
+        require('../../css/admin/header_admin.css');
+        require('../../css/admin/footer_admin.css');
+        // require('../../css/admin/danhsachnguoidung2.css');
+        require('../../css/admin/QLND.css');
+        ?>
     </style>
 </head>
 
@@ -26,49 +31,21 @@
                 <?php require('./header_admin.php'); ?>
             </div>
             <div class="content-page">
-                <?php
-                // Kết nối đến cơ sở dữ liệu
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $databaseName = "website_sells_clothes_and_bags";
-                $conn = new mysqli($servername, $username, $password, $databaseName);
 
-                // Kiểm tra kết nối
-                if ($conn->connect_error) {
-                    die("Kết nối thất bại: " . $conn->connect_error);
-                }
-
-                // Xử lý khi người dùng nhấn nút "Cập nhật"
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    // Lấy dữ liệu từ form
-                    $namePermissions = $_POST["namePermissions"];
-
-                    // Thực hiện thêm nhóm người dùng vào cơ sở dữ liệu
-                    $sql = "INSERT INTO permissions (namePermissions) VALUES ('$namePermissions')";
-                    if ($conn->query($sql) === TRUE) {
-                        // Chuyển hướng về trang danh sách nhóm người dùng
-                        header("Location: danhsachnguoidung.php");
-                        exit();
-                    } else {
-                        echo "Lỗi: " . $sql . "<br>" . $conn->error;
-                    }
-                }
-
-                $conn->close();
-                ?>
 
                 <div class="form-container">
                     <h1>THÊM NHÓM NGƯỜI DÙNG</h1> <!-- Sửa title -->
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
-                        class="permission-form">
+                    <form action="" class="permission-form">
                         <div class="form-group">
-                            <label for="namePermissions">Tên nhóm người dùng:</label>
-                            <input type="text" id="namePermissions" name="namePermissions" class="form-control"
-                                required>
+                            <label for="codePermission">Mã nhóm người dùng mới:</label>
+                            <input type="text" id="codePermission" class="form-control" required>
+                            <label for="namePermission">Tên nhóm người dùng mới:</label>
+                            <input type="text" id="namePermission" class="form-control" required>
+
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Cập nhật</button> <!-- Sửa nút cập nhật -->
+                            <button type="submit" class="btn btn-primary" onclick="addObj(event)">Cập nhật</button>
+                            <!-- Sửa nút cập nhật -->
                             <a href="./TongquanQLNND.php" class="btn btn-secondary">Quay lại</a>
                         </div>
                     </form>
@@ -79,7 +56,10 @@
             </div>
         </div>
     </div>
-    <script src="../../Js/sidebar.js"></script>
+    <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/addusergroup.js?v=<?php echo $version ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

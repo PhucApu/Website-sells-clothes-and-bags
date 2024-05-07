@@ -31,7 +31,7 @@
                             <div class="container-product">
                                    <div class="top-container mt-2">
                                           <h2>Danh sách hình thức thanh toán</h2>
-                                          <a href="./add-payment.php" type="button" class="btn btn-primary btn-add">Thêm hình thức thanh
+                                          <a href="#" onclick="add_PaymentObj(event)" type="button" class="btn btn-primary btn-add">Thêm hình thức thanh
                                                  toán</a>
                                    </div>
                                    <div class="mb-3 mt-5">

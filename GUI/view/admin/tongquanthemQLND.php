@@ -75,8 +75,8 @@
                                 <div class="form-group">
                                     <label for="sex">Giới tính:</label>
                                     <select id="sex" name="sex">
-                                        <option value="1">Nam</option>
-                                        <option value="2">Nữ</option>
+                                        <option value="Male">Nam</option>
+                                        <option value="Female">Nữ</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -117,7 +117,7 @@
         </div>
     </div>
     </div>
-    <script src="../../Js/sidebar.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
     <script src="../../Js/admin/adduser.js?v=<?php echo $version ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>

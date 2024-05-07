@@ -20,7 +20,7 @@ class UserManagerBLL
         //lấy thông tin 
         $result = $this->UserManagerDAL->deleteByID($code);
 
-        if ($result) {
+        if ($result == true) {
             return array("mess" => "success");
         } else {
             return array("mess" => "Failed");

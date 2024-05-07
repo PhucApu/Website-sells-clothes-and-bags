@@ -30,7 +30,7 @@ async function checkLogin() {
 
 async function getDataPermission(codePermission) {
        try {
-              const response = await fetch('../../../BLL/PermissionBLL.php', {
+              const response = await fetch('../../../BLL/ManagerUserGroupBLL.php', {
                      method: 'POST',
                      headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -41,45 +41,102 @@ async function getDataPermission(codePermission) {
               const data = await response.json();
               console.log(data);
 
-              if(data != null){
-                     // setUpPermission(data.permissionDetail,codePermission)
+              if (data != null) {
+                     setUpPermission(data.permissionDetail,codePermission);
               }
-              
+
        } catch (error) {
               console.error('Error:', error);
        }
 }
 
 // setup các chức năng được truy cập
-function setUpPermission(dataPermissionDetail,codePermission){
-       let permision_Permission = document.getElementById('user-group');
-       let account_Permission = document.getElementById('user-management');
-       let comment_Permission = document.getElementById('comment-management');
-       let feedback_Permission = document.getElementById('contact-management');
-       let order_Permission = document.getElementById('bill-management');
-       let payment_Permission = document.getElementById('payment-management');
-       let product_Permission = document.getElementById('product-management');
-       let size_Permission = document.getElementById('');
-       let supplier_Permission = document.getElementById('supplier-management');
-       let transport_Permission = document.getElementById('transportation-management');
+function setUpPermission(dataPermissionDetail, codePermission) {
+       let permision_Permission = document.getElementById('user-group-sidebar');
+       let account_Permission = document.getElementById('user-management-sidebar');
+       let comment_Permission = document.getElementById('comment-management-sidebar');
+       let feedback_Permission = document.getElementById('contact-management-sidebar');
+       let order_Permission = document.getElementById('bill-management-sidebar');
+       let payment_Permission = document.getElementById('payment-management-sidebar');
+       let product_Permission = document.getElementById('product-management-sidebar');
+       let size_Permission = document.getElementById('size-management-sidebar');
+       let supplier_Permission = document.getElementById('supplier-management-sidebar');
+       let transport_Permission = document.getElementById('transportation-management-sidebar');
 
-       
-       
-       for(let item of dataPermissionDetail){
+
+
+       for (let item of dataPermissionDetail) {
+
+              // quản lý phân quyền (nhóm người dùng), chỉ có admin mới dc
+              if (codePermission == 'admin') {
+                     permision_Permission.style.display = 'block';
+              } else if (codePermission != 'admin') {
+                     permision_Permission.style.display = 'none';
+              }
 
               // quản lý feedback
-              if(item.functionCode == "feedback" && item.seePermission == "1"){
-                     feedback_Permission.style.display = 'inline-block';
-              }else{
+              if (item.functionCode == "feedback" && item.seePermission == '1') {
+                     feedback_Permission.style.display = 'block';
+              } else if (item.functionCode == "feedback" && item.seePermission != '1') {
                      feedback_Permission.style.display = 'none';
               }
 
               // quản lý comment
-              if(item.functionCode == "comment" && item.seePermission == "1"){
-                     comment_Permission.style.display = 'inline-block';
-              }else{
+              if (item.functionCode == "comment" && item.seePermission == '1') {
+                     comment_Permission.style.display = 'block';
+              } else if (item.functionCode == "comment" && item.seePermission != '1') {
                      comment_Permission.style.display = 'none';
               }
+
+              // quản lý tài khoản người dùng
+              if (item.functionCode == "account" && item.seePermission == '1') {
+                     account_Permission.style.display = 'block';
+              } else if (item.functionCode == "account" && item.seePermission != '1') {
+                     account_Permission.style.display = 'none';
+              }
+
+              // quản lý đơn hàng
+              if (item.functionCode == "order" && item.seePermission == '1') {
+                     order_Permission.style.display = 'block';
+              } else if (item.functionCode == "account" && item.seePermission != '1') {
+                     order_Permission.style.display = 'none';
+              }
+
+              // quản lý payment
+              if (item.functionCode == "payment" && item.seePermission == '1') {
+                     payment_Permission.style.display = 'block';
+              } else if (item.functionCode == "payment" && item.seePermission != '1') {
+                     payment_Permission.style.display = 'none';
+              }
+
+              // quản lý sản phẩm
+              if (item.functionCode == "product" && item.seePermission == '1') {
+                     product_Permission.style.display = 'block';
+              } else if (item.functionCode == "product" && item.seePermission != '1') {
+                     product_Permission.style.display = 'none';
+              }
+
+              // quản lý size
+              if (item.functionCode == "size" && item.seePermission == '1') {
+                     size_Permission.style.display = 'block';
+              } else if (item.functionCode == "size" && item.seePermission != '1') {
+                     size_Permission.style.display = 'none';
+              }
+
+              // quản lý nhà cung cấp
+              if (item.functionCode == "supplier" && item.seePermission == '1') {
+                     supplier_Permission.style.display = 'block';
+              } else if (item.functionCode == "supplier" && item.seePermission != '1') {
+                     supplier_Permission.style.display = 'none';
+              }
+
+              // quan ly transport
+              if (item.functionCode == "transport" && item.seePermission == '1') {
+                     transport_Permission.style.display = 'block';
+              } else if (item.functionCode == "transport" && item.seePermission != '1') {
+                     transport_Permission.style.display = 'none';
+              }
+
 
        }
 }

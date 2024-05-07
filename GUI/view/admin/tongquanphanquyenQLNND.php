@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php require('../../../config.php') ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
     <link rel="stylesheet" href="../../css/reset.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
-    <?php require('../../css/admin/sidebar.css');
-    require('../../css/admin/header_admin.css');
-    require('../../css/admin/footer_admin.css');
-    require('../../css/admin/phanquyen.css');
-    ?>
+        <?php require('../../css/admin/sidebar.css');
+        require('../../css/admin/header_admin.css');
+        require('../../css/admin/footer_admin.css');
+        require('../../css/admin/phanquyen.css');
+        ?>
     </style>
 </head>
 
@@ -25,74 +27,38 @@
                 <?php require('./header_admin.php'); ?>
             </div>
             <div class="content-page">
-                <?php
-                // Kết nối đến cơ sở dữ liệu
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $databaseName = "website_sells_clothes_and_bags";
-                $conn = null;
 
-                // Tạo kết nối
-                $conn = new mysqli($servername, $username, $password, $databaseName);
-
-                // Kiểm tra kết nối
-                if ($conn->connect_error) {
-                    die("Kết nối thất bại: " . $conn->connect_error);
-                }
-
-                // Lấy danh sách functions và permissions
-                $sql = "SELECT * FROM permissionsDetail;";
-                $result = $conn->query($sql);
-                ?>
-                <style>
-
-                </style>
                 <h1 class="title-phanquyen">Phân quyền</h1>
                 <form action="update_permission.php" method="post">
                     <table>
                         <thead>
                             <tr>
                                 <th>functionCode</th>
-                                <th>addPermission</th>
                                 <th>seePermission</th>
+                                <th>addPermission</th>
                                 <th>deletePermission</th>
                                 <th>fixPermission</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            while ($row = $result->fetch_assoc()) {
-                            ?>
+                        <tbody id="content-data-table">
+
                             <tr>
-                                <td><?php echo $row["functionCode"]; ?></td>
-                                <td><input type="checkbox" name="addPermission[]"
-                                        value="<?php echo $row["codePermissions"]; ?>"
-                                        <?php echo $row["addPermission"] == 1 ? 'checked' : ''; ?>></td>
-                                <td><input type="checkbox" name="seePermission[]"
-                                        value="<?php echo $row["codePermissions"]; ?>"
-                                        <?php echo $row["seePermission"] == 1 ? 'checked' : ''; ?>></td>
-                                <td><input type="checkbox" name="deletePermission[]"
-                                        value="<?php echo $row["codePermissions"]; ?>"
-                                        <?php echo $row["deletePermission"] == 1 ? 'checked' : ''; ?>></td>
-                                <td><input type="checkbox" name="fixPermission[]"
-                                        value="<?php echo $row["codePermissions"]; ?>"
-                                        <?php echo $row["fixPermission"] == 1 ? 'checked' : ''; ?>></td>
+                                <td>Quản lý tài khoản</td>
+                                <td><input type="checkbox" name="" value=""></td>
+                                <td><input type="checkbox" name="" value=""></td>
+                                <td><input type="checkbox" name="" value=""></td>
+                                <td><input type="checkbox" name="" value=""></td>
                             </tr>
-                            <?php
-                            }
-                            ?>
+
                         </tbody>
                     </table>
                     <input type="button" onclick="huyTatCa()" value="Hủy">
-                    <input type="button" onclick="saveAndGrantPermission()" value="Phân quyền">
+                    <input type="button" onclick="PhanQuyen()" value="Phân quyền">
                     <a href="TongquanQLNND.php">Quay lại</a>
                 </form>
-                <?php
-                // Đóng kết nối
-                $conn->close();
-                ?>
-                <script src="../../Js/sidebar.js"></script>
+                <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
+                <script src="../../Js/admin/TongquanphanquyenQLNND.js?v=<?php echo $version ?>"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>

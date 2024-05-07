@@ -49,7 +49,7 @@ function validateUser(
       icon: "error",
       title: "Lỗi",
       text: "Vui lòng điền đầy đủ thông tin",
-      footer: '<a href="#"></a>',
+      
     });
     return false;
   }
@@ -61,7 +61,7 @@ function validateUser(
       icon: "error",
       title: "Lỗi",
       text: "Email không hợp lệ",
-      footer: '<a href="#"></a>',
+      
     });
     return false;
   }
@@ -73,7 +73,7 @@ function validateUser(
       icon: "error",
       title: "Lỗi",
       text: "Số điện thoại phải có 10 chữ số",
-      footer: '<a href="#"></a>',
+      
     });
     return false;
   }
@@ -83,7 +83,7 @@ function validateUser(
       icon: "error",
       title: "Mật khẩu không khớp",
       text: "Vui lòng điền lại mật khẩu",
-      footer: '<a href="#"></a>',
+      
     });
     return false;
   }
@@ -93,7 +93,7 @@ function validateUser(
       icon: "error",
       title: "Lỗi",
       text: "Tên đăng nhập không được chứa ký tự đặc biệt như '@' hoặc '+',...",
-      footer: '<a href="#"></a>',
+      
     });
     return false;
   }
@@ -208,7 +208,7 @@ async function addObj(event) {
         icon: "error",
         title: "Thêm không thành công",
         text: "Bị trùng dữ liệu",
-        footer: '<a href="#"></a>',
+        
       });
     }
   } catch (error) {

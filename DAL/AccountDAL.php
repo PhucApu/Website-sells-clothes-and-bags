@@ -34,7 +34,7 @@ class AccountDAL extends AbstractionDAL
               // nếu tất cả các câu lệnh truy suất cho ra số dòng truy suất đều = 0 --> thỏa
               if ($resutl_1->num_rows < 1 && $resutl_2->num_rows < 1 && $resutl_3->num_rows < 1) {
 
-                     $string = "DELETE FROM accounts WHERE userName = '$code' ";
+                     $string = "DELETE FROM accounts WHERE userName = '$code'";
                      // thuc hien truy suat
                      return $this->actionSQL->query($string);
               } else {

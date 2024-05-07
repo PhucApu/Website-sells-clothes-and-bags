@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require('../../../config.php') ?>
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +8,11 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
     <style>
         <?php require('../../css/admin/sidebar.css');
         require('../../css/admin/header_admin.css');
@@ -26,36 +31,14 @@
                 <?php require('./header_admin.php'); ?>
             </div>
             <div class="content-page">
-                <?php
-
-                // Kết nối đến cơ sở dữ liệu
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $databaseName = "website_sells_clothes_and_bags";
-                $conn = null;
-
-                // Tạo kết nối
-                $conn = new mysqli($servername, $username, $password, $databaseName);
-
-                // Kiểm tra kết nối
-                if ($conn->connect_error) {
-                    die("Kết nối thất bại: " . $conn->connect_error);
-                }
-
-                // Lấy danh sách người dùng
-                $sql = "SELECT codePermissions, namePermissions FROM permissions;";
-                $result = $conn->query($sql);
-
-                ?>
                 <div>
                     <h1>QUẢN LÝ NHÓM NGƯỜI DÙNG</h1>
                     <a href="tongquanthemQLNND.php" class="add-new"><i class="fa fa-plus"></i>Thêm nhóm mới</a>
                 </div>
                 <div class="tim-kiem">
-                    <form action="TongquanQLNND.php" method="get" onsubmit="timKiem(); return false;">
-                        <input type="text" name="tenTimKiem" placeholder="Nhập tên hoặc mã nhóm người dùng">
-                        <button class="search" type="submit">Tìm kiếm</button>
+                    <form action="TongquanQLNND.php" method="get">
+                        <input type="text" name="tenTimKiem" id="input-search-accountgroup" placeholder="Nhập dữ liệu tìm kiếm nhóm người dùng">
+                        <!-- <button class="search" type="submit">Tìm kiếm</button> -->
                     </form>
                 </div>
                 <table class="danh-sach">
@@ -63,128 +46,106 @@
                         <tr>
                             <th>STT</th>
                             <th>Tên</th>
-
                             <th>Phân quyền</th>
                             <th>Sửa</th>
                             <th>Xóa</th>
                         </tr>
                     </thead>
-                    <script>
-                        function deletePermission(codePermissions) {
-                            if (codePermissions === 'admin') {
-                                alert('Không thể xóa nhóm người dùng admin.');
-                                return; // Dừng hàm nếu là nhóm người dùng admin
-                            }
-
-                            if (confirm('Bạn có chắc chắn muốn xóa nhóm người dùng này không?')) {
-                                // Gửi yêu cầu xóa đến trang xử lý PHP
-                                var xhttp = new XMLHttpRequest();
-                                xhttp.onreadystatechange = function() {
-                                    if (this.readyState == 4 && this.status == 200) {
-                                        // Xử lý kết quả nếu cần
-                                        alert('Nhóm người dùng đã được xóa thành công.');
-                                        // Reload trang hoặc thực hiện các hành động khác
-                                        window.location.reload();
-                                    }
-                                };
-                                xhttp.open("GET", "delete_permission.php?codePermissions=" + codePermissions, true);
-                                xhttp.send();
-                            }
-                        }
-                    </script>
                     <tbody id="danhsach">
-                        <?php
-
-                        // Lấy dữ liệu tìm kiếm
-                        $tenTimKiem = "";
-
-                        if (isset($_GET["tenTimKiem"])) {
-                            $tenTimKiem = $_GET["tenTimKiem"];
-                        }
-
-                        // Truy vấn dữ liệu
-                        $sql = "SELECT * FROM permissions WHERE namePermissions LIKE '%$tenTimKiem%';";
-                        $result = $conn->query($sql);
-
-                        // Duyệt qua kết quả và hiển thị từng người dùng
-                        $stt = 1; // Khởi tạo số thứ tự
-                        while ($row = $result->fetch_assoc()) {
-                        ?>
-                            <tr>
-                                <td><?php echo $stt; ?></td>
-                                <td><?php echo $row["namePermissions"]; ?></td>
-
-                                <td><a href="tongquanphanquyenQLNND.php" class="phanquyen">Phân quyền</a></td>
-                                <td><a href="tongquansuaQLNND.php?codePermissions=<?php echo $row["codePermissions"]; ?>" class="edit-button"><i class="fa fa-edit"></i>Sửa</a></td>
-                                <?php
-                                // Kiểm tra và ẩn nút "Xóa" nếu namePermissions là "admin"
-                                if ($row["codePermissions"] !== 'admin') {
-                                    echo "<td><a href='#' onclick='deletePermission(\"" . $row["codePermissions"] . "\")' class='delete-button'><i class='fa fa-trash'></i> Xóa</a></td>";
-                                } else {
-                                    echo "<td></td>"; // Nếu là admin, không hiển thị nút "Xóa"
-                                }
-                                ?>
-                            </tr>
-                        <?php
-                            $stt++; // Tăng số thứ tự sau mỗi lần lặp
-                        }
-                        ?>
+                        <!-- <tr>
+                            <td></td>
+                            <td></td>
+                            <td><a href="tongquanphanquyenQLNND.php" class="phanquyen">Phân quyền</a></td>
+                            <td><a class="edit-button">
+                                    <i class="fa fa-edit"></i>Sửa</a></td> -->
+                        <!-- <td><a class="delete-button">
+                                    <i class="fa fa-trash"></i>Xóa</a></td> -->
+                        <!-- <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editSupplier"><i class="fa fa-edit"></i></a> -->
+                        <!-- <td> <a href="#" class="delete-button" data-bs-toggle="modal" data-bs-target="#deleteSupplier"><i class="fa fa-trash"></i></a>
+                            <td>
+                        </tr> -->
                     </tbody>
                 </table>
-                <div class="phan-trang">
+                <!-- <div class="phan-trang">
                     <a href="#">&laquo;</a>
                     <a href="#">1</a>
                     <a href="#">2</a>
                     <a href="#">3</a>
                     <a href="#">&raquo;</a>
-                </div>
-                <script>
-                    function timKiem() {
-                        var tenTimKiem = document.getElementById("tenTimKiem").value;
-                        var xhttp = new XMLHttpRequest();
-                        xhttp.onreadystatechange = function() {
-                            if (this.readyState == 4 && this.status == 200) {
-                                var data = JSON.parse(this.responseText);
-                                var html = "";
-                                for (var i = 0; i < data.length; i++) {
-                                    html += "<tr>";
-                                    html += "<td>" + (i + 1) + "</td>";
-                                    html += "<td>" + data[i].namePermissions + "</td>";
-
-                                    html += "<td><a href='#'>Phân quyền</a></td>";
-                                    html += "<td><a href='suaNhomNguoiDung.php?codePermissions=" + data[i]
-                                        .codePermissions +
-                                        "' class='edit-button'>Sửa</a></td>";
-                                    html += "<td><a href='suaNhomNguoiDung.php?namePermissions=" + data[i]
-                                        .namePermissions +
-                                        "' class='edit-button'>Xóa</a></td>";
-                                    html += "</tr>";
-                                }
-                                document.getElementById("danhSach").innerHTML = html;
-                            }
-                        };
-                        xhttp.open("POST", "timKiemAjax.php", true);
-                        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                        xhttp.send("tenTimKiem=" + tenTimKiem);
-                    }
-
-                    function editPermission(namePermissions) {
-                        window.location.href = "edit_permission.php?namePermissions=" + namePermissions;
-                    }
-                </script>
-                <?php
-
-                // Đóng kết nối
-                $conn->close();
-
-                ?>
+                </div> -->
             </div>
+            <ul class="pagination pagination-sm justify-content-end" id="Pagination" style="cursor:pointer; margin-right:1rem;">
+                <!-- <li class="page-item"><a class="page-link">Previous</a></li>
+                    <li class="page-item active"><a class="page-link">1</a></li>
+                    <li class="page-item"><a class="page-link">2</a></li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item"><a class="page-link">Next</a></li> -->
+            </ul>
+
             <div class="footer">
                 <?php require('./footer_admin.php'); ?>
             </div>
         </div>
     </div>
-    <script src="../../Js/sidebar.js"></script>
+    <!-- Sửa nhóm người dùng -->
+    <div id="editNND-container">
+        <div class="modal fade" id="editSize" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Cập nhật thông tin Nhóm Người Dùng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <div class="mb-3">
+                                <label for="nndCode" class="form-label">Mã Nhóm Người Dùng</label>
+                                <input type="text" class="form-control" id="nndCode" name="nndCode" value="admin" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sizeName" class="form-label">Tên Nhóm Người Dùng</label>
+                                <input type="text" class="form-control" id="nndName" name="nndName" value="Quyền quản trị admin">
+                            </div>
+                            <div style="text-align:right;">
+                                <button type="submit" class="btn btn-primary">Cập nhật kích thước</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Xóa nhómm người dùng -->
+    <div id="delete-AccountGroup">
+        <div class="modal fade" id="deleteAccountGroup" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Xóa nhóm người dùng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc muốn xóa nhóm người dùng này?
+                        <br>
+                        Mã nhóm:
+                        <br>
+                        Tên nhóm: ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-danger btn-confirm-delete">Xóa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
+    <script src="../../Js/admin/managerusergroup.js?v=<?php echo $version ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
 </body>
 
 </html>

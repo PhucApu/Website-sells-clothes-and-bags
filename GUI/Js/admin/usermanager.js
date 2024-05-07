@@ -1,5 +1,4 @@
-let dataPermission = "";
-
+var dataPermission = "";
 //Lấy danh sách đối tượng
 async function getListObj() {
   try {
@@ -47,9 +46,9 @@ function searchAccount() {
         console.log("Không có dữ liệu");
 
         document.querySelector("#Pagination").style.display = "none";
-        loadData(data);
+        await loadData(data);
       } else {
-        loadData(data);
+        await loadData(data);
         document.querySelector("#Pagination").style.display = "flex";
         loadItem(1, 4);
       }
@@ -127,9 +126,8 @@ async function loadData(data) {
 
       `;
     let String2 = `
-    <div class="modal fade" id="editUser-${
-      i.username
-    }" tabindex="-1" aria-labelledby="editModalLabel"
+    <div class="modal fade" id="editUser-${i.username
+      }" tabindex="-1" aria-labelledby="editModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -138,68 +136,58 @@ async function loadData(data) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editForm">
+                <form class="editForm">
                     <div class="mb-3">
                         <label for="name" class="form-label">Tên đăng nhập</label>
-                        <input type="text" class="form-control" id="${
-                          i.username
-                        }" value="${i.username}"
+                        <input type="text" class="form-control" id="${i.username
+      }" value="${i.username}"
                             name="codeSupplier" placeholder="NCC001" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Mật khấu</label>
                         <div class="input-group">
-                        <input type="password" class="form-control" id="${
-                          i.username
-                        }-${i.passWord}"
-                            value="${
-                              i.passWord
-                            }" name="passWord" aria-describedby="togglePassword">
+                        <input type="password" class="form-control" id="${i.username
+      }-${i.passWord}"
+                            value="${i.passWord
+      }" name="passWord" aria-describedby="togglePassword">
                           <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" class="togglePassword" onclick="togglePasswordVisibility('${
-                              i.username
-                            }-${i.passWord}')">Show</button>
+                            <button class="btn btn-outline-secondary" type="button" class="togglePassword" onclick="togglePasswordVisibility('${i.username
+      }-${i.passWord}')">Show</button>
                           </div>
                         
                         </div>
                     </div>
-                    <input type="hidden" class="form-control" id="${
-                      i.username
-                    }-${i.dateCreated}"
+                    <input type="hidden" class="form-control" id="${i.username
+      }-${i.dateCreated}"
                         value="${i.dateCreated}" name="dateCreated">
                     <div class="mb-3">
                         <label for="name" class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" id="${
-                          i.username
-                        }-${i.name}" value="${i.name}"
+                        <input type="text" class="form-control" id="${i.username
+      }-${i.name}" value="${i.name}"
                             name="name">
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" id="${
-                          i.username
-                        }-${i.address}"
+                        <input type="text" class="form-control" id="${i.username
+      }-${i.address}"
                             value="${i.address}" name="address">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="${
-                          i.username
-                        }-${i.email}"
+                        <input type="email" class="form-control" id="${i.username
+      }-${i.email}"
                             value="${i.email}" name="email">
                     </div>
                     <div class="mb-3">
                         <label for="phoneNumber" class="form-label">Số điện thoại</label>
-                        <input class="form-control" id="${i.username}-${
-      i.phoneNumber
-    }" value="${i.phoneNumber}"
+                        <input class="form-control" id="${i.username}-${i.phoneNumber
+      }" value="${i.phoneNumber}"
                             name="phoneNumber">
                     </div>
                     <div class="mb-3">
                         <label for="brandsuppliers" class="form-label">Ngày sinh</label>
-                        <input type="date" class="form-control" id="${
-                          i.username
-                        }-${i.birth}" value="${i.birth}"
+                        <input type="date" class="form-control" id="${i.username
+      }-${i.birth}" value="${i.birth}"
                             name="birth">
                     </div>
                     <div class="mb-3">
@@ -209,10 +197,10 @@ async function loadData(data) {
                     <div class="mb-3">
                         <label for="brandsuppliers" class="form-label">Nhóm người dùng</label>
                         ${stringSelectorPermission(
-                          dataPermission,
-                          codePermissions,
-                          username
-                        )}
+        dataPermission,
+        codePermissions,
+        username
+      )}
                     </div>
                     <div class="mb-3">
                         <label for="brandsuppliers" class="form-label">Trạng thái</label>
@@ -220,15 +208,11 @@ async function loadData(data) {
                     </div>
                     <div style="text-align:right;">
                         <button type="submit" data-bs-dismiss="modal" class="btn btn-primary"
-                            onclick="updateObj('${i.username}', '${
-      i.username
-    }-${i.passWord}', '${i.username}-${i.dateCreated}','${i.username}-${
-      i.accountStatus
-    }','${i.username}-${i.name}','${i.username}-${i.address}','${i.username}-${
-      i.email
-    }','${i.username}-${i.phoneNumber}','${i.username}-${i.birth}','${
-      i.username
-    }-${i.sex}','${i.username}-${i.codePermissions}',event)">Sửa
+                            onclick="updateObj('${i.username}', '${i.username
+      }-${i.passWord}', '${i.username}-${i.dateCreated}','${i.username}-${i.accountStatus
+      }','${i.username}-${i.name}','${i.username}-${i.address}','${i.username}-${i.email
+      }','${i.username}-${i.phoneNumber}','${i.username}-${i.birth}','${i.username
+      }-${i.sex}','${i.username}-${i.codePermissions}',event)">Sửa
                             người dùng</button>
                     </div>
                 </form>
@@ -269,7 +253,7 @@ async function getListUserGr() {
   try {
     // Gọi AJAX để xóa payment
 
-    let response = await fetch("../../../BLL/PermissionBLL.php", {
+    let response = await fetch("../../../BLL/ManagerUserGroupBLL.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -301,8 +285,8 @@ function stringSelectorPermission(dataPermission, codePermission, username) {
     }
   }
   string1 += `</select>`;
-  console.log("KOKOKOKOKO");
-  console.log(string1);
+  // console.log("KOKOKOKOKO");
+  // console.log(string1);
   return string1;
 }
 
@@ -379,7 +363,7 @@ async function deleteByID(code) {
     let data = await response.json();
     console.log(data);
 
-    if (data.mess === "success") {
+    if (data.mess == "success") {
       Swal.fire({
         position: "center",
         icon: "success",
@@ -393,7 +377,7 @@ async function deleteByID(code) {
         icon: "error",
         title: "Không cho phép xóa",
         text: "Bị ràng buộc dữ liệu",
-        footer: '<a href="#"></a>',
+        timer: 1500,
       });
     }
   } catch (error) {
@@ -602,9 +586,8 @@ function listPage(thisPage, limit, all_data_rows) {
   // thêm nút prev
 
   if (thisPage != 1) {
-    let string = `<li class="page-item" onclick="loadItem(${
-      Number(thisPage) - 1
-    },${limit})"><a class="page-link">Previous</a></li>`;
+    let string = `<li class="page-item" onclick="loadItem(${Number(thisPage) - 1
+      },${limit})"><a class="page-link">Previous</a></li>`;
     result += string;
   } else if (thisPage == 1) {
     let string = `<li class="page-item disabled" style="cursor: default;"><a class="page-link">Previous</a></li>`;
@@ -627,9 +610,8 @@ function listPage(thisPage, limit, all_data_rows) {
   // thêm nút next
 
   if (thisPage != count) {
-    let string1 = `<li class="page-item" onclick="loadItem(${
-      Number(thisPage) + 1
-    },${limit})"><a class="page-link">Next</a></li>`;
+    let string1 = `<li class="page-item" onclick="loadItem(${Number(thisPage) + 1
+      },${limit})"><a class="page-link">Next</a></li>`;
     result += string1;
   } else if (thisPage == count) {
     let string1 = `<li class="page-item disabled" style="cursor: default;"><a class="page-link">Next</a></li>`;
