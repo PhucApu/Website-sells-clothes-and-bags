@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/admin/product.css">
 
@@ -37,22 +37,22 @@
                     </div>
                     <div class="mb-3 mt-5 ">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Nhập mã sản phẩm">
-                            <select class="form-select">
+                            <input type="text" class="form-control" placeholder="Nhập mã sản phẩm, tên sản phẩm,...">
+                            <!-- <select class="form-select">
                                 <option value="">Tất cả trạng thái</option>
                                 <option value="In Stock">Còn hàng</option>
                                 <option value="Out Of Stock">Hết hàng</option>
-                            </select>
+                            </select> -->
                             <select class="form-select">
-                                <option value="">Tất cả danh mục</option>
-                                <option value="Clothes">Quần áo</option>
-                                <option value="Bag">Túi xách</option>
+                                <option value="empty">Tất cả danh mục</option>
+                                <option value="shirtProduct">Áo</option>
+                                <option value="handbagProduct">Túi xách</option>
                             </select>
-                            <select class="form-select">
+                            <!-- <select class="form-select">
                                 <option value="">Tất cả nhà cung cấp</option>
                                 <option value="Nike">NCC001</option>
                                 <option value="Adidas">NCC002</option>
-                            </select>
+                            </select> -->
                             <button class="btn btn-primary">Tìm kiếm <i class="fa fa-search" style="font-size: 15px;"></i></button>
                         </div>
                     </div>
@@ -77,9 +77,9 @@
                                 <td>20$</td>
                                 <td>Clothes</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"> Sửa</i></a>
-                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> Xóa</i></a>
-                                    <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> Xem</i></a>
+                                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>Sửa</a>
+                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> </i>Xóa</a>
+                                    <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> </i>Xem</a>
                                 </td>
                             </tr>
                             <tr>
@@ -90,9 +90,9 @@
                                 <td>20$</td>
                                 <td>Clothes</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"> Sửa</i></a>
-                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> Xóa</i></a>
-                                    <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> Xem</i></a>
+                                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>Sửa</a>
+                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> </i>Xóa</a>
+                                    <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> </i>Xem</a>
                                 </td>
                             </tr>
                             <tr>
@@ -103,15 +103,22 @@
                                 <td>20$</td>
                                 <td>Clothes</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"> Sửa</i></a>
-                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> Xóa</i></a>
-                                    <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> Xem</i></a>
+                                    <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>Sửa</a>
+                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> </i>Xóa</a>
+                                    <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> </i>Xem</a>
                                 </td>
                             </tr>
 
                         </tbody>
                     </table>
                 </div>
+
+                <ul class="pagination pagination-sm justify-content-end" id="Pagination" style="margin-right:.25rem; cursor:pointer;">
+                    <!-- <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">Previous</a></li>
+                    <li class="admin-pageNav-item active"><a class="admin-pageNav-link" href="">1</a></li>
+                    <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">2</a></li>
+                    <li class="admin-pageNav-item"><a class="admin-pageNav-link " href="">Next</a></li> -->
+                </ul>
 
                 <!-- Modal sửa sản phẩm -->
                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -251,103 +258,104 @@
                     </div>
                 </div>
 
-                <!-- Modal xem chi tiết sản phẩm -->
-                <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="detailModalLabel">Chi tiết sản phẩm</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="../../image/product/product1/product-detail-1.png" id="imgProduct" width="210px">
-                                        <div class="img-category mt-2">
-                                            <img src="../../image/product/product1/product-detail-1.png" id="imgProduct" width="50px">
-                                            <img src="../../image/product/product1/product-detail-2.png" id="imgProduct" width="50px">
-                                            <img src="../../image/product/product1/product-detail-3.png" id="imgProduct" width="50px">
-                                            <img src="../../image/product/product1/product-detail-4.png" id="imgProduct" width="50px">
+                <div id="content-product-detail">
+                    <!-- Modal xem chi tiết sản phẩm -->
+                    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="detailModalLabel">Chi tiết sản phẩm</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="../../image/product/product1/product-detail-1.png" id="imgProduct" width="210px">
+                                            <div class="img-category mt-2">
+                                                <img src="../../image/product/product1/product-detail-1.png" id="imgProduct" width="50px">
+                                                <img src="../../image/product/product1/product-detail-2.png" id="imgProduct" width="50px">
+                                                <img src="../../image/product/product1/product-detail-3.png" id="imgProduct" width="50px">
+                                                <img src="../../image/product/product1/product-detail-4.png" id="imgProduct" width="50px">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <table class="table table-bordered">
-                                            <tbody>
-                                                <!-- Field chung -->
-                                                <tr>
-                                                    <th>Tên sản phẩm</th>
-                                                    <td id="nameProduct">Nike T-Shirt</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Mã sản phẩm</th>
-                                                    <td id="productCode">P001</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Giá</th>
-                                                    <td id="price">20$</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Danh mục</th>
-                                                    <td id="category">Quần áo</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Nhà cung cấp</th>
-                                                    <td id="codeSupplier">NCC001</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Mô tả</th>
-                                                    <td id="describe">Siuiuuuu</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Đối tượng</th>
-                                                    <td id="targetGender">Nam</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Trạng thái</th>
-                                                    <td id="status">Còn hàng</td>
-                                                </tr>
+                                        <div class="col-md-8">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <!-- Field chung -->
+                                                    <tr>
+                                                        <th>Tên sản phẩm</th>
+                                                        <td id="nameProduct">Nike T-Shirt</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Mã sản phẩm</th>
+                                                        <td id="productCode">P001</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Giá</th>
+                                                        <td id="price">20$</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Danh mục</th>
+                                                        <td id="category">Quần áo</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Nhà cung cấp</th>
+                                                        <td id="codeSupplier">NCC001</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Mô tả</th>
+                                                        <td id="describe">Siuiuuuu</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Đối tượng</th>
+                                                        <td id="targetGender">Nam</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Trạng thái</th>
+                                                        <td id="status">Còn hàng</td>
+                                                    </tr>
 
-                                                <!-- Field riêng quần áo -->
-                                                <tr>
-                                                    <th>Phong cách</th>
-                                                    <td id="shirtStyle">Sơ mi</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Chất liệu</th>
-                                                    <td id="shirtMaterial">Lụa</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Mô tả chất liệu</th>
-                                                    <td id="descriptionMaterial">Sơ mi nhung lụa cao cấp</td>
-                                                </tr>
-                                                <!-- Size số lượng -->
-                                                <tr style="border-top:2px solid black;">
-                                                    <th>Size</th>
-                                                    <th id="descriptionMaterial">Số lượng</th>
+                                                    <!-- Field riêng quần áo -->
+                                                    <tr>
+                                                        <th>Phong cách</th>
+                                                        <td id="shirtStyle">Sơ mi</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Chất liệu</th>
+                                                        <td id="shirtMaterial">Lụa</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Mô tả chất liệu</th>
+                                                        <td id="descriptionMaterial">Sơ mi nhung lụa cao cấp</td>
+                                                    </tr>
+                                                    <!-- Size số lượng -->
+                                                    <tr style="border-top:2px solid black;">
+                                                        <th>Size</th>
+                                                        <th id="descriptionMaterial">Số lượng</th>
 
-                                                <tr>
-                                                    <td>S</td>
-                                                    <td>10</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>M</td>
-                                                    <td>10</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>L</td>
-                                                    <td>10</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>XL</td>
-                                                    <td>10</td>
-                                                </tr>
-                                                </tr>
-                                                <tr>
-                                                    <th>Tổng</th>
-                                                    <td id="quantity">40</td>
-                                                </tr>
-                                                <!-- Field riêng túi sách -->
-                                                <!-- <tr>
+                                                    <tr>
+                                                        <td>S</td>
+                                                        <td>10</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>M</td>
+                                                        <td>10</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>L</td>
+                                                        <td>10</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>XL</td>
+                                                        <td>10</td>
+                                                    </tr>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Tổng</th>
+                                                        <td id="quantity">40</td>
+                                                    </tr>
+                                                    <!-- Field riêng túi sách -->
+                                                    <!-- <tr>
                                     <th>Chất liệu</th>
                                     <td id="bagMaterial">Lụa</td>
                                 </tr>
@@ -359,14 +367,16 @@
                                     <th>Số lượng</th>
                                     <td id="quantity">20</td>
                                 </tr>  -->
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="footer">
@@ -381,4 +391,5 @@
     <script src="../../Js/admin/product.js?v=<?php echo time(); ?>"></script>
 
 </body>
+
 </html>

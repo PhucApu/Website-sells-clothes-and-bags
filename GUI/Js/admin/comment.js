@@ -415,6 +415,7 @@ function listPage(thisPage, limit, all_data_rows) {
 
        // lấy container chứa nút phân trang
        let container = document.getElementById('Pagination');
+       console.log(container);
 
        for (let i = 1; i <= count; i++) {
               let string = `<li class="page-item" onclick="loadItem(${i},${limit})"><a class="page-link">${i}</a></li>`;

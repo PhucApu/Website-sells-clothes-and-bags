@@ -269,8 +269,8 @@ class ProductBLL
               return $result;
        }
 
-       // phan trang
-       function Pagination($page, $limit)
+       // phan trang va tim kiem ben admin
+       function Pagination_Search($page, $limit, $keyword, $typeNeed)
        {
               // Input: Các tham số truyền vào: page
               // Output: trả về danh sách sản phẩm dựa theo vị trí bắt đầu beginGet và vị trí kết thúc endGet
@@ -301,6 +301,11 @@ class ProductBLL
                      $targetGender = $item->getTargetGender();
                      $price = $item->getPrice();
                      $promotion = $item->getPromotion();
+                     $shirtMaterial = $item->getShirtMaterial();
+                     $shirtStyle = $item->getShirtStyle();
+                     $descriptionMaterial = $item->getDescriptionMaterial();
+
+                     //  cac thuoc tinh rieng cua ao
                      $obj = array(
                             "productCode" => $ProductCode,
                             "imgProduct" => $imgProduct,
@@ -313,6 +318,9 @@ class ProductBLL
                             "targetGender" => $targetGender,
                             "price" => $price,
                             "promotion" => $promotion,
+                            "shirtMaterial" => $shirtMaterial,
+                            "shirtStyle" => $shirtStyle,
+                            "descriptionMaterial" => $descriptionMaterial,
                             "type" => "shirtProduct"
                      );
                      array_push($arr, $obj);
@@ -330,6 +338,10 @@ class ProductBLL
                      $targetGender = $item->getTargetGender();
                      $price = $item->getPrice();
                      $promotion = $item->getPromotion();
+
+                     // cac thuoc tinh handbag
+                     $bagMaterial = $item->getBagMaterial();
+                     $descriptionMaterial = $item->getDescriptionMaterial();
                      $obj = array(
                             "productCode" => $ProductCode,
                             "imgProduct" => $imgProduct,
@@ -342,23 +354,158 @@ class ProductBLL
                             "targetGender" => $targetGender,
                             "price" => $price,
                             "promotion" => $promotion,
+                            "bagMaterial" => $bagMaterial,
+                            "descriptionMaterial" => $descriptionMaterial,
                             "type" => "handbagProduct"
                      );
                      array_push($arr, $obj);
               }
 
-              // tính BeginGet và EndGet
-              $beginGet = $limit * ($page - 1);
-              $endGet = $limit * $page - 1;
+              // loc theo tim kiem
+              $arr_filter = array();
+              // kiem tra
 
-              // list item trả về để hiện lên
-              $result = array();
-              for ($i = $beginGet; $i <= $endGet; $i++) {
-                     if (isset($arr[$i])) {
-                            array_push($result, $arr[$i]);
-                     }
+              $check_keyword = 0;
+              $check_typeNeed = 0;
+              if ($keyword != 'empty') {
+                     $check_keyword = 1;
               }
-              return $result;
+              if ($typeNeed != 'empty') {
+                     $check_typeNeed = 1;
+              }
+
+              if ($check_keyword == 1 && $check_typeNeed == 1) {
+                     $keyword_lowercase = strtolower($keyword);
+                     foreach ($arr as $item) {
+
+                            // kiem tra cac truong
+                            if ($item['type'] == $typeNeed) {
+                                   if (
+                                          strpos(strtolower($item['productCode']), $keyword_lowercase) !== false ||
+                                          strpos(strtolower($item['nameProduct']), $keyword_lowercase) !== false ||
+                                          strpos(strtolower($item['supplierCode']), $keyword_lowercase) !== false ||
+                                          strpos(strtolower($item['quantity']), $keyword_lowercase) !== false ||
+                                          strpos(strtolower($item['describeProduct']), $keyword_lowercase) !== false ||
+                                          strpos(strtolower($item['color']), $keyword_lowercase) !== false ||
+                                          strpos(strtolower($item['targetGender']), $keyword_lowercase) !== false ||
+                                          strpos(strtolower($item['status']), $keyword_lowercase) !== false
+                                   ) {
+                                          array_push($arr_filter, $item);
+                                   }
+                            }
+                     }
+
+                     // phan trang
+
+                     if (!empty($arr_filter)) {
+                            // tính BeginGet và EndGet
+                            $beginGet = $limit * ($page - 1);
+                            $endGet = $limit * $page - 1;
+
+                            $pagination = array();
+                            $lenghtData = array("lengthProduct" => count($arr_filter));
+                            for ($i = $beginGet; $i <= $endGet; $i++) {
+                                   if (isset($arr_filter[$i])) {
+                                          array_push($pagination, $arr_filter[$i]);
+                                   }
+                            }
+
+                            array_push($pagination,$lenghtData);
+
+                            return $pagination;
+                     }
+                     return null;
+              }
+              if ($check_keyword == 1 && $check_typeNeed == 0) {
+                     $keyword_lowercase = strtolower($keyword);
+                     foreach ($arr as $item) {
+                            // Kiểm tra nếu từ khóa xuất hiện trong bất kỳ trường nào của mục
+                            if (
+                                   strpos(strtolower($item['productCode']), $keyword_lowercase) !== false ||
+                                   strpos(strtolower($item['nameProduct']), $keyword_lowercase) !== false ||
+                                   strpos(strtolower($item['supplierCode']), $keyword_lowercase) !== false ||
+                                   strpos(strtolower($item['quantity']), $keyword_lowercase) !== false ||
+                                   strpos(strtolower($item['describeProduct']), $keyword_lowercase) !== false ||
+                                   strpos(strtolower($item['color']), $keyword_lowercase) !== false ||
+                                   strpos(strtolower($item['targetGender']), $keyword_lowercase) !== false ||
+                                   strpos(strtolower($item['status']), $keyword_lowercase) !== false
+                            ) {
+                                   array_push($arr_filter, $item);
+                            }
+                     }
+                     // phan trang
+
+                     if (!empty($arr_filter)) {
+                            // tính BeginGet và EndGet
+                            $beginGet = $limit * ($page - 1);
+                            $endGet = $limit * $page - 1;
+
+                            $pagination = array();
+                            $lenghtData = array("lengthProduct" => count($arr_filter));
+                            for ($i = $beginGet; $i <= $endGet; $i++) {
+                                   if (isset($arr_filter[$i])) {
+                                          array_push($pagination, $arr_filter[$i]);
+                                   }
+                            }
+
+                            array_push($pagination,$lenghtData);
+
+                            return $pagination;
+                     }
+                     return null;
+              }
+              if ($check_keyword == 0 && $check_typeNeed == 1) {
+                     foreach ($arr as $item) {
+                            // Kiểm tra nếu loại của mục khớp với loại cần tìm kiếm
+                            if ($item['type'] == $typeNeed) {
+                                   array_push($arr_filter, $item);
+                            }
+                     }
+                     // phan trang
+
+                     if (!empty($arr_filter)) {
+                            // tính BeginGet và EndGet
+                            $beginGet = $limit * ($page - 1);
+                            $endGet = $limit * $page - 1;
+
+                            $pagination = array();
+                            $lenghtData = array("lengthProduct" => count($arr_filter));
+                            for ($i = $beginGet; $i <= $endGet; $i++) {
+                                   if (isset($arr_filter[$i])) {
+                                          array_push($pagination, $arr_filter[$i]);
+                                   }
+                            }
+
+                            array_push($pagination,$lenghtData);
+
+                            return $pagination;
+                     }
+                     return null;
+              }
+              if ($check_keyword == 0 && $check_typeNeed == 0) {
+                     // phan trang
+
+                     // phan trang
+
+                     if (!empty($arr)) {
+                            // tính BeginGet và EndGet
+                            $beginGet = $limit * ($page - 1);
+                            $endGet = $limit * $page - 1;
+
+                            $pagination = array();
+                            $lenghtData = array("lengthProduct" => count($arr));
+                            for ($i = $beginGet; $i <= $endGet; $i++) {
+                                   if (isset($arr[$i])) {
+                                          array_push($pagination, $arr[$i]);
+                                   }
+                            }
+
+                            array_push($pagination,$lenghtData);
+
+                            return $pagination;
+                     }
+                     return null;
+              }
        }
 
        // search box on header
@@ -832,10 +979,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $temp = $check->getProductByCode_transToJson($productCode, $type);
                      echo json_encode($temp);
                      break;
-              case 'Pagination':
+              case 'Pagination_Search':
                      $page = $_POST['page'];
                      $limit = $_POST['limit'];
-                     $temp = $check->Pagination($page, $limit);
+                     $keyword = $_POST['keyword'];
+                     $typeNeed = $_POST['type'];
+                     $temp = $check->Pagination_Search($page,$limit,$keyword,$typeNeed);
                      echo json_encode($temp);
                      break;
               case 'searchProduct':
