@@ -156,6 +156,7 @@ async function showDataTable(data) {
                         <td>${state}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>Sửa</a>
+                            <a href="./editProduct.php?productCode=${productCode}&type=${type}" >Sửa</a>
                             <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> </i>Xóa</a>
                             <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#${productCode}"><i class="fa fa-eye"> </i>Xem</a>
                         </td>

@@ -410,7 +410,7 @@ class ProductBLL
                                    }
                             }
 
-                            array_push($pagination,$lenghtData);
+                            array_push($pagination, $lenghtData);
 
                             return $pagination;
                      }
@@ -448,7 +448,7 @@ class ProductBLL
                                    }
                             }
 
-                            array_push($pagination,$lenghtData);
+                            array_push($pagination, $lenghtData);
 
                             return $pagination;
                      }
@@ -476,7 +476,7 @@ class ProductBLL
                                    }
                             }
 
-                            array_push($pagination,$lenghtData);
+                            array_push($pagination, $lenghtData);
 
                             return $pagination;
                      }
@@ -500,7 +500,7 @@ class ProductBLL
                                    }
                             }
 
-                            array_push($pagination,$lenghtData);
+                            array_push($pagination, $lenghtData);
 
                             return $pagination;
                      }
@@ -946,6 +946,63 @@ class ProductBLL
                      return array();
               }
        }
+
+       // hàm thêm sản phẩm túi
+       function addHanbBagProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial)
+       {
+
+              $obj = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
+              if ($this->HandbagProductDAL->addObj($obj) == true) {
+                     return array(
+                            "mess" => "success"
+                     );
+              }
+              return array(
+                     "mess" => "failed"
+              );
+       }
+
+       // hàm thêm sản phẩm túi và số lượng size của mỗi loại
+       function addShirtProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial, $stringSizeShirt)
+       {
+              $obj = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial);
+
+              if ($this->ShirtProductDAL->addObj($obj) == true) {
+
+                     $check_add_shirt_size = true;
+
+                     // $stringSizeShirt = S001-P001-12_S002-P001-10
+                     $parts = explode("_", $stringSizeShirt);         // parts = [ 'S001-P001-12', 'S002-P001-10' ]
+                     // Lặp qua từng phần tử để tách mã size, mã sản phẩm và số lượng
+                     foreach ($parts as $part) {
+
+                            // Tách phần tử thành mã size, mã sản phẩm và số lượng
+                            list($sizeCode, $productCode, $quantitySize) = explode("-", $part);
+
+                            $shirtSizeDTO = new ShirtSizeDTO($sizeCode,$productCode,$quantitySize);
+                            // Thêm vào mảng vao database
+                            if($this->ShirtSizeDAL->addObj($shirtSizeDTO) != true)
+                            {
+                                   $check_add_shirt_size = false;
+                            }
+                           
+                     }
+                     if($check_add_shirt_size == true){
+                            return array(
+                                   "mess" => "success"
+                            );
+                     }
+                     return array(
+                            "mess" => "failed in add shirtSize"
+                     );
+                     
+              }
+              return array(
+                     "mess" => "failed"
+              );
+       }
+
+       
 }
 
 // check
@@ -984,7 +1041,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $limit = $_POST['limit'];
                      $keyword = $_POST['keyword'];
                      $typeNeed = $_POST['type'];
-                     $temp = $check->Pagination_Search($page,$limit,$keyword,$typeNeed);
+                     $temp = $check->Pagination_Search($page, $limit, $keyword, $typeNeed);
                      echo json_encode($temp);
                      break;
               case 'searchProduct':
@@ -1047,6 +1104,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      break;
               case 'getArrObj_price':
                      $temp = $check->getArrObj_price();
+                     echo json_encode($temp);
+                     break;
+
+
+              // them san pham tu'i
+              case 'addHanbBagProduct':
+
+                     $productCode = $_POST['productCode'];
+
+                     // xử lý mảng ảnh
+                     $arrImg = json_decode($_POST['arrImg']);
+                     // tạo chuỗi ảnh
+                     $imgProduct = '';
+                     for($i = 0; $i < count($arrImg); $i++) {
+                            if($i != count($arrImg) - 1){
+                                   $imgProduct = $imgProduct + $item + ' ';
+                            }else{
+                                   $imgProduct = $imgProduct + $item;
+                            }
+                            
+                     }
+
+
+                     $nameProduct = $_POST['nameProduct'];
+                     $supplierCode = $_POST['suplierCode'];
+                     $quantity = $_POST['quantity'];
+                     $describe = $_POST['describe'];
+                     $status = $_POST['status'];
+                     $color = $_POST['color'];
+                     $targetGender = $_POST['targetGender'];
+                     $price = $_POST['price'];
+                     $promotion = $_POST['promotion'];
+                     $bagMaterial = $_POST['bagMaterial'];
+                     $descriptionMaterial = $_POST['descriptionMaterial'];
+
+
+                     $temp = $check->addHanbBagProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
+
+                     echo json_encode($temp);
+                     break;
+
+
+                     // san pham ao
+              case 'addShirtProduct':
+                     $productCode = $_POST['productCode'];
+
+                     // xử lý mảng ảnh
+                     $arrImg = json_decode($_POST['arrImg']);
+                     // tạo chuỗi ảnh
+                     $imgProduct = '';
+                     for($i = 0; $i < count($arrImg); $i++) {
+                            if($i != count($arrImg) - 1){
+                                   $imgProduct = $imgProduct + $item + ' ';
+                            }else{
+                                   $imgProduct = $imgProduct + $item;
+                            }
+                            
+                     }
+
+                     $nameProduct = $_POST['nameProduct'];
+                     $supplierCode = $_POST['suplierCode'];
+                     $quantity = $_POST['quantity'];
+                     $describe = $_POST['describe'];
+                     $status = $_POST['status'];
+                     $color = $_POST['color'];
+                     $targetGender = $_POST['targetGender'];
+                     $price = $_POST['price'];
+                     $promotion = $_POST['promotion'];
+
+                     $shirtMaterial = $_POST['shirtMaterial'];
+                     $shirtStyle = $_POST['shirtStyle'];
+                     $descriptionMaterial = $_POST['descriptionMaterial'];
+
+                     $shirtSizeString = $_POST['shirtSizeString'];
+                     // $stringSizeShirt = S001-P001-12_S002-P001-10
+
+                     $temp = $check->addShirtProduct($productCode,$imgProduct,$nameProduct,$supplierCode,$quantity,$describe,$status,$color,$targetGender,$price,$promotion,$shirtMaterial,$shirtStyle,$descriptionMaterial,$shirtSizeString);
+
                      echo json_encode($temp);
                      break;
        }
