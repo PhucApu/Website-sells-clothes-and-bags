@@ -269,9 +269,11 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <img src="../../image/product/product1/product-detail-1.png" id="imgProduct" width="210px">
-                                            <div class="img-category mt-2">
+                                        <div id="content-picture-product" class="col-md-4">
+                                            <div id="main-picture-product">
+                                                <img src="../../image/product/product1/product-detail-1.png" id="imgProduct" width="210px">
+                                            </div>
+                                            <div id="detail-picture-product" class="img-category mt-2">
                                                 <img src="../../image/product/product1/product-detail-1.png" id="imgProduct" width="50px">
                                                 <img src="../../image/product/product1/product-detail-2.png" id="imgProduct" width="50px">
                                                 <img src="../../image/product/product1/product-detail-3.png" id="imgProduct" width="50px">
@@ -332,41 +334,30 @@
                                                     <tr style="border-top:2px solid black;">
                                                         <th>Size</th>
                                                         <th id="descriptionMaterial">Số lượng</th>
+                                                    </tr>
+                                                    <div id="content-size-detail">
+                                                        <tr>
+                                                            <td>S</td>
+                                                            <td>10</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>M</td>
+                                                            <td>10</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>L</td>
+                                                            <td>10</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>XL</td>
+                                                            <td>10</td>
+                                                        </tr>
+                                                    </div>
 
-                                                    <tr>
-                                                        <td>S</td>
-                                                        <td>10</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>M</td>
-                                                        <td>10</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>L</td>
-                                                        <td>10</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>XL</td>
-                                                        <td>10</td>
-                                                    </tr>
-                                                    </tr>
-                                                    <tr>
+                                                    <tr id="quantity-infor">
                                                         <th>Tổng</th>
                                                         <td id="quantity">40</td>
                                                     </tr>
-                                                    <!-- Field riêng túi sách -->
-                                                    <!-- <tr>
-                                    <th>Chất liệu</th>
-                                    <td id="bagMaterial">Lụa</td>
-                                </tr>
-                                <tr>
-                                    <th>Mô tả chất liệu</th>
-                                    <td id="descriptionMaterial">Sơ mi nhung lụa cao cấp</td>
-                                </tr>
-                                <tr>
-                                    <th>Số lượng</th>
-                                    <td id="quantity">20</td>
-                                </tr>  -->
                                                 </tbody>
                                             </table>
                                         </div>

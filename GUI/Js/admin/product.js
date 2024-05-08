@@ -26,6 +26,15 @@ async function Search(page, limit) {
                 }
             }
             listPage(page, limit, dataLength);
+            let conatiner = document.getElementById('listProduct');
+            
+
+            conatiner.innerHTML = `
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            `;
+            
             await showDataTable(data)
         }
 
@@ -44,7 +53,7 @@ async function getDataSize(productCode) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body:
-                'function=' + encodeURIComponent('getArrSizeCodeByProductCode') + '&code=' + encodeURIComponent(productCode) 
+                'function=' + encodeURIComponent('getArrSizeCodeByProductCode') + '&code=' + encodeURIComponent(productCode)
         });
         const data = await response.json();
         console.log(data);
@@ -117,10 +126,10 @@ function listPage(thisPage, limit, all_data_rows) {
 // show dữ liệu lên bảng
 async function showDataTable(data) {
     let conatiner = document.getElementById('listProduct');
-
+    let containerDetail = document.getElementById('content-product-detail');
     if (data != null) {
         let result_table = '';
-
+        let result_modal_detail = '';
         for (let item of data) {
             if (item.lengthProduct === undefined) {
                 let productCode = item.productCode;
@@ -130,13 +139,11 @@ async function showDataTable(data) {
                 let firstImg = arrImg[0];
                 let supplierCode = item.supplierCode;
                 let targetGender = item.targetGender;
-                let descriptionMaterial = item.descriptionMaterial;
+                let describeProduct = item.describeProduct;
                 let state = item.status;
                 let quantity = item.quantity;
                 let price = item.price;
-
-                // lấy thông tin size
-                await getDataSize(productCode);
+                let type = item.type;
 
                 // show chung
                 let stringTable = `
@@ -150,22 +157,249 @@ async function showDataTable(data) {
                         <td>
                             <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>Sửa</a>
                             <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> </i>Xóa</a>
-                            <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> </i>Xem</a>
+                            <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#${productCode}"><i class="fa fa-eye"> </i>Xem</a>
                         </td>
                     </tr>
                 `;
 
-                // show chitiet san pham
-                let stringDetailProduct = `
+                if (item.type == "shirtProduct") {
+                    // lấy thông tin size
+                    // let container_detail = document.getElementById('');
+                    let dataSize = await getDataSize(productCode);
+                    let shirtMaterial = item.shirtMaterial;
+                    let shirtStyle = item.shirtStyle;
+                    let promotion = item.promotion;
+                    let descriptionMaterial = item.descriptionMaterial;
 
-                `;
+                    // xu ly size
+
+                    let resultSize = '';
+                    for (let item of dataSize) {
+                        let nameSize = item.sizeName;
+                        let quantitySize = item.quantitySize;
+
+                        let string = `
+                            <tr>
+                                <td>${nameSize}</td>
+                                <td>${quantitySize}</td>
+                            </tr>
+                        `;
+                        resultSize += string;
+                    }
+
+                    // xu ly anh chi tiet
+                    let result_img = ``;
+                    for (let item of arrImg) {
+                        let string = `
+                            <img src="../${item}" id="imgProduct" width="50px">
+                        `;
+                        result_img += string;
+                    }
+
+                    let string_final = `
+                    
+                    <div class="modal fade" id="${productCode}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailModalLabel">Chi tiết sản phẩm</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div id="content-picture-product" class="col-md-4">
+                                        <div id="main-picture-product">
+                                            <img src="../${firstImg}" id="imgProduct" width="210px">
+                                        </div>
+                                        <div id="detail-picture-product" class="img-category mt-2">
+                                            ${result_img}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <!-- Field chung -->
+                                                <tr>
+                                                    <th>Tên sản phẩm</th>
+                                                    <td id="nameProduct">${nameProduct}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mã sản phẩm</th>
+                                                    <td id="productCode">${productCode}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Giá</th>
+                                                    <td id="price">${price}$</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Giảm giá:</th>
+                                                    <td id="price">${promotion}%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Danh mục</th>
+                                                    <td id="category">${type}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mã nhà cung cấp</th>
+                                                    <td id="codeSupplier">${supplierCode}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mô tả</th>
+                                                    <td id="describe">${describeProduct}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Đối tượng</th>
+                                                    <td id="targetGender">${targetGender}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Trạng thái</th>
+                                                    <td id="status">${state}</td>
+                                                </tr>
+
+                                                <!-- Field riêng quần áo -->
+                                                <tr>
+                                                    <th>Phong cách</th>
+                                                    <td id="shirtStyle">${shirtStyle}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Chất liệu</th>
+                                                    <td id="shirtMaterial">${shirtMaterial}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mô tả chất liệu</th>
+                                                    <td id="descriptionMaterial">${descriptionMaterial}</td>
+                                                </tr>
+                                                <!-- Size số lượng -->
+                                                <tr style="border-top:2px solid black;">
+                                                    <th>Size</th>
+                                                    <th id="descriptionMaterial">Số lượng</th>
+                                                </tr>
+                                                <div id="content-size-detail">
+                                                    ${resultSize}
+                                                </div>
+
+                                                <tr id="quantity-infor">
+                                                    <th>Tổng</th>
+                                                    <td id="quantity">${quantity}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                    `;
+                    result_modal_detail += string_final;
+                }
+                else if (item.type == "handbagProduct") {
+
+                    let bagMaterial = item.bagMaterial;
+                    let promotion = item.promotion;
+                    let descriptionMaterial = item.descriptionMaterial;
+
+                    // xu ly anh chi tiet
+                    let result_img = ``;
+                    for (let item of arrImg) {
+                        let string = `
+                            <img src="../${item}" id="imgProduct" width="50px">
+                        `;
+                        result_img += string;
+                    }
+
+                    let string_final = `
+                    
+                    <div class="modal fade" id="${productCode}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailModalLabel">Chi tiết sản phẩm</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div id="content-picture-product" class="col-md-4">
+                                        <div id="main-picture-product">
+                                            <img src="../${firstImg}" id="imgProduct" width="210px">
+                                        </div>
+                                        <div id="detail-picture-product" class="img-category mt-2">
+                                            ${result_img}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <!-- Field chung -->
+                                                <tr>
+                                                    <th>Tên sản phẩm</th>
+                                                    <td id="nameProduct">${nameProduct}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mã sản phẩm</th>
+                                                    <td id="productCode">${productCode}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Giá</th>
+                                                    <td id="price">${price}$</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Giảm giá:</th>
+                                                    <td id="price">${promotion}%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Danh mục</th>
+                                                    <td id="category">${type}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mã nhà cung cấp</th>
+                                                    <td id="codeSupplier">${supplierCode}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mô tả</th>
+                                                    <td id="describe">${describeProduct}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Đối tượng</th>
+                                                    <td id="targetGender">${targetGender}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Trạng thái</th>
+                                                    <td id="status">${state}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Chất liệu</th>
+                                                    <td id="shirtMaterial">${bagMaterial}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mô tả chất liệu</th>
+                                                    <td id="descriptionMaterial">${descriptionMaterial}</td>
+                                                </tr>
+
+                                                <tr id="quantity-infor">
+                                                    <th>Tổng</th>
+                                                    <td id="quantity">${quantity}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                    `;
+                    result_modal_detail += string_final;
+                }
 
                 result_table += stringTable;
             }
 
         }
-
         conatiner.innerHTML = result_table;
+        containerDetail.innerHTML = result_modal_detail;
     }
 }
 
