@@ -8,8 +8,8 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="../../css/reset.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -35,7 +35,7 @@
             <div class="content-page">
                 <div>
                     <h1>QUẢN LÝ NGƯỜI DÙNG</h1>
-                    <a href="tongquanthemQLND.php" class="add-new"><i class="fa fa-plus"></i> Thêm người dùng
+                    <a href="#" onclick="addObj(event)" class="add-new"><i class="fa fa-plus"></i> Thêm người dùng
                         mới</a>
                 </div>
                 <div class="tim-kiem">
@@ -145,12 +145,12 @@
                             <div class="mb-3">
                                 <label for="brandsuppliers" class="form-label">Giới tính</label>
                                 <input type="sex" class="form-control" id="${i.username}-${i.sex}" value="${i.sex}"
-                                    name="sex">
+                                    name="birth">
                             </div>
                             <div class="mb-3">
                                 <label for="brandsuppliers" class="form-label">Nhóm người dùng</label>
                                 <input type="" class="form-control" id="${i.username}-${i.birth}" value="${i.birth}"
-                                    name="group">
+                                    name="birth">
                             </div>
                             <div class="mb-3">
                                 <label for="brandsuppliers" class="form-label">Trạng thái</label>
@@ -197,7 +197,6 @@
 
     <script src="../../Js/admin/sidebar.js?v=<?php echo $version ?>"></script>
     <script src="../../Js/admin/usermanager.js?v=<?php echo $version ?>"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>

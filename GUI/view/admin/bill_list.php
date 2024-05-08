@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
+
     <style>
         <?php
         require('../../css/admin/bill_list_admin.css');
@@ -171,18 +171,16 @@
 
                     </div>
 
-                    <nav aria-label="Page navigation example" class="admin-pageNav">
-                        <ul class="admin-pageNav-list">
-                            <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">Previous</a></li>
-                            <li class="admin-pageNav-item active"><a class="admin-pageNav-link" href="">1</a></li>
-                            <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">2</a></li>
-                            <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">3</a></li>
-                            <li class="admin-pageNav-item"><a class="admin-pageNav-link" href="">4</a></li>
-                            <li class="admin-pageNav-item"><a class="admin-pageNav-link " href="">Next</a></li>
-                        </ul>
-                    </nav>
+
                 </div>
             </div>
+            <ul class="pagination pagination-sm justify-content-end" id="Pagination" style="cursor:pointer; margin-right:1rem;">
+                <li class="page-item"><a class="page-link">Previous</a></li>
+                <li class="page-item active"><a class="page-link">1</a></li>
+                <li class="page-item"><a class="page-link">2</a></li>
+                <li class="page-item"><a class="page-link">3</a></li>
+                <li class="page-item"><a class="page-link">Next</a></li>
+            </ul>
 
             <div class="footer">
                 <?php require('./footer_admin.php'); ?>

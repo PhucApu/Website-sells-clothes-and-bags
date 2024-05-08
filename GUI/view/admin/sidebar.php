@@ -23,32 +23,32 @@
                 <li id="user-management-sidebar" ><a href="#!"><span class="box-cont"><i class="fas fa-user"></i></span><span>Quản lý người dùng</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="./tongquanQLND.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="./tongquanthemQLND.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
+                        <li id="add-user-management-sidebar"><a href="./tongquanthemQLND.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                     </ul>
                 </li>
                 <li id="product-management-sidebar"><a href="#!"><span class="box-cont"><i class="fas fa-tshirt"></i></span><span>Quản lý sản phẩm</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="./list-products.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="./addproduct.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
+                        <li id="add-product-management-sidebar"><a href="./addproduct.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                         <li id="size-management-sidebar"><a href="./list-sizes.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách size</span></a></li>
                     </ul>
                 </li>
                 <li id="supplier-management-sidebar" ><a href="#"><span class="box-cont"><i class="fa-solid fa-warehouse"></i></span><span>Quản lý nhà cung cấp</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="./list-suppliers.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="./addsupplier.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
+                        <li id="add-supplier-management-sidebar"><a href="./addsupplier.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                     </ul>
                 </li>
                 <li id="payment-management-sidebar"><a href="#"><span class="box-cont"><i class="fa-solid fa-money-bill"></i></span><span>Quản lý thanh toán</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="../admin/list-payment.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="../admin/add-payment.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
+                        <li id="add-payment-management-sidebar"><a href="../admin/add-payment.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                     </ul>
                 </li>
                 <li id="transportation-management-sidebar"><a href="#"><span class="box-cont"><i class="fa-solid fa-truck-fast"></i></span><span>Quản lý vận chuyển</span><i class="fas fa-angle-left"></i></a>
                     <ul class="ele-sub">
                         <li><a href="../admin/list-transport.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Danh sách</span></a></li>
-                        <li><a href="../admin/addtransport.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
+                        <li id="add-transportation-management-sidebar"><a href="../admin/addtransport.php"><span class="box-cont"><i class="far fa-circle"></i></span><span>Thêm mới</span></a></li>
                     </ul>
                 </li>
                 <li id="bill-management-sidebar"><a href="#!"><span class="box-cont"><i class="fas fa-file-invoice-dollar"></i></span><span>Quản lý hóa đơn</span><i class="fas fa-angle-left"></i></a>

@@ -1,3 +1,113 @@
+// ------------------------------------------- AJAX kiểm tra đăng nhập -----------------------------------------------
+async function checkLogin_size() {
+       try {
+              const response = await fetch('../../../BLL/AccountBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body:
+                            'function=' + encodeURIComponent('checkLogin')
+              });
+              const data = await response.json();
+              console.log(data);
+              let result = data[0];
+              if (result.result == 'success' && result.codePermission != 'user') {
+
+                     // getDataPermission_payment(result.codePermission);
+                     return result.codePermission;
+              }
+              // for (let i of data) {
+              //        console.log(i);
+              // }
+              // showProductItem(data);
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+// checkLogin();
+
+async function getDataPermission_size(codePermission) {
+       try {
+              const response = await fetch('../../../BLL/ManagerUserGroupBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body:
+                            'function=' + encodeURIComponent('getArrPermissionDetail') + '&codePermission=' + encodeURIComponent(codePermission)
+              });
+              const data = await response.json();
+              console.log(data);
+
+              if (data != null) {
+                     // checkUpPermission_payment(data.permissionDetail,codePermission,"");
+                     return data;
+              }
+
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+
+// setup các chức năng được truy cập
+function checkUpPermission_size(dataPermissionDetail, functionPoint) {
+
+       if (functionPoint == "") {
+              return false;
+       }
+
+       for (let item of dataPermissionDetail) {
+              if (item.functionCode == "size") {
+                     console.log("Phan quyen");
+                     // thêm
+                     if (item.addPermission == "1" && functionPoint == "add") {
+                            console.log("Được phép thêm");
+                            return true;
+                     } else if (item.addPermission != "1" && functionPoint == "add") {
+                            console.log("Không Được phép thêm");
+                            return false;
+                     }
+                     // sửa
+                     if (item.fixPermission == "1" && functionPoint == "update") {
+                            console.log("Được phép sửa");
+                            return true;
+                     } else if (item.fixPermission != "1" && functionPoint == "update") {
+                            console.log("Không Được phép sửa");
+                            return false;
+                     }
+
+                     // xóa 
+                     if (item.deletePermission == "1" && functionPoint == "delete") {
+                            console.log("Được phép xóa");
+                            return true;
+                     } else if (item.deletePermission != "1" && functionPoint == "delete") {
+                            console.log("Không Được phép xóa");
+                            return false;
+                     }
+              }
+
+       }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 async function getArr() {
 
@@ -103,19 +213,19 @@ function searchSizes() {
                      });
 
                      const data = await response.json();
-                     if(data.length == 0){
-                            
+                     if (data.length == 0) {
+
                             console.log('Không có dữ liệu');
-                            
+
                             document.querySelector('#Pagination').style.display = 'none';
                             showData(data);
                      }
-                     else { 
-                            
+                     else {
+
                             showData(data);
                             document.querySelector('#Pagination').style.display = 'flex';
-                            loadItem(1,4);
-                            
+                            loadItem(1, 4);
+
                      }
                      console.log(data);
                      showData(data);
@@ -129,50 +239,90 @@ function searchSizes() {
 
 }
 
+// thêm một đối tương
+async function addObj(event){
+       
+       // lấy thông tin mã  codePermission của người đăng nhập
+       let codePermission = await checkLogin_size();
+       // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+       let data = await getDataPermission_size(codePermission);
+       // lấy thông tin có được phép làm chức ăng đó không
+       let check = checkUpPermission_size(data.permissionDetail, "add");
+
+
+       if(check == true){
+              window.location.href = "../../../GUI/view/admin/addsize.php";
+       }else{
+              event.preventDefault();
+              Swal.fire({
+                     icon: "error",
+                     title: "Thêm không thành công",
+                     text: "Không đủ quyền hàng",
+              });
+       }
+}
+
 
 async function updateSize(code, name, event) {
        event.preventDefault();
-       let codeSize = document.getElementById(code).value.trim();
-       let nameSize = document.getElementById(name).value.trim();
-       if (codeSize === '' || nameSize === '') {
-              await Swal.fire({
-                     position: "center",
-                     icon: "error",
-                     title: "Sửa Thất Bại",
-                     showConfirmButton: false,
-                     timer: 1500
-              });
-       }
-       else {
-              try {
-                     const response = await fetch('../../../BLL/SizeBLL.php', {
-                            method: 'POST',
-                            headers: {
-                                   'Content-Type': 'application/x-www-form-urlencoded'
-                            },
-                            body: 'function=' + encodeURIComponent('updateSize') + '&nameSize=' + encodeURIComponent(nameSize) +
-                                   '&sizeCode=' + encodeURIComponent(codeSize)
-                     });
 
-                     const data = await response.json();
-                     console.log(data);
-                     if (data.mess === "success") {
-                            await Swal.fire({
-                                   position: "center",
-                                   icon: "success",
-                                   title: "Cập nhật thành công",
-                                   showConfirmButton: false,
-                                   timer: 1500
+       // lấy thông tin mã  codePermission của người đăng nhập
+       let codePermission = await checkLogin_size();
+       // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+       let data = await getDataPermission_size(codePermission);
+       // lấy thông tin có được phép làm chức ăng đó không
+       let check = checkUpPermission_size(data.permissionDetail, "update");
+
+       if (check == true) {
+              let codeSize = document.getElementById(code).value.trim();
+              let nameSize = document.getElementById(name).value.trim();
+              if (codeSize === '' || nameSize === '') {
+                     await Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: "Sửa Thất Bại",
+                            showConfirmButton: false,
+                            timer: 1500
+                     });
+              }
+              else {
+                     try {
+                            const response = await fetch('../../../BLL/SizeBLL.php', {
+                                   method: 'POST',
+                                   headers: {
+                                          'Content-Type': 'application/x-www-form-urlencoded'
+                                   },
+                                   body: 'function=' + encodeURIComponent('updateSize') + '&nameSize=' + encodeURIComponent(nameSize) +
+                                          '&sizeCode=' + encodeURIComponent(codeSize)
                             });
-                            await getArr();
+
+                            const data = await response.json();
+                            console.log(data);
+                            if (data.mess === "success") {
+                                   await Swal.fire({
+                                          position: "center",
+                                          icon: "success",
+                                          title: "Cập nhật thành công",
+                                          showConfirmButton: false,
+                                          timer: 1500
+                                   });
+                                   await getArr();
+                            }
+
+
+                     } catch (error) {
+                            console.error('Error:', error);
                      }
 
+              };
+       }else{
+              Swal.fire({
+                     icon: "error",
+                     title: "Sửa không thành công",
+                     text: "Không đủ quyền hàng",
+              });
+       }
 
-              } catch (error) {
-                     console.error('Error:', error);
-              }
-              
-       };
 }
 
 
@@ -203,16 +353,16 @@ function listPage(thisPage, limit, all_data_rows) {
        let result = '';
        let count = Math.ceil(all_data_rows.length / limit);
        // thêm nút prev
-       
+
        if (thisPage != 1) {
 
               let string = `<li class="page-item" onclick="loadItem(${Number(thisPage) - 1},${limit})"><a class="page-link">Previous</a></li>`;
               result += string;
-       } else if(thisPage == 1){
+       } else if (thisPage == 1) {
               let string = `<li class="page-item disabled" style="cursor: default;"><a class="page-link">Previous</a></li>`;
               result += string;
        }
-       
+
        // tính xem có bao nhieu nút
 
        // lấy container chứa nút phân trang
@@ -227,12 +377,12 @@ function listPage(thisPage, limit, all_data_rows) {
        }
 
        // thêm nút next
-       
+
        if (thisPage != count) {
               let string1 = `<li class="page-item" onclick="loadItem(${Number(thisPage) + 1},${limit})"><a class="page-link">Next</a></li>`;
-              result += string1; 
+              result += string1;
        }
-       else if(thisPage == count){
+       else if (thisPage == count) {
               let string1 = `<li class="page-item disabled" style="cursor: default;"><a class="page-link">Next</a></li>`;
               result += string1;
        }
@@ -265,5 +415,5 @@ window.addEventListener('load', async function () {
 
        await getArr();
        searchSizes();
-       loadItem(1,4);
+       loadItem(1, 4);
 });

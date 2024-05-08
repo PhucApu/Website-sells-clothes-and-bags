@@ -1,3 +1,111 @@
+// ------------------------------------------- AJAX kiểm tra đăng nhập -----------------------------------------------
+async function checkLogin_usermanager() {
+  try {
+    const response = await fetch('../../../BLL/AccountBLL.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body:
+        'function=' + encodeURIComponent('checkLogin')
+    });
+    const data = await response.json();
+    console.log(data);
+    let result = data[0];
+    if (result.result == 'success' && result.codePermission != 'user') {
+
+      // getDataPermission_payment(result.codePermission);
+      return result.codePermission;
+    }
+    // for (let i of data) {
+    //        console.log(i);
+    // }
+    // showProductItem(data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+// checkLogin();
+
+async function getDataPermission_usermanager(codePermission) {
+  try {
+    const response = await fetch('../../../BLL/ManagerUserGroupBLL.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body:
+        'function=' + encodeURIComponent('getArrPermissionDetail') + '&codePermission=' + encodeURIComponent(codePermission)
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if (data != null) {
+      // checkUpPermission_payment(data.permissionDetail,codePermission,"");
+      return data;
+    }
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// setup các chức năng được truy cập
+function checkUpPermission_usermanager(dataPermissionDetail, functionPoint) {
+
+  if (functionPoint == "") {
+    return false;
+  }
+
+  for (let item of dataPermissionDetail) {
+    if (item.functionCode == "account") {
+      console.log("Phan quyen");
+      // thêm
+      if (item.addPermission == "1" && functionPoint == "add") {
+        console.log("Được phép thêm");
+        return true;
+      } else if (item.addPermission != "1" && functionPoint == "add") {
+        console.log("Không Được phép thêm");
+        return false;
+      }
+      // sửa
+      if (item.fixPermission == "1" && functionPoint == "update") {
+        console.log("Được phép sửa");
+        return true;
+      } else if (item.fixPermission != "1" && functionPoint == "update") {
+        console.log("Không Được phép sửa");
+        return false;
+      }
+
+      // xóa 
+      if (item.deletePermission == "1" && functionPoint == "delete") {
+        console.log("Được phép xóa");
+        return true;
+      } else if (item.deletePermission != "1" && functionPoint == "delete") {
+        console.log("Không Được phép xóa");
+        return false;
+      }
+    }
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var dataPermission = "";
 //Lấy danh sách đối tượng
 async function getListObj() {
@@ -46,9 +154,9 @@ function searchAccount() {
         console.log("Không có dữ liệu");
 
         document.querySelector("#Pagination").style.display = "none";
-        await loadData(data);
+        loadData(data);
       } else {
-        await loadData(data);
+        loadData(data);
         document.querySelector("#Pagination").style.display = "flex";
         loadItem(1, 4);
       }
@@ -136,7 +244,7 @@ async function loadData(data) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="editForm">
+                <form id="editForm">
                     <div class="mb-3">
                         <label for="name" class="form-label">Tên đăng nhập</label>
                         <input type="text" class="form-control" id="${i.username
@@ -346,42 +454,84 @@ async function getObj() {
 
 //Xóa một đối tượng
 async function deleteByID(code) {
-  try {
-    // Gọi AJAX để xóa payment
 
-    let response = await fetch("../../../BLL/UserManagerBLL.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "function=" +
-        encodeURIComponent("deleteByID") +
-        "&username=" +
-        encodeURIComponent(code),
-    });
-    let data = await response.json();
-    console.log(data);
+  // lấy thông tin mã  codePermission của người đăng nhập
+  let codePermission = await checkLogin_usermanager();
+  // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+  let data = await getDataPermission_usermanager(codePermission);
+  // lấy thông tin có được phép làm chức ăng đó không
+  let check = checkUpPermission_usermanager(data.permissionDetail, "delete");
 
-    if (data.mess == "success") {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Đã xóa tài khoản người dùng thành công",
-        showConfirmButton: false,
-        timer: 1500,
+  if (check == true) {
+    try {
+      // Gọi AJAX để xóa payment
+
+      let response = await fetch("../../../BLL/UserManagerBLL.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body:
+          "function=" +
+          encodeURIComponent("deleteByID") +
+          "&username=" +
+          encodeURIComponent(code),
       });
-      await getListObj();
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Không cho phép xóa",
-        text: "Bị ràng buộc dữ liệu",
-        timer: 1500,
-      });
+      let data = await response.json();
+      console.log(data);
+
+      if (data.mess === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Đã xóa tài khoản người dùng thành công",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        await getListObj();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Không cho phép xóa",
+          text: "Bị ràng buộc dữ liệu",
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Xóa không thành công",
+      text: "Không đủ quyền hàng",
+    });
+  }
+
+
+
+}
+
+// thêm một đối tương
+async function addObj(event) {
+
+  // lấy thông tin mã  codePermission của người đăng nhập
+  let codePermission = await checkLogin_usermanager();
+  // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+  let data = await getDataPermission_usermanager(codePermission);
+  // lấy thông tin có được phép làm chức ăng đó không
+  let check = checkUpPermission_usermanager(data.permissionDetail, "add");
+
+
+  if (check == true) {
+    window.location.href = "../../../GUI/view/admin/tongquanthemQLND.php";
+  } else {
+    event.preventDefault();
+    Swal.fire({
+      icon: "error",
+      title: "Thêm không thành công",
+      text: "Không đủ quyền hàng",
+    });
   }
 }
 
@@ -401,160 +551,195 @@ async function updateObj(
   event
 ) {
   event.preventDefault();
-  let usernameValue = document.getElementById(username).value.trim();
-  let passWordValue = document.getElementById(passWord).value.trim();
-  let dateCreatedValue = document.getElementById(dateCreated).value.trim();
-  let accountStatusValue = document.getElementById(accountStatus).value.trim();
-  let nameValue = document.getElementById(name).value.trim();
-  let addressValue = document.getElementById(address).value.trim();
-  let emailValue = document.getElementById(email).value.trim();
-  let phoneNumberValue = document.getElementById(phoneNumber).value.trim();
-  let birthValue = document.getElementById(birth).value.trim();
-  let sexValue = document.getElementById(sex).value.trim();
-  let codePermissionsValue = document
-    .getElementById(codePermissions)
-    .value.trim();
-  console.log(usernameValue);
-  console.log(passWordValue);
 
-  if (
-    !usernameValue ||
-    !passWordValue ||
-    !dateCreatedValue ||
-    !accountStatusValue ||
-    !nameValue ||
-    !addressValue ||
-    !emailValue ||
-    !phoneNumberValue ||
-    !birthValue ||
-    !sexValue ||
-    !codePermissionsValue
-  ) {
-    Swal.fire({
-      icon: "error",
-      title: "Lỗi",
-      text: "Vui lòng điền đầy đủ thông tin",
-      footer: '<a href="#"></a>',
-    });
-    await getListObj();
-    return;
-  }
+  // lấy thông tin mã  codePermission của người đăng nhập
+  let codePermission = await checkLogin_usermanager();
+  // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+  let data = await getDataPermission_usermanager(codePermission);
+  // lấy thông tin có được phép làm chức ăng đó không
+  let check = checkUpPermission_usermanager(data.permissionDetail, "update");
 
-  // Kiểm tra định dạng email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(emailValue)) {
-    Swal.fire({
-      icon: "error",
-      title: "Lỗi",
-      text: "Email không hợp lệ",
-      footer: '<a href="#"></a>',
-    });
-    await getListObj();
-    return;
-  }
+  if (check == true) {
+    let usernameValue = document.getElementById(username).value.trim();
+    let passWordValue = document.getElementById(passWord).value.trim();
+    let dateCreatedValue = document.getElementById(dateCreated).value.trim();
+    let accountStatusValue = document.getElementById(accountStatus).value.trim();
+    let nameValue = document.getElementById(name).value.trim();
+    let addressValue = document.getElementById(address).value.trim();
+    let emailValue = document.getElementById(email).value.trim();
+    let phoneNumberValue = document.getElementById(phoneNumber).value.trim();
+    let birthValue = document.getElementById(birth).value.trim();
+    let sexValue = document.getElementById(sex).value.trim();
+    let codePermissionsValue = document
+      .getElementById(codePermissions)
+      .value.trim();
+    console.log(usernameValue);
+    console.log(passWordValue);
 
-  // Kiểm tra định dạng số điện thoại
-  const phoneRegex = /^\d{10,11}$/;
-  if (!phoneRegex.test(phoneNumberValue)) {
-    Swal.fire({
-      icon: "error",
-      title: "Lỗi",
-      text: "Số điện thoại phải có 10 chữ số",
-      footer: '<a href="#"></a>',
-    });
-    await getListObj();
-    return;
-  }
-  // Kiểm tra xem mật khẩu và mật khẩu nhập lại có khớp nhau không
-
-  const usernameRegex = /^[^\s@+]+$/;
-  if (!usernameRegex.test(usernameValue)) {
-    Swal.fire({
-      icon: "error",
-      title: "Lỗi",
-      text: "Tên đăng nhập không được chứa ký tự đặc biệt như '@' hoặc '+',...",
-      footer: '<a href="#"></a>',
-    });
-    await getListObj();
-    return;
-  }
-
-  try {
-    // Gọi AJAX để sửa đối tượng
-    let response = await fetch("../../../BLL/UserManagerBLL.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "function=" +
-        encodeURIComponent("updateObj") +
-        "&username=" +
-        encodeURIComponent(usernameValue) +
-        "&passWord=" +
-        encodeURIComponent(passWordValue) +
-        "&dateCreated=" +
-        encodeURIComponent(dateCreatedValue) +
-        "&accountStatus=" +
-        encodeURIComponent(accountStatusValue) +
-        "&name=" +
-        encodeURIComponent(nameValue) +
-        "&address=" +
-        encodeURIComponent(addressValue) +
-        "&email=" +
-        encodeURIComponent(emailValue) +
-        "&phoneNumber=" +
-        encodeURIComponent(phoneNumberValue) +
-        "&birth=" +
-        encodeURIComponent(birthValue) +
-        "&sex=" +
-        encodeURIComponent(sexValue) +
-        "&codePermissions=" +
-        encodeURIComponent(codePermissionsValue),
-    });
-    let data = await response.json();
-    console.log(data);
-    if (data.mess === "success") {
+    if (
+      !usernameValue ||
+      !passWordValue ||
+      !dateCreatedValue ||
+      !accountStatusValue ||
+      !nameValue ||
+      !addressValue ||
+      !emailValue ||
+      !phoneNumberValue ||
+      !birthValue ||
+      !sexValue ||
+      !codePermissionsValue
+    ) {
       Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Sửa thông tin người dùng thành công",
-        showConfirmButton: false,
-        timer: 1500,
+        icon: "error",
+        title: "Lỗi",
+        text: "Vui lòng điền đầy đủ thông tin",
+        footer: '<a href="#"></a>',
       });
       await getListObj();
+      return;
     }
-  } catch (error) {
-    console.error(error);
+
+    // Kiểm tra định dạng email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailValue)) {
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Email không hợp lệ",
+        footer: '<a href="#"></a>',
+      });
+      await getListObj();
+      return;
+    }
+
+    // Kiểm tra định dạng số điện thoại
+    const phoneRegex = /^\d{10,11}$/;
+    if (!phoneRegex.test(phoneNumberValue)) {
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Số điện thoại phải có 10 chữ số",
+        footer: '<a href="#"></a>',
+      });
+      await getListObj();
+      return;
+    }
+    // Kiểm tra xem mật khẩu và mật khẩu nhập lại có khớp nhau không
+
+    const usernameRegex = /^[^\s@+]+$/;
+    if (!usernameRegex.test(usernameValue)) {
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Tên đăng nhập không được chứa ký tự đặc biệt như '@' hoặc '+',...",
+        footer: '<a href="#"></a>',
+      });
+      await getListObj();
+      return;
+    }
+
+    try {
+      // Gọi AJAX để sửa đối tượng
+      let response = await fetch("../../../BLL/UserManagerBLL.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body:
+          "function=" +
+          encodeURIComponent("updateObj") +
+          "&username=" +
+          encodeURIComponent(usernameValue) +
+          "&passWord=" +
+          encodeURIComponent(passWordValue) +
+          "&dateCreated=" +
+          encodeURIComponent(dateCreatedValue) +
+          "&accountStatus=" +
+          encodeURIComponent(accountStatusValue) +
+          "&name=" +
+          encodeURIComponent(nameValue) +
+          "&address=" +
+          encodeURIComponent(addressValue) +
+          "&email=" +
+          encodeURIComponent(emailValue) +
+          "&phoneNumber=" +
+          encodeURIComponent(phoneNumberValue) +
+          "&birth=" +
+          encodeURIComponent(birthValue) +
+          "&sex=" +
+          encodeURIComponent(sexValue) +
+          "&codePermissions=" +
+          encodeURIComponent(codePermissionsValue),
+      });
+      let data = await response.json();
+      console.log(data);
+      if (data.mess === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Sửa thông tin người dùng thành công",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        await getListObj();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Sửa không thành công",
+      text: "Không đủ quyền hàng",
+    });
   }
+
+
 }
 //Hàm thay đổi trạng thái
 async function updateStateUser(userName, accountStatus, event) {
   event.preventDefault();
 
-  try {
-    const response = await fetch("../../../BLL/UserManagerBLL.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "function=" +
-        encodeURIComponent("updateStateUser") +
-        "&userName=" +
-        encodeURIComponent(userName) +
-        "&accountStatus=" +
-        encodeURIComponent(accountStatus),
-    });
+  // lấy thông tin mã  codePermission của người đăng nhập
+  let codePermission = await checkLogin_usermanager();
+  // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+  let data = await getDataPermission_usermanager(codePermission);
+  // lấy thông tin có được phép làm chức ăng đó không
+  let check = checkUpPermission_usermanager(data.permissionDetail, "update");
 
-    const data = await response.json();
-    console.log(data);
-    if (data.mess === "success") {
-      await getListObj();
+  if (check == true) {
+    try {
+      const response = await fetch("../../../BLL/UserManagerBLL.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body:
+          "function=" +
+          encodeURIComponent("updateStateUser") +
+          "&userName=" +
+          encodeURIComponent(userName) +
+          "&accountStatus=" +
+          encodeURIComponent(accountStatus),
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (data.mess === "success") {
+        await getListObj();
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-  } catch (error) {
-    console.error("Error:", error);
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Sửa không thành công",
+      text: "Không đủ quyền hàng",
+    });
   }
+
+
 }
 
 //phần phân trang

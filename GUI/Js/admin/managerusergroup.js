@@ -30,7 +30,7 @@ function searchAccountGroup() {
           .getElementById("input-search-accountgroup")
           .value.trim()
           .toLowerCase();
-          // console.log(str);
+        // console.log(str);
         let response = await fetch("../../../BLL/ManagerUserGroupBLL.php", {
           method: "POST",
           headers: {
@@ -178,44 +178,72 @@ async function getObj() {
   }
 }
 
+// xóa mảng permissionDetail
+async function deletePermissionDetail(codePermission) {
+  let response = await fetch("../../../BLL/ManagerUserGroupBLL.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body:
+      "function=" +
+      encodeURIComponent("deletePermissionDetail_by_codePermission") +
+      "&codePermission=" +
+      encodeURIComponent(codePermission),
+  });
+  let data = await response.json();
+  console.log(data);
+  return data.mess;
+}
+
 //Xóa một đối tượng
 async function deleteByID(code) {
-  try {
-    // Gọi AJAX để xóa payment
+  let check = await deletePermissionDetail(code);
+  if (check == "success") {
+    try {
+      // Gọi AJAX để xóa payment
 
-    let response = await fetch("../../../BLL/ManagerUserGroupBLL.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "function=" +
-        encodeURIComponent("deleteByID") +
-        "&codePermission=" +
-        encodeURIComponent(code),
-    });
-    let data = await response.json();
-    console.log(data);
+      let response = await fetch("../../../BLL/ManagerUserGroupBLL.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body:
+          "function=" +
+          encodeURIComponent("deleteByID") +
+          "&codePermission=" +
+          encodeURIComponent(code),
+      });
+      let data = await response.json();
+      console.log(data);
 
-    if (data.mess === "success") {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Đã xóa nhóm người dùng thành công",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      await getListObj();
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Xóa không thành công",
-        text: "Bị ràng buộc dữ liệu"
-      });
+      if (data.mess === "success") {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Đã xóa nhóm người dùng thành công",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        await getListObj();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Xóa không thành công",
+          text: "Bị ràng buộc dữ liệu"
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
+  }else{
+    Swal.fire({
+      icon: "error",
+      title: "Xóa không thành công",
+      text: "Bị ràng buộc dữ liệu"
+    });
   }
+
 }
 //Sửa một đối tượng
 async function updateObj(codePermission, namePermission, event) {

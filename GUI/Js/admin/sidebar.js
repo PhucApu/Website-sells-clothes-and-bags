@@ -63,6 +63,17 @@ function setUpPermission(dataPermissionDetail, codePermission) {
        let supplier_Permission = document.getElementById('supplier-management-sidebar');
        let transport_Permission = document.getElementById('transportation-management-sidebar');
 
+       // một số chức năng thêm
+       let add_account_Permission = document.getElementById('add-user-management-sidebar');
+       let add_product_Permission = document.getElementById('add-product-management-sidebar');
+       let add_supplier_Permission = document.getElementById('add-supplier-management-sidebar');
+       let add_payment_Permission = document.getElementById('add-payment-management-sidebar');
+       let add_transport_Permission = document.getElementById('add-transportation-management-sidebar');
+       
+
+
+
+
 
 
        for (let item of dataPermissionDetail) {
@@ -91,6 +102,14 @@ function setUpPermission(dataPermissionDetail, codePermission) {
               // quản lý tài khoản người dùng
               if (item.functionCode == "account" && item.seePermission == '1') {
                      account_Permission.style.display = 'block';
+
+                     // them
+                     if(item.functionCode == "account" && item.addPermission == '1'){
+                            add_account_Permission.style.display = 'block';
+                     }else if(item.functionCode == "account" && item.addPermission != '1'){
+                            add_account_Permission.style.display = 'none';
+                     }
+
               } else if (item.functionCode == "account" && item.seePermission != '1') {
                      account_Permission.style.display = 'none';
               }
@@ -98,13 +117,21 @@ function setUpPermission(dataPermissionDetail, codePermission) {
               // quản lý đơn hàng
               if (item.functionCode == "order" && item.seePermission == '1') {
                      order_Permission.style.display = 'block';
-              } else if (item.functionCode == "account" && item.seePermission != '1') {
+              } else if (item.functionCode == "order" && item.seePermission != '1') {
                      order_Permission.style.display = 'none';
               }
 
               // quản lý payment
               if (item.functionCode == "payment" && item.seePermission == '1') {
                      payment_Permission.style.display = 'block';
+
+                     // them
+                     if (item.functionCode == "payment" && item.addPermission == '1'){
+                            add_payment_Permission.style.display = 'block';
+                     }else if (item.functionCode == "payment" && item.addPermission != '1'){
+                            add_payment_Permission.style.display = 'none';
+                     }
+
               } else if (item.functionCode == "payment" && item.seePermission != '1') {
                      payment_Permission.style.display = 'none';
               }
@@ -112,6 +139,13 @@ function setUpPermission(dataPermissionDetail, codePermission) {
               // quản lý sản phẩm
               if (item.functionCode == "product" && item.seePermission == '1') {
                      product_Permission.style.display = 'block';
+
+                     // them
+                     if (item.functionCode == "product" && item.addPermission == '1'){
+                            add_product_Permission.style.display = 'block';
+                     }else if (item.functionCode == "product" && item.addPermission != '1'){
+                            add_product_Permission.style.display = 'none';
+                     }
               } else if (item.functionCode == "product" && item.seePermission != '1') {
                      product_Permission.style.display = 'none';
               }
@@ -126,6 +160,13 @@ function setUpPermission(dataPermissionDetail, codePermission) {
               // quản lý nhà cung cấp
               if (item.functionCode == "supplier" && item.seePermission == '1') {
                      supplier_Permission.style.display = 'block';
+                     // them
+                     if (item.functionCode == "supplier" && item.addPermission == '1'){
+                            add_supplier_Permission.style.display = 'block';
+                     }else if (item.functionCode == "supplier" && item.addPermission != '1'){
+                            add_supplier_Permission.style.display = 'none';
+                     }
+
               } else if (item.functionCode == "supplier" && item.seePermission != '1') {
                      supplier_Permission.style.display = 'none';
               }
@@ -133,6 +174,12 @@ function setUpPermission(dataPermissionDetail, codePermission) {
               // quan ly transport
               if (item.functionCode == "transport" && item.seePermission == '1') {
                      transport_Permission.style.display = 'block';
+                     // them
+                     if (item.functionCode == "transport" && item.addPermission == '1'){
+                            add_transport_Permission.style.display = 'block';
+                     }else if (item.functionCode == "transport" && item.addPermission != '1'){
+                            add_transport_Permission.style.display = 'none';
+                     }
               } else if (item.functionCode == "transport" && item.seePermission != '1') {
                      transport_Permission.style.display = 'none';
               }

@@ -36,6 +36,13 @@ class PermissionsDetailDAL extends AbstractionDAL
               }
        }
 
+       // xóa đối tượng theo mã codePermission
+       function deleteObj_by_codePermission($codePermission)
+       {
+              $query = "DELETE FROM permissionsDetail WHERE codePermissions = '$codePermission'";
+              return $this->actionSQL->query($query);
+       }
+
        // lấy ra mảng các đối tượng
        function getListObj()
        {
@@ -71,6 +78,8 @@ class PermissionsDetailDAL extends AbstractionDAL
                      return null;
               }
        }
+
+
 
        // lấy ra một array đối tượng dựa theo mã đối tượng
        function getObj($code)

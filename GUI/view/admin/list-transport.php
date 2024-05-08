@@ -90,7 +90,7 @@
                     <div class="top-container mt-2">
                         <h2>Danh sách hình thức vận chuyển</h2>
                         <!-- <a href="./addtransport.php" type="button" class="btn btn-primary btn-add">Thêm hình thức vận chuyển</a> -->
-                        <a type="button" class="button" href="./addtransport.php" style="text-decoration:none;">
+                        <a type="button" class="button" href="#" onclick="addObj(event)" style="text-decoration:none;">
                             <span class="button__text">Thêm mới</span>
                             <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
                                     <line y2="19" y1="5" x2="12" x1="12"></line>

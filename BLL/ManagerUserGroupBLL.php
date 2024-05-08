@@ -280,6 +280,21 @@ class ManagerUserGroupBLL
             );
         }
     }
+
+    // xoa mang permissionDetail
+    function deletePermissionDetail_by_codePermission($codePermission){
+        
+        if($this->PermissionsDetailDAL->deleteObj_by_codePermission($codePermission) == true)
+        {
+            return array(
+                "mess" => "success"
+            );
+        }else{
+            return array(
+                "mess" => "failed"
+            );
+        }
+    }
 }
 
 
@@ -349,6 +364,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
         case 'getArrFunction':
             $temp = $check->getArrFunction();
+            echo json_encode($temp);
+            break;
+        case 'deletePermissionDetail_by_codePermission':
+            $codePermission = $_POST['codePermission'];
+            $temp = $check->deletePermissionDetail_by_codePermission($codePermission);
             echo json_encode($temp);
             break;
     }

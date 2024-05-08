@@ -1,3 +1,113 @@
+// ------------------------------------------- AJAX kiểm tra đăng nhập -----------------------------------------------
+async function checkLogin_transport() {
+       try {
+              const response = await fetch('../../../BLL/AccountBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body:
+                            'function=' + encodeURIComponent('checkLogin')
+              });
+              const data = await response.json();
+              console.log(data);
+              let result = data[0];
+              if (result.result == 'success' && result.codePermission != 'user') {
+
+                     // getDataPermission_payment(result.codePermission);
+                     return result.codePermission;
+              }
+              // for (let i of data) {
+              //        console.log(i);
+              // }
+              // showProductItem(data);
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+// checkLogin();
+
+async function getDataPermission_transport(codePermission) {
+       try {
+              const response = await fetch('../../../BLL/ManagerUserGroupBLL.php', {
+                     method: 'POST',
+                     headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                     },
+                     body:
+                            'function=' + encodeURIComponent('getArrPermissionDetail') + '&codePermission=' + encodeURIComponent(codePermission)
+              });
+              const data = await response.json();
+              console.log(data);
+
+              if (data != null) {
+                     // checkUpPermission_payment(data.permissionDetail,codePermission,"");
+                     return data;
+              }
+
+       } catch (error) {
+              console.error('Error:', error);
+       }
+}
+
+// setup các chức năng được truy cập
+function checkUpPermission_transport(dataPermissionDetail, functionPoint) {
+
+       if (functionPoint == "") {
+              return false;
+       }
+
+       for (let item of dataPermissionDetail) {
+              if (item.functionCode == "transport") {
+                     console.log("Phan quyen");
+                     // thêm
+                     if (item.addPermission == "1" && functionPoint == "add") {
+                            console.log("Được phép thêm");
+                            return true;
+                     } else if (item.addPermission != "1" && functionPoint == "add") {
+                            console.log("Không Được phép thêm");
+                            return false;
+                     }
+                     // sửa
+                     if (item.fixPermission == "1" && functionPoint == "update") {
+                            console.log("Được phép sửa");
+                            return true;
+                     } else if (item.fixPermission != "1" && functionPoint == "update") {
+                            console.log("Không Được phép sửa");
+                            return false;
+                     }
+
+                     // xóa 
+                     if (item.deletePermission == "1" && functionPoint == "delete") {
+                            console.log("Được phép xóa");
+                            return true;
+                     } else if (item.deletePermission != "1" && functionPoint == "delete") {
+                            console.log("Không Được phép xóa");
+                            return false;
+                     }
+              }
+
+       }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 async function getArr() {
        try {
@@ -176,82 +286,137 @@ function searchTransports(){
        };
 }
 
-       async function updateTransport(code,name,company,event){
+async function addObj(event){
+       
+       // lấy thông tin mã  codePermission của người đăng nhập
+       let codePermission = await checkLogin_transport();
+       // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+       let data = await getDataPermission_transport(codePermission);
+       // lấy thông tin có được phép làm chức ăng đó không
+       let check = checkUpPermission_transport(data.permissionDetail, "add");
+
+       if(check == true){
+              window.location.href = "../../../GUI/view/admin/addtransport.php";
+       }else{
               event.preventDefault();
-              let codeTransportValue = document.getElementById(code).value;
-              let nameTransportValue = document.getElementById(name).value;
-              let affiliatedCompanyValue = document.getElementById(company).value;
+              Swal.fire({
+                     icon: "error",
+                     title: "Thêm không thành công",
+                     text: "Không đủ quyền hàng",
+              });
+       }
+}
+
+       async function updateTransport(code,name,company,event){
+
+              // lấy thông tin mã  codePermission của người đăng nhập
+              let codePermission = await checkLogin_transport();
+              // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+              let data = await getDataPermission_transport(codePermission);
+              // lấy thông tin có được phép làm chức ăng đó không
+              let check = checkUpPermission_transport(data.permissionDetail, "update");
+
+              if(check == true){
+                     event.preventDefault();
+                     let codeTransportValue = document.getElementById(code).value;
+                     let nameTransportValue = document.getElementById(name).value;
+                     let affiliatedCompanyValue = document.getElementById(company).value;
 
 
-              if(nameTransportValue.trim() === '' || affiliatedCompanyValue.trim() === ''){
+                     if(nameTransportValue.trim() === '' || affiliatedCompanyValue.trim() === ''){
+                            Swal.fire({
+                                   icon: "error",
+                                   title: "Sửa thất bại!",
+                                   text: "Không bỏ trống thông tin"
+                            });
+                     } else {
+                            try{
+                                   const response = await fetch('../../../BLL/TransportBLL.php', {
+                                          method: 'POST',
+                                          headers: {
+                                                 'Content-Type': 'application/x-www-form-urlencoded'
+                                          },
+                                          body: 'function=' + encodeURIComponent('updateObj')+'&codeTransport=' + encodeURIComponent(codeTransportValue)+
+                                          '&nameTransport=' + encodeURIComponent(nameTransportValue)+ '&affiliatedCompany=' + encodeURIComponent(affiliatedCompanyValue)
+                                   });
+                                   
+                                   const data = await response.json();
+                                   console.log(data);
+                                   if(data.mess === "success"){
+                                          await Swal.fire({
+                                                 position: "center",
+                                                 icon: "success",
+                                                 title: "Cập nhật thành công!",
+                                                 showConfirmButton: false,
+                                                 timer: 1500
+                                          });
+                                          await getArr();
+                                          console.log(data);
+                                   }
+                                   
+                                   
+                            } catch (error) {
+                                   console.error('Error:', error);
+                            };
+                     }
+              }else{
                      Swal.fire({
                             icon: "error",
-                            title: "Sửa thất bại!",
-                            text: "Không bỏ trống thông tin"
-                          });
-              } else {
-                     try{
-                            const response = await fetch('../../../BLL/TransportBLL.php', {
-                                   method: 'POST',
-                                   headers: {
-                                          'Content-Type': 'application/x-www-form-urlencoded'
-                                   },
-                                   body: 'function=' + encodeURIComponent('updateObj')+'&codeTransport=' + encodeURIComponent(codeTransportValue)+
-                                   '&nameTransport=' + encodeURIComponent(nameTransportValue)+ '&affiliatedCompany=' + encodeURIComponent(affiliatedCompanyValue)
-                            });
-                            
-                            const data = await response.json();
-                            console.log(data);
-                            if(data.mess === "success"){
-                                   await Swal.fire({
-                                          position: "center",
-                                          icon: "success",
-                                          title: "Cập nhật thành công!",
-                                          showConfirmButton: false,
-                                          timer: 1500
-                                        });
-                                   await getArr();
-                                   console.log(data);
-                            }
-                            
-                            
-                     } catch (error) {
-                            console.error('Error:', error);
-                     };
+                            title: "Sửa không thành công",
+                            text: "Không đủ quyền hàng",
+                     });
               }
+              
                     
        }
 
        //Xóa transport
        async function deleteTransport(code){
-       
-              try {
-              // gọi AJAX để kiểm tra
-              const response = await fetch('../../../BLL/TransportBLL.php', {
-                     method: 'POST',
-                     headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                     },
-                     body: 'function=' + encodeURIComponent('deleteObjByID')+'&codeTransport=' + encodeURIComponent(code)
-              });
+
+              // lấy thông tin mã  codePermission của người đăng nhập
+              let codePermission = await checkLogin_transport();
+              // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+              let data = await getDataPermission_transport(codePermission);
+              // lấy thông tin có được phép làm chức ăng đó không
+              let check = checkUpPermission_transport(data.permissionDetail, "delete");
+
+              if(check == true){
+                     try {
+                            // gọi AJAX để kiểm tra
+                            const response = await fetch('../../../BLL/TransportBLL.php', {
+                                   method: 'POST',
+                                   headers: {
+                                          'Content-Type': 'application/x-www-form-urlencoded'
+                                   },
+                                   body: 'function=' + encodeURIComponent('deleteObjByID')+'&codeTransport=' + encodeURIComponent(code)
+                            });
+                            
+                            const data1 = await response.json();
+                            console.log(data1);
+                            if(data1.mess === "success"){
+                                   await Swal.fire({
+                                          position: "center",
+                                          icon: "success",
+                                          title: "Xóa hình thức vận chuyển thành công",
+                                          showConfirmButton: false,
+                                          timer: 1500
+                                        });
+                                   await getArr();
+                            }
               
-              const data1 = await response.json();
-              console.log(data1);
-              if(data1.mess === "success"){
-                     await Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Xóa hình thức vận chuyển thành công",
-                            showConfirmButton: false,
-                            timer: 1500
-                          });
-                     await getArr();
+              
+                            } catch (error) {
+                                   console.error('Error:', error);
+                            }
+              }else{
+                     Swal.fire({
+                            icon: "error",
+                            title: "Xóa không thành công",
+                            text: "Không đủ quyền hàng",
+                     });
               }
-
-
-              } catch (error) {
-                     console.error('Error:', error);
-              }
+       
+              
 
        }
 

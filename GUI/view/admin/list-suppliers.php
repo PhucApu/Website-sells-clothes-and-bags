@@ -33,7 +33,7 @@
                 <div class="container-product">
                     <div class="top-container mt-2">
                         <h2>Nhà cung cấp</h2>
-                        <a href="./addsupplier.php" type="button" class="btn btn-primary btn-add">Thêm nhà cung cấp</a>
+                        <a href="#!" onclick="addObj(event)" type="button" class="btn btn-primary btn-add">Thêm nhà cung cấp</a>
                     </div>
                     <div class="mb-3 mt-5 ">
                         <div class="input-group">

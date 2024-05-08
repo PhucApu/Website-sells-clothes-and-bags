@@ -1,6 +1,7 @@
 <?php
 
 
+
 require('../DAL/connectionDatabase.php');
 require('../DAL/AbstractionDAL.php');
 require('../DTO/AccountDTO.php');
@@ -20,7 +21,7 @@ class UserManagerBLL
         //lấy thông tin 
         $result = $this->UserManagerDAL->deleteByID($code);
 
-        if ($result == true) {
+        if ($result) {
             return array("mess" => "success");
         } else {
             return array("mess" => "Failed");

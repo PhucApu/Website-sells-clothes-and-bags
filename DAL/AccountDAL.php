@@ -18,25 +18,29 @@ class AccountDAL extends AbstractionDAL
        // xóa một đối tượng bởi mã đối tượng 
        function deleteByID($code)
        {
+              // mã hóa
+              $userName_encode = base64_encode($code);
+
               // do bảng FeedBack, Comment, Orders, EnterBallot có liên kết khóa ngoại đến thuộc tính userName của bảng Accounts. Nên khi xóa bảng phải kiểm tra dữ liệu của các khóa ngoại trước. Nếu thỏa các bảng kia không có tham chiếu đến dữ liệu đang được xóa thì mới cho phép xóa. Còn không sẽ báo lỗi.
 
               // kiểm tra dữ liệu các bảng có khóa ngoại tham chiếu
-              $check_data_Feedback = "SELECT * FROM feedback WHERE userName = '$code'";
-              $check_data_Comment = "SELECT * FROM comment WHERE userNameComment = '$code'";
-              $check_data_Orders = "SELECT * FROM orders WHERE userName = '$code'";
-              
+              $check_data_Feedback = "SELECT * FROM feedback WHERE userName = '$userName_encode'";
+              $check_data_Comment = "SELECT * FROM comment WHERE userNameComment = '$userName_encode'";
+              $check_data_Orders = "SELECT * FROM orders WHERE userName = '$userName_encode'";
+              // $check_data_EnterBallot = "SELECT * FROM enterballot WHERE userName = '$code'";
 
               $resutl_1 = $this->actionSQL->query($check_data_Feedback);
               $resutl_2 = $this->actionSQL->query($check_data_Comment);
               $resutl_3 = $this->actionSQL->query($check_data_Orders);
-              
+              // $resutl_4 = $this->actionSQL->query($check_data_EnterBallot);
 
               // nếu tất cả các câu lệnh truy suất cho ra số dòng truy suất đều = 0 --> thỏa
               if ($resutl_1->num_rows < 1 && $resutl_2->num_rows < 1 && $resutl_3->num_rows < 1) {
 
-                     $string = "DELETE FROM accounts WHERE userName = '$code'";
+                     $string = "DELETE FROM accounts WHERE userName = '$userName_encode' ";
                      // thuc hien truy suat
-                     return $this->actionSQL->query($string);
+
+                     return $this->actionSQL->query($string) === true;
               } else {
                      return false;
               }
@@ -240,17 +244,18 @@ class AccountDAL extends AbstractionDAL
 
        function updateStateUser($userName, $accountStatus)
        {
+              $userName_encode = base64_encode($userName);
               // Câu lệnh UPDATE
               if ($accountStatus == '1') {
                      $string = "UPDATE accounts 
                                 SET 
                                 accountStatus = '0'
-                                WHERE userName = '$userName'";
+                                WHERE userName = '$userName_encode'";
               } else {
                      $string = "UPDATE accounts 
                                 SET 
                                 accountStatus = '1'
-                                WHERE userName = '$userName'";
+                                WHERE userName = '$userName_encode'";
               }
 
               return $this->actionSQL->query($string);

@@ -37,7 +37,7 @@
                 <div class="stat">
                     <div class="item-stat">
                         <div class="number sub-stat"><span id="number-buy">24</span>
-                            <p >Số sản phẩm đã bán</p>
+                            <p>Số sản phẩm đã bán</p>
                         </div>
                         <div class="icon-stat "><i class="fa-solid fa-bag-shopping"></i></div>
                     </div>
@@ -64,8 +64,8 @@
                                 <option value="2">Túi sách</option>
                             </select>
                         </div>
-                        <div  class="toDate">Từ ngày <input id="toDate" type="date"></div>
-                        <div  class="endDate">Đến ngày <input id="endDate" type="date"></div>
+                        <div class="toDate">Từ ngày <input id="toDate" type="date"></div>
+                        <div class="endDate">Đến ngày <input id="endDate" type="date"></div>
                         <div style="cursor: pointer;" id="buttonSearch" onclick="ThongKe()" class="buttonSearch">Thống kê <div class="button">Thống kê</div>
                         </div>
                     </div>
@@ -142,16 +142,17 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="list-button">
-                        <p class="previous">Previous</p>
-                        <p class="click-button">1</p>
-                        <p>2</p>
-                        <p>3</p>
-                        <p>4</p>
-                        <p class="next">Next</p>
-                    </div>
                 </div>
+
+                <ul class="pagination pagination-sm justify-content-end mt-5" id="Pagination" style="cursor:pointer; margin-right:1rem;">
+                    <li class="page-item"><a class="page-link">Previous</a></li>
+                    <li class="page-item active"><a class="page-link">1</a></li>
+                    <li class="page-item"><a class="page-link">2</a></li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item"><a class="page-link">Next</a></li>
+                </ul>
             </div>
+            
 
             <div class="footer">
                 <?php require('./footer_admin.php'); ?>
