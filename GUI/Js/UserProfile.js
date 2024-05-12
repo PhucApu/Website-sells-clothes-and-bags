@@ -18,6 +18,7 @@ async function getInfor() {
             showInfor(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.birth, result.sex);
 
             save_change_password(result.userName, result.passWord, result.name, result.email, result.address, result.phoneNumber, result.dateCreate, result.birth, result.sex);
+            
 
         } else {
             window.location.href = "../../GUI/view/Login.php";
@@ -177,6 +178,31 @@ async function getPassWord() {
     }
 }
 
+// lấy password cũ
+async function getCodePermission() {
+    try {
+        const response = await fetch('../../BLL/AccountBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('checkLogin')
+        });
+        const data = await response.json();
+        let result = data[0];
+        // console.log(result);
+
+        if (result.result == 'success') {
+            return result.codePermission;
+        } else {
+            window.location.href = "../../GUI/view/Login.php";
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 // hàm save thông tin khi thay đổi
 async function save_change_infor(event) {
     event.preventDefault();
@@ -191,6 +217,9 @@ async function save_change_infor(event) {
         let phoneNumber = document.getElementById('phonenumber').value;
         let datebirth = document.getElementById('datebirth').value;
         let dateCreate = document.getElementById('datecreate').value;
+
+        // quyen
+        let codePermission = await getCodePermission();
 
         // lấy lựa chọn giới tính
         // Lấy tất cả các radio button trong nhóm 'sex'
@@ -214,7 +243,7 @@ async function save_change_infor(event) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body:
-                    'function=' + encodeURIComponent('updateAccount') + '&userName=' + encodeURIComponent(userName) + '&passWord=' + encodeURIComponent(passWord) + '&dateCreate=' + encodeURIComponent(dateCreate) + '&accountStatus=' + encodeURIComponent('1') + '&name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address) + '&email=' + encodeURIComponent(email) + '&phoneNumber=' + encodeURIComponent(phoneNumber) + '&birth=' + encodeURIComponent(datebirth) + '&sex=' + encodeURIComponent(sex) + '&codePermission=' + encodeURIComponent('user')
+                    'function=' + encodeURIComponent('updateAccount') + '&userName=' + encodeURIComponent(userName) + '&passWord=' + encodeURIComponent(passWord) + '&dateCreate=' + encodeURIComponent(dateCreate) + '&accountStatus=' + encodeURIComponent('1') + '&name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address) + '&email=' + encodeURIComponent(email) + '&phoneNumber=' + encodeURIComponent(phoneNumber) + '&birth=' + encodeURIComponent(datebirth) + '&sex=' + encodeURIComponent(sex) + '&codePermission=' + encodeURIComponent(codePermission)
             });
             const data = await response.json();
 
@@ -276,6 +305,9 @@ function save_change_password(username, password, name, email, address, phone, d
         let newpassword = document.getElementById('newpassword').value;
         let confirmpassword = document.getElementById('confirmpassword').value;
 
+        // quyen
+        let codePermission = await getCodePermission();
+
         if (isVaidPassword(newpassword) == true && isVaidPassword(confirmpassword) == true) {
             if (newpassword === confirmpassword) {
 
@@ -285,7 +317,7 @@ function save_change_password(username, password, name, email, address, phone, d
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body:
-                        'function=' + encodeURIComponent('updateAccount') + '&userName=' + encodeURIComponent(username) + '&passWord=' + encodeURIComponent(newpassword) + '&dateCreate=' + encodeURIComponent(dateCreate) + '&accountStatus=' + encodeURIComponent('1') + '&name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address) + '&email=' + encodeURIComponent(email) + '&phoneNumber=' + encodeURIComponent(phone) + '&birth=' + encodeURIComponent(dateBirth) + '&sex=' + encodeURIComponent(sex) + '&codePermission=' + encodeURIComponent('user')
+                        'function=' + encodeURIComponent('updateAccount') + '&userName=' + encodeURIComponent(username) + '&passWord=' + encodeURIComponent(newpassword) + '&dateCreate=' + encodeURIComponent(dateCreate) + '&accountStatus=' + encodeURIComponent('1') + '&name=' + encodeURIComponent(name) + '&address=' + encodeURIComponent(address) + '&email=' + encodeURIComponent(email) + '&phoneNumber=' + encodeURIComponent(phone) + '&birth=' + encodeURIComponent(dateBirth) + '&sex=' + encodeURIComponent(sex) + '&codePermission=' + encodeURIComponent(codePermission)
                 });
                 const data = await response.json();
                 if (data.mess == 'success') {

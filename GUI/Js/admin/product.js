@@ -1,8 +1,42 @@
+// async function getArr() {
+//     try {
+//            // gọi AJAX để kiểm tra
+//            const response = await fetch('../../../BLL/ProductBLL.php', {
+//                   method: 'POST',
+//                   headers: {
+//                          'Content-Type': 'application/x-www-form-urlencoded'
+//                   },
+//                   body: 'function=' + encodeURIComponent('getArrObj')
+//            });
+           
+//            const data = await response.json();
+//            console.log(data);
+           
+           
+//            //     Display Transport
+//            showDataTable(data);
+//            loadPage();
+           
+           
+//     } catch (error) {
+//            console.error('Error:', error);
+//     }
+// }
+
+
 //---------- AJAX
 async function Search(page, limit) {
 
     // lấy các thông tin search
 
+    let valueSearch = document.getElementById('value-search').value;
+    let category = document.getElementById('category').value;
+
+    if(valueSearch == ''){
+        valueSearch = 'empty';
+    }
+    
+    console.log(valueSearch,category);  
 
 
     // goi ajax
@@ -13,7 +47,7 @@ async function Search(page, limit) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body:
-                'function=' + encodeURIComponent('Pagination_Search') + '&page=' + encodeURIComponent(page) + '&limit=' + encodeURIComponent(limit) + '&keyword=' + encodeURIComponent('empty') + '&type=' + encodeURIComponent('empty')
+                'function=' + encodeURIComponent('Pagination_Search') + '&page=' + encodeURIComponent(page) + '&limit=' + encodeURIComponent(limit) + '&keyword=' + encodeURIComponent(valueSearch) + '&type=' + encodeURIComponent(category)
         });
         const data = await response.json();
         console.log(data);
@@ -36,6 +70,12 @@ async function Search(page, limit) {
             `;
             
             await showDataTable(data)
+        }else{
+            Swal.fire({
+                icon: "error",
+                title: "Không tìm thấy sản phẩm",
+                
+         });
         }
 
     } catch (error) {
@@ -127,9 +167,15 @@ function listPage(thisPage, limit, all_data_rows) {
 async function showDataTable(data) {
     let conatiner = document.getElementById('listProduct');
     let containerDetail = document.getElementById('content-product-detail');
+    let formDelete = document.getElementById('deleteForm');
+
+    formDelete.innerHTML = '';
+
     if (data != null) {
         let result_table = '';
+        let result_delete = '';
         let result_modal_detail = '';
+
         for (let item of data) {
             if (item.lengthProduct === undefined) {
                 let productCode = item.productCode;
@@ -150,17 +196,42 @@ async function showDataTable(data) {
                     <tr>
                         <td>${nameProduct}</td>
                         <td>${productCode}</td>
-                        <td><img src="../${firstImg}" width="50px"></td>
+                        <td><img src="../${firstImg}" width="60px"></td>
                         <td>${quantity}</td>
                         <td>${price}$</td>
                         <td>${state}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>Sửa</a>
-                            <a href="./editProduct.php?productCode=${productCode}&type=${type}" >Sửa</a>
-                            <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> </i>Xóa</a>
+                             
+                            <a class="btn btn-sm btn-warning" href="./editProduct.php?productCode=${productCode}&type=${type}"><i class="fa fa-edit"></i>Sửa</a>
+                            <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-${productCode}"><i class="fa fa-trash"> </i>Xóa</a>
                             <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#${productCode}"><i class="fa fa-eye"> </i>Xem</a>
                         </td>
                     </tr>
+                `;
+
+                // form xóa
+                let strDelete = `
+                <div class="modal fade" id="deleteModal-${productCode}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Xóa sản phẩm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa sản phẩm này?
+                            <br>
+                            Mã sản phẩm: <b>${productCode}</b>
+                            <br>
+                            Tên sản phẩm: <b>${nameProduct}</b>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-danger btn-confirm-delete" data-bs-dismiss="modal" onclick="deleteProduct('${productCode}','${type}')">Xóa</button>
+                        </div>
+                    </div>
+                    </div>
+                 </div>
                 `;
 
                 if (item.type == "shirtProduct") {
@@ -221,66 +292,66 @@ async function showDataTable(data) {
                                             <tbody>
                                                 <!-- Field chung -->
                                                 <tr>
-                                                    <th>Tên sản phẩm</th>
+                                                    <th class="fw-bold">Tên sản phẩm</th>
                                                     <td id="nameProduct">${nameProduct}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Mã sản phẩm</th>
+                                                    <th class="fw-bold">Mã sản phẩm</th>
                                                     <td id="productCode">${productCode}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Giá</th>
+                                                    <th class="fw-bold">Giá</th>
                                                     <td id="price">${price}$</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Giảm giá:</th>
+                                                    <th class="fw-bold">Giảm giá:</th>
                                                     <td id="price">${promotion}%</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Danh mục</th>
+                                                    <th class="fw-bold">Danh mục</th>
                                                     <td id="category">${type}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Mã nhà cung cấp</th>
+                                                    <th class="fw-bold">Mã nhà cung cấp</th>
                                                     <td id="codeSupplier">${supplierCode}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Mô tả</th>
+                                                    <th class="fw-bold">Mô tả</th>
                                                     <td id="describe">${describeProduct}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Đối tượng</th>
+                                                    <th class="fw-bold">Đối tượng</th>
                                                     <td id="targetGender">${targetGender}</th>
                                                 </tr>
                                                 <tr>
-                                                    <th>Trạng thái</th>
+                                                    <th class="fw-bold">Trạng thái</th>
                                                     <td id="status">${state}</td>
                                                 </tr>
 
                                                 <!-- Field riêng quần áo -->
                                                 <tr>
-                                                    <th>Phong cách</th>
+                                                    <th class="fw-bold">Phong cách</th>
                                                     <td id="shirtStyle">${shirtStyle}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Chất liệu</th>
+                                                    <th class="fw-bold">Chất liệu</th>
                                                     <td id="shirtMaterial">${shirtMaterial}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Mô tả chất liệu</th>
+                                                    <th class="fw-bold">Mô tả chất liệu</th>
                                                     <td id="descriptionMaterial">${descriptionMaterial}</td>
                                                 </tr>
                                                 <!-- Size số lượng -->
                                                 <tr style="border-top:2px solid black;">
-                                                    <th>Size</th>
-                                                    <th id="descriptionMaterial">Số lượng</th>
+                                                    <th class="fw-bold">Size</th>
+                                                    <th id="descriptionMaterial" class="fw-bold">Số lượng</th>
                                                 </tr>
                                                 <div id="content-size-detail">
                                                     ${resultSize}
                                                 </div>
 
                                                 <tr id="quantity-infor">
-                                                    <th>Tổng</th>
+                                                    <th class="fw-bold">Tổng</th>
                                                     <td id="quantity">${quantity}</td>
                                                 </tr>
                                             </tbody>
@@ -312,106 +383,214 @@ async function showDataTable(data) {
 
                     let string_final = `
                     
-                    <div class="modal fade" id="${productCode}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="detailModalLabel">Chi tiết sản phẩm</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div id="content-picture-product" class="col-md-4">
-                                        <div id="main-picture-product">
-                                            <img src="../${firstImg}" id="imgProduct" width="210px">
-                                        </div>
-                                        <div id="detail-picture-product" class="img-category mt-2">
-                                            ${result_img}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <table class="table table-bordered">
-                                            <tbody>
-                                                <!-- Field chung -->
-                                                <tr>
-                                                    <th>Tên sản phẩm</th>
-                                                    <td id="nameProduct">${nameProduct}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Mã sản phẩm</th>
-                                                    <td id="productCode">${productCode}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Giá</th>
-                                                    <td id="price">${price}$</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Giảm giá:</th>
-                                                    <td id="price">${promotion}%</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Danh mục</th>
-                                                    <td id="category">${type}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Mã nhà cung cấp</th>
-                                                    <td id="codeSupplier">${supplierCode}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Mô tả</th>
-                                                    <td id="describe">${describeProduct}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Đối tượng</th>
-                                                    <td id="targetGender">${targetGender}</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Trạng thái</th>
-                                                    <td id="status">${state}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Chất liệu</th>
-                                                    <td id="shirtMaterial">${bagMaterial}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Mô tả chất liệu</th>
-                                                    <td id="descriptionMaterial">${descriptionMaterial}</td>
-                                                </tr>
+                        <div class="modal fade" id="${productCode}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="detailModalLabel">Chi tiết sản phẩm</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div id="content-picture-product" class="col-md-4">
+                                                <div id="main-picture-product">
+                                                    <img src="../${firstImg}" id="imgProduct" width="210px">
+                                                </div>
+                                                <div id="detail-picture-product" class="img-category mt-2">
+                                                    ${result_img}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <table class="table table-bordered">
+                                                    <tbody>
+                                                        <!-- Field chung -->
+                                                        <tr>
+                                                            <th>Tên sản phẩm</th>
+                                                            <td id="nameProduct">${nameProduct}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Mã sản phẩm</th>
+                                                            <td id="productCode">${productCode}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Giá</th>
+                                                            <td id="price">${price}$</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Giảm giá:</th>
+                                                            <td id="price">${promotion}%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Danh mục</th>
+                                                            <td id="category">${type}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Mã nhà cung cấp</th>
+                                                            <td id="codeSupplier">${supplierCode}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Mô tả</th>
+                                                            <td id="describe">${describeProduct}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Đối tượng</th>
+                                                            <td id="targetGender">${targetGender}</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Trạng thái</th>
+                                                            <td id="status">${state}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Chất liệu</th>
+                                                            <td id="shirtMaterial">${bagMaterial}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Mô tả chất liệu</th>
+                                                            <td id="descriptionMaterial">${descriptionMaterial}</td>
+                                                        </tr>
 
-                                                <tr id="quantity-infor">
-                                                    <th>Tổng</th>
-                                                    <td id="quantity">${quantity}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                        <tr id="quantity-infor">
+                                                            <th>Tổng</th>
+                                                            <td id="quantity">${quantity}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
                     
                     `;
                     result_modal_detail += string_final;
                 }
-
+                result_delete += strDelete;
                 result_table += stringTable;
             }
 
         }
+        formDelete.innerHTML = result_delete;
         conatiner.innerHTML = result_table;
         containerDetail.innerHTML = result_modal_detail;
     }
 }
 
+async function deleteProduct(productCode, type) {
+    try {
+
+        const response = await fetch('../../../BLL/ProductBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('deleteProduct') + '&code=' + encodeURIComponent(productCode)
+                + '&type=' + encodeURIComponent(type)
+        });
+        const data = await response.json();
+        console.log(data);
+        let page = parseInt(getPageActive());
+        if (data.mess === 'success') {
+            await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Xóa Sản phẩm thành công!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            
+            await Search(page, 5);
+            
+        }
+        // handle the response data as needed
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 
 
+// Lấy trang đang kích hoạt
+function getPageActive() {
+    // Lấy danh sách tất cả các thẻ <li> trong <ul> có id là "Panigation"
+    var listItems = document.querySelectorAll('#Pagination li');
+    var page = 0;
+    // Duyệt qua từng phần tử trong danh sách
+    listItems.forEach(function (item) {
+        // Kiểm tra xem phần tử hiện tại có class là "active" hay không
+        if (item.classList.contains('active')) {
+            // Nếu có, lấy nội dung trong thẻ <a> bên trong và chuyển thành số
+            var activePageText = item.querySelector('a').textContent.trim();
+            var activePageNumber = parseInt(activePageText);
+            console.log("Trang đang active: " + activePageNumber);
+            page = activePageNumber;
+        }
+    });
+    return page;
+}
 
 
+// Hàm tìm kiếm sản phẩm
+// function searchProduct() {
+//     document.getElementById("input-search").oninput = async function () {
+//         try {
+//             let keyword = document.getElementById("input-search").value;
+//             const response = await fetch('../../../BLL/ProductBLL.php', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/x-www-form-urlencoded'
+//                 },
+//                 body: 'function=' + encodeURIComponent('searchProduct') + '&keyword=' + encodeURIComponent(keyword)
+//             });
+//             const data = await response.json();
+//             console.log(data);
+
+//             if (data.length == 0) {
+//                 console.log('Không có dữ liệu');
+
+//                 document.querySelector('#Pagination').style.display = 'none';
+//                 showDataTable(data);
+//             }
+//             else {
+//                 let conatiner = document.getElementById('listProduct');
+//                 conatiner.innerHTML = `
+//                 <div class="spinner-border text-primary" role="status">
+//                     <span class="visually-hidden">Loading...</span>
+//                 </div>
+//             `;  
+//                 showDataTable(data);
+//                 document.querySelector('#Pagination').style.display = 'flex';
+//                 Search(1, 5);
+//             }
+//         } catch (error) {
+//             console.error('Error:', error);
+//         }
+//     }
+// }
 
 
+function loadItem(thisPage, limit) {
 
+    // tính vị trí bắt đầu và kêt thúc
+    let beginGet = limit * (thisPage - 1);
+    let endGet = limit * thisPage - 1;
+
+    // lấy tất cả các dòng dữ liệu có trong bảng
+    let all_data_rows = document.querySelectorAll('listProduct > tr');
+
+    all_data_rows.forEach((item, index) => {
+           if (index >= beginGet && index <= endGet) {
+                  item.style.display = 'table-row';
+           }
+           else {
+                  item.style.display = 'none';
+           }
+    });
+
+    // hàm tính có bao nhieu nút chuyển trang
+    listPage(thisPage, limit, all_data_rows);
+}
 
 
 function action() {
@@ -442,6 +621,8 @@ window.addEventListener("load", async function () {
     // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
     console.log("Trang quản lý sản phẩm đã load hoàn toàn");
     await Search(1, 5)
+    // searchProduct();
     // loadPage();
     action();
+    
 });

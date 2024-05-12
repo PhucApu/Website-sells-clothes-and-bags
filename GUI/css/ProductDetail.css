@@ -365,6 +365,8 @@ label {
 
 .item-product img {
     width: 90%;
+    height: 338px;
+    object-fit: cover;
 }
 
 .title-product {
@@ -373,6 +375,8 @@ label {
     color: rgb(91, 91, 92);
     font-size: 18px;
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .price-product {

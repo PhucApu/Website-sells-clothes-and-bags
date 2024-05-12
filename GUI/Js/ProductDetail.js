@@ -277,6 +277,7 @@ function DetailShirtProduct(data) {
 }
 
 async function getQuantityBySizeCodeAndProductCode(sizeCode) {
+    
     // Tạo một đối tượng URLSearchParams từ đường dẫn URL hiện tại
     let urlParams = new URLSearchParams(window.location.search);
 

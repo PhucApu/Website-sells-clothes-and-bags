@@ -23,6 +23,17 @@ class ShirtSizeDAL extends AbstractionDAL
        {
               // do bang khong co khoa chinh
        }
+       function deleteSizeCode($productCode,$code)
+       {
+              // xóa dựa theo mã size
+              if ($code != null) {
+                     $string = "DELETE FROM shirtsize WHERE sizeCode = '$code' and productCode = '$productCode'";
+
+                     return $this->actionSQL->query($string);
+              } else {
+                     return false;
+              }
+       }
 
        // xóa một đối tượng bằng cách truyền đối tượng vào
        function delete($obj)
@@ -131,7 +142,12 @@ class ShirtSizeDAL extends AbstractionDAL
                      return null;
               }
        }
-
+       function checkSizeCodeExists($productCode, $sizeCode)
+       {
+              $query = "SELECT * FROM ShirtSize WHERE productCode = '$productCode' AND sizeCode = '$sizeCode'";
+              $result = $this->actionSQL->query($query);
+              return $result->num_rows > 0;
+       }
        function getArrBySizeCode($code)
        {
               // Mảng để lưu danh sách các đối tượng
@@ -188,6 +204,17 @@ class ShirtSizeDAL extends AbstractionDAL
                      }
               } else {
                      // Trường hợp đối tượng trống
+                     return false;
+              }
+       }
+       function addSizeCode($productCode,$sizeCode,$quantity)
+       {
+              // thêm dựa theo mã size
+              if ($sizeCode != null) {
+                     $string = "INSERT INTO shirtsize (sizeCode, productCode, quantity) VALUES ('$sizeCode', '$productCode', '$quantity')";
+
+                     return $this->actionSQL->query($string);
+              } else {
                      return false;
               }
        }

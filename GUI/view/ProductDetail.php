@@ -248,7 +248,10 @@
                     <div class="related-product">
                         <h3>Related products</h3>
                         <div class="list-item-related">
-                            <div class="item-product">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <!-- <div class="item-product">
                                 <a href="">
                                     <div class="img-product-related">
                                         <img src="../image/product/product1/product-detail-1.png" alt="">
@@ -312,7 +315,7 @@
                                 <p class="title-product">Suspendisse na pretium 2</p>
                                 <p class="price-product"><span class="sale-price">$22.00</span> $14.99</p>
                                 <a href="#!" class="add-product">Add to cart</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

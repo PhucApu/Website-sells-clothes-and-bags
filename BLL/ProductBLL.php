@@ -948,7 +948,7 @@ class ProductBLL
        }
 
        // hàm thêm sản phẩm túi
-       function addHanbBagProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial)
+       function addHandBagProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial)
        {
 
               $obj = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
@@ -979,30 +979,118 @@ class ProductBLL
                             // Tách phần tử thành mã size, mã sản phẩm và số lượng
                             list($sizeCode, $productCode, $quantitySize) = explode("-", $part);
 
-                            $shirtSizeDTO = new ShirtSizeDTO($sizeCode,$productCode,$quantitySize);
+                            $shirtSizeDTO = new ShirtSizeDTO($sizeCode, $productCode, $quantitySize);
                             // Thêm vào mảng vao database
-                            if($this->ShirtSizeDAL->addObj($shirtSizeDTO) != true)
-                            {
+                            if ($this->ShirtSizeDAL->addObj($shirtSizeDTO) != true) {
                                    $check_add_shirt_size = false;
                             }
-                           
                      }
-                     if($check_add_shirt_size == true){
+                     if ($check_add_shirt_size == true) {
                             return array(
                                    "mess" => "success"
                             );
                      }
                      return array(
-                            "mess" => "failed in add shirtSize"
+                            "mess" => "failed"
                      );
-                     
               }
               return array(
                      "mess" => "failed"
               );
        }
 
-       
+       function updateHandbag($obj)
+       {
+              // $obj = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
+              if ($obj != null) {
+                     $result = $this->HandbagProductDAL->upadateObj($obj);
+                     if ($result) {
+                            return array(
+                                   "mess" => "success"
+                            );
+                     } else {
+                            return array(
+                                   "mess" => "failed"
+                            );
+                     }
+              }
+              return array(
+                     "mess" => "failed"
+              );
+       }
+
+       function updateShirt($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial, $stringSizeShirt)
+       {
+              $obj = new ShirtProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial);
+
+              if ($this->ShirtProductDAL->upadateObj($obj) == true) {
+
+                     $check_add_shirt_size = true;
+
+                     // $stringSizeShirt = S001-P001-12_S002-P001-10
+
+                     $parts = explode("_", $stringSizeShirt);         // parts = [ 'S001-P001-12', 'S002-P001-10' ]
+                     // Lặp qua từng phần tử để tách mã size, mã sản phẩm và số lượng
+                     
+                     foreach ($parts as $part) {
+
+                            // Tách phần tử thành mã size, mã sản phẩm và số lượng
+                            list($sizeCode, $productCode, $quantitySize) = explode("-", $part);
+
+                            $shirtSizeDTO = new ShirtSizeDTO($sizeCode, $productCode, $quantitySize);
+                            //Nếu số lượng = 0 thì xóa luôn
+                            if($shirtSizeDTO->getQuantity() == 0){
+                                   $this->ShirtSizeDAL->deleteSizeCode($productCode,$sizeCode);
+                            }
+
+                            // Nếu sizeCode chưa tồn tại thì thêm mới
+                            if($this->ShirtSizeDAL->checkSizeCodeExists($productCode,$sizeCode) == false && $quantitySize > 0){
+                                   $this->ShirtSizeDAL->addSizeCode($productCode,$sizeCode,$quantitySize);
+                            }
+                            // Cập nhật số lượng size sẵn có
+                            if ($this->ShirtSizeDAL->upadateObj($shirtSizeDTO) != true) {
+                                   $check_add_shirt_size = false;
+                            }
+                            
+                     }
+                     if ($check_add_shirt_size == true) {
+                            return array(
+                                   "mess" => "success"
+                            );
+                     }
+                     return array(
+                            "mess" => "failed"
+                     );
+              }
+              return array(
+                     "mess" => "failed"
+              );
+       }
+
+       function deleteProduct($productCode, $type)
+       {
+              if ($type == 'shirtProduct') {
+                     if ($this->ShirtProductDAL->deleteByID($productCode)) {
+                            return array(
+                                   "mess" => "success"
+                            );
+                     } else {
+                            return array(
+                                   "mess" => "failed"
+                            );
+                     }
+              } else if ($type == 'handbagProduct') {
+                     if ($this->HandbagProductDAL->deleteByID($productCode)) {
+                            return array(
+                                   "mess" => "success"
+                            );
+                     } else {
+                            return array(
+                                   "mess" => "failed"
+                            );
+                     }
+              }
+       }
 }
 
 // check
@@ -1108,27 +1196,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      break;
 
 
-              // them san pham tu'i
-              case 'addHanbBagProduct':
-
+                     // them san pham tu'i
+              case 'addHandBagProduct':
                      $productCode = $_POST['productCode'];
-
                      // xử lý mảng ảnh
                      $arrImg = json_decode($_POST['arrImg']);
                      // tạo chuỗi ảnh
                      $imgProduct = '';
-                     for($i = 0; $i < count($arrImg); $i++) {
-                            if($i != count($arrImg) - 1){
-                                   $imgProduct = $imgProduct + $item + ' ';
-                            }else{
-                                   $imgProduct = $imgProduct + $item;
+                     for ($i = 0; $i < count($arrImg); $i++) {
+                            if ($i != count($arrImg) - 1) {
+                                   $imgProduct = $imgProduct . $arrImg[$i] . ' ';
+                            } else {
+                                   $imgProduct = $imgProduct . $arrImg[$i];
                             }
-                            
                      }
 
-
                      $nameProduct = $_POST['nameProduct'];
-                     $supplierCode = $_POST['suplierCode'];
+                     $supplierCode = $_POST['supplierCode'];
                      $quantity = $_POST['quantity'];
                      $describe = $_POST['describe'];
                      $status = $_POST['status'];
@@ -1139,12 +1223,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $bagMaterial = $_POST['bagMaterial'];
                      $descriptionMaterial = $_POST['descriptionMaterial'];
 
-
-                     $temp = $check->addHanbBagProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
+                     $temp = $check->addHandBagProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
 
                      echo json_encode($temp);
                      break;
-
 
                      // san pham ao
               case 'addShirtProduct':
@@ -1154,17 +1236,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $arrImg = json_decode($_POST['arrImg']);
                      // tạo chuỗi ảnh
                      $imgProduct = '';
-                     for($i = 0; $i < count($arrImg); $i++) {
-                            if($i != count($arrImg) - 1){
-                                   $imgProduct = $imgProduct + $item + ' ';
-                            }else{
-                                   $imgProduct = $imgProduct + $item;
+                     for ($i = 0; $i < count($arrImg); $i++) {
+                            if ($i != count($arrImg) - 1) {
+                                   $imgProduct = $imgProduct . $arrImg[$i] . ' ';
+                            } else {
+                                   $imgProduct = $imgProduct . $arrImg[$i];
                             }
-                            
                      }
 
                      $nameProduct = $_POST['nameProduct'];
-                     $supplierCode = $_POST['suplierCode'];
+                     $supplierCode = $_POST['supplierCode'];
                      $quantity = $_POST['quantity'];
                      $describe = $_POST['describe'];
                      $status = $_POST['status'];
@@ -1180,8 +1261,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      $shirtSizeString = $_POST['shirtSizeString'];
                      // $stringSizeShirt = S001-P001-12_S002-P001-10
 
-                     $temp = $check->addShirtProduct($productCode,$imgProduct,$nameProduct,$supplierCode,$quantity,$describe,$status,$color,$targetGender,$price,$promotion,$shirtMaterial,$shirtStyle,$descriptionMaterial,$shirtSizeString);
+                     $temp = $check->addShirtProduct($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial, $shirtSizeString);
 
+                     echo json_encode($temp);
+                     break;
+
+              case 'updateHandbag':
+                     $productCode = $_POST['productCode'];
+                     // xử lý mảng ảnh
+                     $arrImg = json_decode($_POST['arrImg']);
+                     // tạo chuỗi ảnh
+                     $imgProduct = '';
+                     for ($i = 0; $i < count($arrImg); $i++) {
+                            if ($i != count($arrImg) - 1) {
+                                   $imgProduct = $imgProduct . $arrImg[$i] . ' ';
+                            } else {
+                                   $imgProduct = $imgProduct . $arrImg[$i];
+                            }
+                     }
+                     
+                     $nameProduct = $_POST['nameProduct'];
+                     $supplierCode = $_POST['supplierCode'];
+                     $quantity = $_POST['quantity'];
+                     $describe = $_POST['describe'];
+                     $status = $_POST['status'];
+                     $color = $_POST['color'];
+                     $targetGender = $_POST['targetGender'];
+                     $price = $_POST['price'];
+                     $promotion = $_POST['promotion'];
+                     $bagMaterial = $_POST['bagMaterial'];
+                     $descriptionMaterial = $_POST['descriptionMaterial'];
+                     $obj = new HandbagProductDTO($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $bagMaterial, $descriptionMaterial);
+                     $temp = $check->updateHandbag($obj);
+
+                     echo json_encode($temp);
+                     break;
+
+              case 'updateShirt':
+                     $productCode = $_POST['productCode'];
+
+                     // xử lý mảng ảnh
+                     $arrImg = json_decode($_POST['arrImg']);
+                     // tạo chuỗi ảnh
+                     $imgProduct = '';
+                     for ($i = 0; $i < count($arrImg); $i++) {
+                            if ($i != count($arrImg) - 1) {
+                                   $imgProduct = $imgProduct . $arrImg[$i] . ' ';
+                            } else {
+                                   $imgProduct = $imgProduct . $arrImg[$i];
+                            }
+                     }
+
+                     $nameProduct = $_POST['nameProduct'];
+                     $supplierCode = $_POST['supplierCode'];
+                     $quantity = $_POST['quantity'];
+                     $describe = $_POST['describe'];
+                     $status = $_POST['status'];
+                     $color = $_POST['color'];
+                     $targetGender = $_POST['targetGender'];
+                     $price = $_POST['price'];
+                     $promotion = $_POST['promotion'];
+
+                     $shirtMaterial = $_POST['shirtMaterial'];
+                     $shirtStyle = $_POST['shirtStyle'];
+                     $descriptionMaterial = $_POST['descriptionMaterial'];
+
+                     $shirtSizeString = $_POST['shirtSizeString'];
+                     // $stringSizeShirt = S001-P001-12_S002-P001-10
+
+                     $temp = $check->updateShirt($productCode, $imgProduct, $nameProduct, $supplierCode, $quantity, $describe, $status, $color, $targetGender, $price, $promotion, $shirtMaterial, $shirtStyle, $descriptionMaterial, $shirtSizeString);
+
+                     echo json_encode($temp);
+                     break;
+
+              case 'deleteProduct':
+                     $productCode = $_POST['code'];
+                     $type = $_POST['type'];
+                     $temp = $check->deleteProduct($productCode, $type);
                      echo json_encode($temp);
                      break;
        }

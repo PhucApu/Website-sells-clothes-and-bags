@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" /> -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/admin/product.css">
 
@@ -33,19 +33,25 @@
                 <div class="container-product">
                     <div class="top-container mt-2">
                         <h2>Danh sách sản phẩm</h2>
-                        <a href="./addproduct.php" class="btn btn-primary">Thêm sản phẩm</a>
+                        <a type="button" class="button" href="./addproduct.php" style="text-decoration:none;">
+                            <span class="button__text">Thêm mới</span>
+                            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
+                                    <line y2="19" y1="5" x2="12" x1="12"></line>
+                                    <line y2="12" y1="12" x2="19" x1="5"></line>
+                                </svg></span>
+                        </a>
                     </div>
                     <div class="mb-3 mt-5 ">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Nhập mã sản phẩm, tên sản phẩm,...">
+                            <input id="value-search" type="text" class="form-control" id="input-search" placeholder="Nhập mã sản phẩm, tên sản phẩm,...">
                             <!-- <select class="form-select">
                                 <option value="">Tất cả trạng thái</option>
                                 <option value="In Stock">Còn hàng</option>
                                 <option value="Out Of Stock">Hết hàng</option>
                             </select> -->
-                            <select class="form-select">
+                            <select id="category" class="form-select">
                                 <option value="empty">Tất cả danh mục</option>
-                                <option value="shirtProduct">Áo</option>
+                                <option value="shirtProduct">Quần áo</option>
                                 <option value="handbagProduct">Túi xách</option>
                             </select>
                             <!-- <select class="form-select">
@@ -53,23 +59,23 @@
                                 <option value="Nike">NCC001</option>
                                 <option value="Adidas">NCC002</option>
                             </select> -->
-                            <button class="btn btn-primary">Tìm kiếm <i class="fa fa-search" style="font-size: 15px;"></i></button>
+                            <button onclick="Search(1,5)" class="btn btn-primary">Tìm kiếm <i class="fa fa-search" style="font-size: 15px;"></i></button>
                         </div>
                     </div>
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th class="table-cell">Tên sản phẩm</th>
-                                <th>Mã sản phẩm</th>
-                                <th>Ảnh</th>
-                                <th>Số lượng</th>
-                                <th>Giá</th>
-                                <th>Trạng thái</th>
-                                <th>Thao tác</th>
+                                <th class="fw-bold">Tên sản phẩm</th>
+                                <th class="fw-bold">Mã sản phẩm</th>
+                                <th class="fw-bold">Ảnh</th>
+                                <th class="fw-bold">Số lượng</th>
+                                <th class="fw-bold">Giá</th>
+                                <th class="fw-bold">Trạng thái</th>
+                                <th class="fw-bold">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody id="listProduct">
-                            <tr>
+                            <!-- <tr>
                                 <td>Nike T-Shirt</td>
                                 <td>001</td>
                                 <td><img src="./logo-sgu.png" width="50px"></td>
@@ -107,7 +113,7 @@
                                     <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash"> </i>Xóa</a>
                                     <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa fa-eye"> </i>Xem</a>
                                 </td>
-                            </tr>
+                            </tr> -->
 
                         </tbody>
                     </table>
@@ -236,27 +242,30 @@
                 </div>
 
                 <!--Modal xóa sản phẩm  -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">Xóa sản phẩm</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Bạn có chắc chắn muốn xóa sản phẩm này?
-                                <br>
-                                Mã sản phẩm: P...
-                                <br>
-                                Tên sản phẩm: ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-danger btn-confirm-delete">Xóa</button>
+                <div id="deleteForm">
+                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Xóa sản phẩm</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có chắc chắn muốn xóa sản phẩm này?
+                                    <br>
+                                    Mã sản phẩm: P...
+                                    <br>
+                                    Tên sản phẩm: ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-danger btn-confirm-delete">Xóa</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div id="content-product-detail">
                     <!-- Modal xem chi tiết sản phẩm -->
@@ -378,6 +387,7 @@
     <script src="../../Js/admin/sidebar.js?v=<?php echo time(); ?>"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="../../Js/admin/product.js?v=<?php echo time(); ?>"></script>
 
