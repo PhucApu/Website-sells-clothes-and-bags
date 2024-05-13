@@ -70,7 +70,7 @@
                                 <input id="address" class="form-control" type="text" name="address" placeholder="Nhập địa chỉ..." value="330/18/13 Âu Dương Lân, phường 3, Quận 8, tp HCM">
                             </div>
                         </div>
-                        <button id="submit" onclick="submitChangeInfor(event)" type="submit" class="btn btn-primary">Cập nhập </button>
+                        <button id="submit" onclick="submitChangeInfor(event)" type="submit" class="btn btn-primary">Cập nhật</button>
                         <p><a href="../admin/Tongquan.php">Quay lại</a></p>
 
                     </form>

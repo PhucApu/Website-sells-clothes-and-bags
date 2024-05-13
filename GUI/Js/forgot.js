@@ -49,8 +49,12 @@ async function checkMail_and_sendCode(event) {
             document.getElementById('codeForm').style.display = 'flex';
             document.getElementById('codeForm').classList.remove('hidden');
 
+            document.getElementById('btn1').innerHTML = `
+                <a id="accuracy" onclick="XacThuc(event,'${data.username}','${data.codeReset}')" href="#!" style="text-decoration:none; color:black;">ACCURACY</a>
+            `;
 
-            XacThuc(data.username, data.codeReset);
+
+            // await XacThuc(data.username, data.codeReset);
             return true;
         }
     } else {
@@ -64,9 +68,9 @@ async function checkMail_and_sendCode(event) {
 }
 
 // xac thuc
-function XacThuc(username, code) {
+async function XacThuc(event,username, code) {
 
-    document.getElementById('accuracy').onclick = function (event) {
+    
 
         event.preventDefault();
 
@@ -84,6 +88,8 @@ function XacThuc(username, code) {
         // Chuyển đổi biến number thành một số nguyên
         var result = parseInt(number);
 
+        
+
         if (result == code) {
             window.location.href = `../../GUI/view/resetPassword.php?username=${username}`;
         } else {
@@ -94,11 +100,9 @@ function XacThuc(username, code) {
                 showConfirmButton: false,
                 timer: 2000
             });
+            // alert('wrong code');
         }
-    }
-
-
-
+    
 }
 
 

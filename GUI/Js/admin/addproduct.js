@@ -208,7 +208,7 @@ async function addProduct(event) {
 
             image.push(string);
         }
-        if (productCode === '' || nameProduct === '' || supplierCode === '' || price === '' || quantity === '' ||
+        if (productCode === '' || nameProduct === '' || supplierCode === 'none' || price === '' || quantity === '' ||
             description === '' || status === '' || color === '' || target === '' || promotion === ''
             || bagMaterial === '' || descriptionMaterial === '') {
             Swal.fire({
@@ -368,7 +368,7 @@ async function addProduct(event) {
         // console.log(sizesString);
         // console.log('Image: ' + image);
 
-        if (productCode === '' || nameProduct === '' || supplierCode === '' || price === '' || quantity === ''
+        if (productCode === '' || nameProduct === '' || supplierCode === 'none' || price === '' || quantity === ''
             || description === '' || status === '' || color === '' || target === '' || shirtStyle === ''
             || promotion === '' || shirtMaterial === '' || descriptionMaterial === '') {
             Swal.fire({

@@ -10,6 +10,7 @@
        <link rel="stylesheet" href="../css/HomePage.css">
        <link rel="stylesheet" href="../css/Header.css"> -->
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+       <link rel="shortcut icon" href="../image/logo-sgu.png" type="image/x-icon">
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
        
@@ -120,7 +121,7 @@
                                                  <tr class="product_main_cart">
                                                         <td class="cart_list_btn" colspan="6">
                                                                <!-- <div class="btn_cart">Update cart</div> -->
-                                                               <a href="./HomePage.php" class="btn_cart">Continue shopping</a>
+                                                               <a href="./Shop.php" class="btn_cart">Continue shopping</a>
                                                         </td>
                                                  </tr>
                                           </tbody>

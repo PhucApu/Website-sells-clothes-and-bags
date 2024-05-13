@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- thư viện dùng cho alert -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../image/logo-sgu.png" type="image/x-icon">
     <style>
         <?php
         require('../css/Header.css');

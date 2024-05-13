@@ -93,7 +93,7 @@ class CommentBLL
        {
               $arr = $this->CommentDAL->getArr_by_productCode($productCode);
               $result = array();
-              if (count($arr) > 0) {
+              if ($arr != null && count($arr) > 0) {
                      foreach ($arr as $item) {
                             // if($item->getState() == "1"){
                             $codeComment = $item->getCodeComment();
@@ -122,9 +122,7 @@ class CommentBLL
                      }
                      return $result;
               } else {
-                     return array(
-                            "mess" => "empty"
-                     );
+                     return null;
               }
        }
 
@@ -316,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      break;
 
               case 'searchComments':
-                     $str = $_POST['str'];
+                     $str = strtolower($_POST['str']);
                      $temp = $check->searchComments($str);
                      echo json_encode($temp);
                      break;

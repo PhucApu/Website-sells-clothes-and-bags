@@ -5,22 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quên mật khẩu</title>
-    <link rel="stylesheet" href="../css/forgotPassword.css">
+    <link rel="stylesheet" href="../css/forgotPassword.css?v=<?php echo time(); ?>">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../image/logo-sgu.png" type="image/x-icon">
 </head>
 
 <body>
     <div class="container">
         <div class="form-container" id="emailForm">
             <div class="logo-container">
-                Quên mật khẩu
+                Forgot password
             </div>
 
             <form class="form">
 
                 <div class="form-group ">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username login" required="">
+                    <input style="margin-bottom: 10px;" type="text" id="username" name="username" placeholder="Enter your username login" required="">
                 </div>
 
                 <div class="form-group">
@@ -28,17 +29,17 @@
                     <input type="text" id="email" name="email" placeholder="Enter your email" required="">
                 </div>
 
-                <button onclick="checkMail_and_sendCode(event)" class="form-submit-btn" id="btnSendEmail" type="submit">GỬI MÃ VỀ EMAIL</button>
+                <button onclick="checkMail_and_sendCode(event)" class="form-submit-btn" id="btnSendEmail">SEND CODE TO EMAIL</button>
             </form>
 
             <p class="signup-link">
-                Bạn chưa có tài khoản?
-                <a href="../view/signup.php" class="signup-link link"> Đăng ký ngay</a>
+                Don't have an account?
+                <a href="../view/signup.php" class="signup-link link"> Register now</a>
             </p>
         </div>
 
         <form class="form1" id="codeForm">
-            <p class="heading">Nhập mã xác thực</p>
+            <p class="heading">Enter Auth Code</p>
 
             <svg title="Nhập mã xác thực được gửi về email của bạn" class="check" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="60px" height="60px" viewBox="0 0 60 60" xml:space="preserve">
                 <image id="image0" width="60" height="60" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAQAAACQ9RH5AAAABGdBTUEAALGPC/xhBQAAACBjSFJN
@@ -65,13 +66,16 @@
                 <input class="input" type="number" maxlength="1">
                 <input class="input" type="number" maxlength="1">
             </div>
-            <button class="btn1"><a id="accuracy" href="#!" style="text-decoration:none; color:black;">XÁC THỰC</a></button>
-            <button class="btn2">GỬI MÃ MỚI</button>
+            <button id="btn1" class="btn1">
+                <a id="accuracy" href="#!" style="text-decoration:none; color:black;">ACCURACY</a>
+            </button>
+            <button onclick="checkMail_and_sendCode(event)" class="btn2">SEND NEW CODE</button>
         </form>
     </div>
 
-    <script src="../Js/forgot.js?v=<?php echo time(); ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
+    <script src="../Js/forgot.js?v=<?php echo time(); ?>"></script>
+
 </body>
 
 </html>

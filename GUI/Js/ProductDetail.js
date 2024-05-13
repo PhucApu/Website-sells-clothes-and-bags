@@ -607,8 +607,14 @@ async function getCommentData(productCode) {
                 'function=' + encodeURIComponent('getArrObj_by_productCode') + '&productCode=' + encodeURIComponent(productCode)
         });
         let data = await response.json();
-        console.log(data);
-        await showDataCommentHTML(data);
+        
+        if(data != null){
+            console.log(data);
+            await showDataCommentHTML(data);
+        }else{
+            document.getElementById('review').innerHTML = `<span>There are no reviews for this product yet, be the first to buy the product and review it.</span>`
+        }
+        
     } catch (error) {
         console.error('Error:', error);
     }

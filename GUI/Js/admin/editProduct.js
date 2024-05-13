@@ -5,6 +5,7 @@ async function getData() {
 
        // Lấy giá trị của tham số 'code' từ URL hiện tại
        let urlParams = new URLSearchParams(window.location.search);
+
        let productCode = urlParams.get('productCode');
        let typeValue = urlParams.get('type');
        // kiem tra
@@ -642,7 +643,7 @@ async function updateHandbag(event) {
        }
        if (productCode === '' || nameProduct === '' || supplierCode === '' || price === '' || quantity === '' ||
               description === '' || status === '' || color === '' || target === '' || promotion === ''
-              || bagMaterial === '' || descriptionMaterial === '') {
+              || bagMaterial === '' || descriptionMaterial === '' || chuoiArr.length == 0) {
               Swal.fire({
                      icon: "error",
                      title: "Thêm thất bại!",
@@ -845,7 +846,7 @@ async function updateShirt(event) {
 
        if (productCode === '' || nameProduct === '' || supplierCode === '' || price === '' || sumQuantity <= 0 ||
               description === '' || status === '' || color === '' || target === '' || promotion === ''
-              || shirtMaterial === '' || descriptionMaterial === '' || shirtStyle === '') {
+              || shirtMaterial === '' || descriptionMaterial === '' || shirtStyle === '' || chuoiArr.length == 0) {
               Swal.fire({
                      icon: "error",
                      title: "Thêm thất bại!",

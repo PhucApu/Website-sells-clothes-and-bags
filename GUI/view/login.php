@@ -11,6 +11,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="../../GUI/css/login.css" type="text/css" media="all" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+	<link rel="shortcut icon" href="../image/logo-sgu.png" type="image/x-icon">
 </head>
 
 <body>
@@ -18,28 +19,28 @@
 		<div class="form-36-mian section-gap">
 			<div class="wrapper">
 				<div class="form-inner-cont">
-					<h3>ĐĂNG NHẬP</h3>
+					<h3>LOGIN</h3>
 					<form action="" method="post" class="signin-form">
 						<div class="form-input">
-							<span class="fa fa-envelope" aria-hidden="true"></span> <input id="userNameInput" type="text" name="email" placeholder="Tên đăng nhập" required />
+							<span class="fa fa-envelope" aria-hidden="true"></span> <input id="userNameInput" type="text" name="email" placeholder="Username" required />
 						</div>
 						<div class="form-input">
-							<span class="fa fa-key" aria-hidden="true"></span> <input id="passWordInput" type="password" name="password" placeholder="Mật khẩu" required />
+							<span class="fa fa-key" aria-hidden="true"></span> <input id="passWordInput" type="password" name="password" placeholder="Password" required />
 						</div>
 						<div class="login-remember d-grid">
 							<label class="check-remaind">
-								<input type="checkbox">
+								<!-- <input type="checkbox">
 								<span class="checkmark"></span>
-								<p class="remember">Nhớ mật khẩu</p>
+								<p class="remember">Remember</p> -->
 							</label>
-							<button class="btn theme-button" onclick="Login(event)">Đăng Nhập</button>
+							<button class="btn theme-button" onclick="Login(event)">Login</button>
 						</div>
 						<div class="new-signup">
-							<a href="./forgot-password.php" class="signuplink">Quên mật khẩu?</a>
+							<a href="./forgot-password.php" class="signuplink">Forgot password?</a>
 						</div>
 					</form>
 					<div class="social-icons">
-						<p class="continue"><span>Hoặc</span></p>
+						<p class="continue"><span>Or</span></p>
 						<div class="social-login">
 							<a href="https://www.facebook.com/thanh.sang.528" target="_blank">
 								<div class="facebook">
@@ -54,8 +55,8 @@
 							</a>
 						</div>
 					</div>
-					<p class="signup">Bạn chưa có tài khoản? <a href="../../GUI/view/signup.php" class="signuplink">Đăng ký ngay</a></p>
-					<a href="../../GUI/view/HomePage.php" class="login-now text-dark"><span class="fw-bold">Tiếp tục </a>mà không cần tài khoản</span>
+					<p class="signup">Do not have an account? <a href="../../GUI/view/signup.php" class="signuplink">Register now</a></p>
+					<a href="../../GUI/view/HomePage.php" class="login-now text-dark"><span class="fw-bold">Continue </a>without needing an account</span>
 				</div>
 			</div>
 		</div>

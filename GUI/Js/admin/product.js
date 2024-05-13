@@ -8,20 +8,114 @@
 //                   },
 //                   body: 'function=' + encodeURIComponent('getArrObj')
 //            });
-           
+
 //            const data = await response.json();
 //            console.log(data);
-           
-           
+
+
 //            //     Display Transport
 //            showDataTable(data);
 //            loadPage();
-           
-           
+
+
 //     } catch (error) {
 //            console.error('Error:', error);
 //     }
 // }
+
+
+// ------------------------------------------- AJAX kiểm tra đăng nhập -----------------------------------------------
+async function checkLogin_product() {
+    try {
+        const response = await fetch('../../../BLL/AccountBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('checkLogin')
+        });
+        const data = await response.json();
+        console.log(data);
+        let result = data[0];
+        if (result.result == 'success' && result.codePermission != 'user') {
+
+            // getDataPermission_payment(result.codePermission);
+            return result.codePermission;
+        }
+        // for (let i of data) {
+        //        console.log(i);
+        // }
+        // showProductItem(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+// checkLogin();
+
+async function getDataPermission_product(codePermission) {
+    try {
+        const response = await fetch('../../../BLL/ManagerUserGroupBLL.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                'function=' + encodeURIComponent('getArrPermissionDetail') + '&codePermission=' + encodeURIComponent(codePermission)
+        });
+        const data = await response.json();
+        console.log(data);
+
+        if (data != null) {
+            // checkUpPermission_payment(data.permissionDetail,codePermission,"");
+            return data;
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// setup các chức năng được truy cập
+function checkUpPermission_product(dataPermissionDetail, functionPoint) {
+
+    if (functionPoint == "") {
+        return false;
+    }
+
+    for (let item of dataPermissionDetail) {
+        if (item.functionCode == "product") {
+            console.log("Phan quyen");
+            // thêm
+            if (item.addPermission == "1" && functionPoint == "add") {
+                console.log("Được phép thêm");
+                return true;
+            } else if (item.addPermission != "1" && functionPoint == "add") {
+                console.log("Không Được phép thêm");
+                return false;
+            }
+            // sửa
+            if (item.fixPermission == "1" && functionPoint == "update") {
+                console.log("Được phép sửa");
+                return true;
+            } else if (item.fixPermission != "1" && functionPoint == "update") {
+                console.log("Không Được phép sửa");
+                return false;
+            }
+
+            // xóa 
+            if (item.deletePermission == "1" && functionPoint == "delete") {
+                console.log("Được phép xóa");
+                return true;
+            } else if (item.deletePermission != "1" && functionPoint == "delete") {
+                console.log("Không Được phép xóa");
+                return false;
+            }
+        }
+
+    }
+}
+
 
 
 //---------- AJAX
@@ -32,11 +126,11 @@ async function Search(page, limit) {
     let valueSearch = document.getElementById('value-search').value;
     let category = document.getElementById('category').value;
 
-    if(valueSearch == ''){
+    if (valueSearch == '') {
         valueSearch = 'empty';
     }
-    
-    console.log(valueSearch,category);  
+
+    console.log(valueSearch, category);
 
 
     // goi ajax
@@ -61,21 +155,21 @@ async function Search(page, limit) {
             }
             listPage(page, limit, dataLength);
             let conatiner = document.getElementById('listProduct');
-            
+
 
             conatiner.innerHTML = `
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             `;
-            
+
             await showDataTable(data)
-        }else{
+        } else {
             Swal.fire({
                 icon: "error",
                 title: "Không tìm thấy sản phẩm",
-                
-         });
+
+            });
         }
 
     } catch (error) {
@@ -202,7 +296,7 @@ async function showDataTable(data) {
                         <td>${state}</td>
                         <td>
                              
-                            <a class="btn btn-sm btn-warning" href="./editProduct.php?productCode=${productCode}&type=${type}"><i class="fa fa-edit"></i>Sửa</a>
+                            <a class="btn btn-sm btn-warning" href="#" onclick="updateObj(event,'${productCode}','${type}')"><i class="fa fa-edit"></i>Sửa</a>
                             <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-${productCode}"><i class="fa fa-trash"> </i>Xóa</a>
                             <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#${productCode}"><i class="fa fa-eye"> </i>Xem</a>
                         </td>
@@ -476,37 +570,103 @@ async function showDataTable(data) {
     }
 }
 
-async function deleteProduct(productCode, type) {
-    try {
+// sua
+async function updateObj(event, productCode, type) {
 
-        const response = await fetch('../../../BLL/ProductBLL.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body:
-                'function=' + encodeURIComponent('deleteProduct') + '&code=' + encodeURIComponent(productCode)
-                + '&type=' + encodeURIComponent(type)
+    // lấy thông tin mã  codePermission của người đăng nhập
+    let codePermission = await checkLogin_product();
+    // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+    let data = await getDataPermission_product(codePermission);
+    // lấy thông tin có được phép làm chức ăng đó không
+    let check = checkUpPermission_product(data.permissionDetail, "update");
+
+
+    if (check == true) {
+        window.location.href = `../../../GUI/view/admin/editProduct.php?productCode=${productCode}&type=${type}`;
+    } else {
+        event.preventDefault();
+        Swal.fire({
+            icon: "error",
+            title: "Thêm không thành công",
+            text: "Không đủ quyền hàng",
         });
-        const data = await response.json();
-        console.log(data);
-        let page = parseInt(getPageActive());
-        if (data.mess === 'success') {
-            await Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Xóa Sản phẩm thành công!",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            
-            await Search(page, 5);
-            
-        }
-        // handle the response data as needed
-    } catch (error) {
-        console.error('Error:', error);
     }
+}
+
+// 
+// thêm một đối tương
+async function addObj(event) {
+
+    // lấy thông tin mã  codePermission của người đăng nhập
+    let codePermission = await checkLogin_product();
+    // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+    let data = await getDataPermission_product(codePermission);
+    // lấy thông tin có được phép làm chức ăng đó không
+    let check = checkUpPermission_product(data.permissionDetail, "add");
+
+
+    if (check == true) {
+        window.location.href = "../../../GUI/view/admin/addproduct.php";
+    } else {
+        event.preventDefault();
+        Swal.fire({
+            icon: "error",
+            title: "Thêm không thành công",
+            text: "Không đủ quyền hàng",
+        });
+    }
+}
+
+async function deleteProduct(productCode, type) {
+
+    // lấy thông tin mã  codePermission của người đăng nhập
+    let codePermission = await checkLogin_product();
+    // lấy mảng chi tiết phân quyền dựa theo mã phân quyền của người đăng nhập
+    let data = await getDataPermission_product(codePermission);
+    // lấy thông tin có được phép làm chức ăng đó không
+    let check = checkUpPermission_product(data.permissionDetail, "delete");
+
+    if (check == true) {
+        try {
+
+            const response = await fetch('../../../BLL/ProductBLL.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:
+                    'function=' + encodeURIComponent('deleteProduct') + '&code=' + encodeURIComponent(productCode)
+                    + '&type=' + encodeURIComponent(type)
+            });
+            const data = await response.json();
+            console.log(data);
+            let page = parseInt(getPageActive());
+            if (data.mess === 'success') {
+                await Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Xóa Sản phẩm thành công!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                await Search(page, 5);
+
+            }
+            // handle the response data as needed
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    else {
+        Swal.fire({
+            icon: "error",
+            title: "Xóa không thành công",
+            text: "Không đủ quyền hàng",
+        });
+    }
+
+
 }
 
 
@@ -580,12 +740,12 @@ function loadItem(thisPage, limit) {
     let all_data_rows = document.querySelectorAll('listProduct > tr');
 
     all_data_rows.forEach((item, index) => {
-           if (index >= beginGet && index <= endGet) {
-                  item.style.display = 'table-row';
-           }
-           else {
-                  item.style.display = 'none';
-           }
+        if (index >= beginGet && index <= endGet) {
+            item.style.display = 'table-row';
+        }
+        else {
+            item.style.display = 'none';
+        }
     });
 
     // hàm tính có bao nhieu nút chuyển trang
@@ -593,36 +753,36 @@ function loadItem(thisPage, limit) {
 }
 
 
-function action() {
-    $(document).ready(function () {
-        $('#inputFile').change(function () {
-            const files = $(this)[0].files;
-            if (files.length > 0) {
-                const imagePreview = $('#imagePreview');
-                imagePreview.empty();
 
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
+$(document).ready(function () {
+    $('#inputFile').change(function () {
+        const files = $(this)[0].files;
+        if (files.length > 0) {
+            const imagePreview = $('#imagePreview');
+            imagePreview.empty();
 
-                    reader.onload = function (e) {
-                        const img = $('<img>').attr('src', e.target.result).addClass('img-thumbnail');
-                        imagePreview.append(img);
-                    };
-                    reader.readAsDataURL(file);
-                }
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = $('<img>').attr('src', e.target.result).addClass('img-thumbnail');
+                    imagePreview.append(img);
+                };
+                reader.readAsDataURL(file);
             }
-        });
+        }
     });
-}
+});
+
 // action();
 
 window.addEventListener("load", async function () {
     // Thực hiện các hàm bạn muốn sau khi trang web đã tải hoàn toàn, bao gồm tất cả các tài nguyên như hình ảnh, stylesheet, v.v.
     console.log("Trang quản lý sản phẩm đã load hoàn toàn");
-    await Search(1, 5)
+    await Search(1, 5);
     // searchProduct();
     // loadPage();
-    action();
-    
+    // action();
+
 });

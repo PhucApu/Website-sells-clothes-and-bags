@@ -8,7 +8,9 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="../css/signup.css?v=<?php echo $version ?>">
+  <link rel="shortcut icon" href="../image/logo-sgu.png" type="image/x-icon">
 </head>
 
 <body>
@@ -17,28 +19,28 @@
 
   <div class="form-container">
     <div id="step1">
-      <h3 class="h2 fw-bold">ĐĂNG KÝ</h3>
+      <h3 class="h2 fw-bold">REGISTER</h3>
       <form>
         <div class="mb-3 form-icon">
           <i class="fas fa-user"></i>
-          <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" required>
+          <input type="text" class="form-control" id="username" placeholder="username" required>
         </div>
         <div class="mb-3 form-icon">
           <i class="fas fa-lock"></i>
-          <input type="password" class="form-control" id="password" placeholder="Mật Khẩu" required>
+          <input type="password" class="form-control" id="password" placeholder="password" required>
         </div>
         <div class="mb-3 form-icon">
           <i class="fas fa-lock"></i>
-          <input type="password" class="form-control" id="repeat-password" placeholder="Nhập lại mật khẩu" required>
+          <input type="password" class="form-control" id="repeat-password" placeholder="repeat password" required>
         </div>
-        <button type="button" class="btn btn-dark" onclick="showStep2()" style="margin-left: 65%;">Tiếp Theo</button>
+        <button type="button" class="btn btn-dark" onclick="showStep2()" style="margin-left: 65%;">Continue</button>
         <div class="login-note">
-          <medium>Đã có tài khoản? <a href="./login.php" class="text-dark font-weight-bold">Đăng nhập ngay</a></medium>
+          <medium>Already have an account? <a href="./login.php" class="text-dark font-weight-bold">Log in now</a></medium>
         </div>
       </form>
     </div>
     <div id="step2" style="display:none;">
-      <h3 class="h2 fw-bold">THÔNG TIN</h3>
+      <h3 class="h2 fw-bold">INFORMATION</h3>
       <form id="registrationForm">
         <div class="mb-3 form-icon">
           <i class="fas fa-user"></i>
@@ -55,9 +57,9 @@
         <div class="mb-3 form-icon">
           <i class="fas fa-venus-mars"></i>
           <select class="form-select" id="gender" required>
-            <option value="male">Nam</option>
-            <option value="female">Nữ</option>
-            <option value="other">Khác</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <!-- <option value="other">Khác</option> -->
           </select>
         </div>
         <div class="mb-3 form-icon">
@@ -71,7 +73,7 @@
         </div>
         <div class="d-flex justify-content-between">
           <span onclick="showStep1()"><i class="fas fa-arrow-left" style="cursor: pointer;"></i></span>
-          <button type="submit" class="btn btn-dark">Đăng Ký</button>
+          <button type="submit" class="btn btn-dark">Register</button>
           <!-- Success message placeholder -->
         </div>
       </form>

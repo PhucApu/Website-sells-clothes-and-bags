@@ -72,7 +72,7 @@ async function Login(event) {
                             Swal.fire({
                                    icon: "error",
                                    title: "Oops...",
-                                   text: "Something went wrong!",
+                                   text: "Account not found!",
                                    footer: `Don't have account ? <a href="../../GUI/view/signup.php">Sign up</a>`
                             });
                             // alert('Không tìm thấy tài khoản');
