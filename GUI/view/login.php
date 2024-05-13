@@ -35,7 +35,7 @@
 							<button class="btn theme-button" onclick="Login(event)">Đăng Nhập</button>
 						</div>
 						<div class="new-signup">
-							<a href="#reload" class="signuplink">Quên mật khẩu?</a>
+							<a href="./forgot-password.php" class="signuplink">Quên mật khẩu?</a>
 						</div>
 					</form>
 					<div class="social-icons">

@@ -8,6 +8,15 @@ require('../DTO/AccountDTO.php');
 
 require('../DAL/AccountDAL.php');
 
+// các thử viện liên quan gửi nhận mail.
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require('../PHPMailer-master/PHPMailer-master/src/PHPMailer.php');
+require('../PHPMailer-master/PHPMailer-master/src/Exception.php');
+require('../PHPMailer-master/PHPMailer-master/src/SMTP.php');
+
 class AccountBLL
 {
        private $AccountDAL;
@@ -67,6 +76,73 @@ class AccountBLL
                      );
                      array_push($result, $obj);
                      return $result;
+              }
+       }
+
+       // khôi phục mật khẩu
+       // input: username, email
+       // output: ma xac nhan ngau nhien
+       function resetPass($userName, $email)
+       {
+              // kiem tra xem co username do khong
+              $user = $this->AccountDAL->getobj($userName);
+              if ($user != null) {
+                     // kiem tra xem email nhap vao co dung voi eamil dk khong
+                     if ($email == $user->getEmail()) {
+
+                            // xin ra số có 4 chữ số ngẫu nhiên
+
+                            $random_number = rand(1000, 9999);
+
+                            // gui mail
+                            // Tạo một đối tượng PHPMailer
+                            $mail = new PHPMailer(true);
+
+                            try {
+                                   // Cài đặt thông tin máy chủ SMTP
+                                   $mail->isSMTP();
+                                   $mail->Host = 'smtp.gmail.com';  // SMTP server của Gmail
+                                   $mail->SMTPAuth = true;
+                                   $mail->Username = 'truongphuc056@gmail.com'; // Địa chỉ email của bạn
+                                   $mail->Password = 'ppgkknqsnqztvuuf'; // Mật khẩu email của bạn
+                                   $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Sử dụng SSL hoặc TLS
+                                   $mail->Port = 587; // Cổng SMTP của Gmail
+
+                                   // Thiết lập thông tin người gửi và người nhận
+                                   $mail->setFrom('truongphuc056@gmail.com', 'MINIMAL'); // Địa chỉ email và tên người gửi
+                                   $mail->addAddress($email, $userName); // Địa chỉ email và tên người nhận
+
+                                   // Thiết lập tiêu đề và nội dung email
+                                   $mail->Subject = 'Email sending authentication code from MINIMAL store';
+                                   $mail->Body = "This is your authentication code: $random_number";
+
+                                   // Gửi email
+                                   if ($mail->send()) {
+                                          return array(
+                                                 "username" => $userName,
+                                                 "email" => $email,
+                                                 "codeReset" => $random_number,
+                                                 "mess" => "success"
+                                          );
+                                   } else {
+                                          return array(
+                                                 "mess" => "failus to send mail"
+                                          );
+                                   }
+                            } catch (Exception $e) {
+                                   return array(
+                                          "mess" => "failus to send mail ! Exception"
+                                   );
+                            }
+                     } else {
+                            return array(
+                                   "mess" => "wrongMail"
+                            );
+                     }
+              } else {
+                     return array(
+                            "mess" => "notFound"
+                     );
               }
        }
 
@@ -142,7 +218,9 @@ class AccountBLL
                             }
                      } else {
                             $obj = array(
-                                   "result" => "wrongPass"
+                                   "result" => "wrongPass",
+                                   "username" => $user->getUsername(),
+                                   "email" => $user->getEmail()
                             );
                             array_push($result, $obj);
                             return $result;
@@ -175,19 +253,20 @@ class AccountBLL
                      return $result;
               }
        }
-       
+
        // sửa một tài khoản
        // input: các thuộc tính của account
        // output: thông tin tài khoản sau khi sửa
-       function updateAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission){
+       function updateAccount($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission)
+       {
               $obj = new AccountDTO($userName, $passWord, $dateCreate, $accountStatus, $name, $address, $email, $phoneNumber, $birth, $sex, $codePermission);
 
               $check = $this->AccountDAL->upadateObj($obj);
-              if($check == true){
+              if ($check == true) {
                      return array(
                             "mess" => "success"
                      );
-              }else{
+              } else {
                      return array(
                             "mess" => "failus"
                      );
@@ -195,9 +274,10 @@ class AccountBLL
        }
 
        // lấy một tài khoản theo mã tài khoản
-       function getObjAccount($userName){
+       function getObjAccount($userName)
+       {
               $obj = $this->AccountDAL->getobj($userName);
-              if($obj != null){
+              if ($obj != null) {
                      return array(
                             "userName" => $obj->getUsername(),
                             "passWord" => $obj->getPassword(),
@@ -212,8 +292,7 @@ class AccountBLL
                             "codePermission" => $obj->getCodePermission(),
                             "result" => "success"
                      );
-              }
-              else{
+              } else {
                      return array(
                             "result" => "notFound"
                      );
@@ -296,6 +375,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               case 'getObjAccount':
                      $userName = $_POST['userName'];
                      $temp = $check->getObjAccount($userName);
+                     echo json_encode($temp);
+                     break;
+              case 'resetPass':
+                     $userName = $_POST['userName'];
+                     $email = $_POST['email'];
+                     $temp = $check->resetPass($userName,$email);
                      echo json_encode($temp);
                      break;
        }

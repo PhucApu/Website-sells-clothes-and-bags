@@ -86,7 +86,6 @@ function checkUpPermission_supplier(dataPermissionDetail, functionPoint) {
                             return false;
                      }
               }
-
        }
 }
 
