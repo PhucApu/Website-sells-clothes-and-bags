@@ -127,3 +127,28 @@
   - **Các chức năng bên phía user**: Còn chức năng liên quan đến đơn hàng (thêm,xem danh sách,..), xác nhận thanh toán, hiển thị thông tin người dùng đăng nhập do chưa có giao diện. Chức năng gửi phản hồi.
   - **Xây dựng giao diện website phía admin"**:..  
 
+## Task 5 (28/4/2024 -> 13/4/2024): Hoàn thành các chức năng phần Admin và thiết kế giao diện website
+
+## Task 6 (14/5/2024 lúc 14h): Đi báo cáo đồ án
+
+- ## Kết quả hoàn thành task 6: một số lưu ý
+  - Thầy Nguyễn Thanh Sang cho đồ án **8.5 điểm** do còn một số lỗi và thiếu sót.
+
+  - Dù đồ án không được trọn vẹn và điểm không được cao như những nhóm khác nhưng cũng là nỗ lực và công sức của anh em từ đầu đến cuối.
+
+  - Trong quá trình làm đồ án với nhau, có những lúc tớ hơi mất bình tĩnh và dùng những từ không hay để nói chuyện nên có gì anh em thông cảm bỏ qua cho tớ. Tớ hong có lý do nào để biện hộ cho chuyện đó, chỉ là do những lúc đó tớ thấy lo lắng sợ đồ án không làm kịp nên tớ không giữ được bình tĩnh. Nên có gì mấy ní bỏ qua cho tớ hen.
+
+  - Đây sẽ là lần push git cuối cùng (nếu trong tương lai không có update thêm), kết thúc chuỗi ngày mệt vcl vì chạy đồ án. Rất vui vì đã được làm việc chung với anh em **Nhóm 3 - web2 - kỳ 2 năm 3 - 2024**, chúc anh em thành công trong cuộc sống.
+
+## Các thành viên nhóm web2:
+  - **Nguyễn Thanh Sang**: aka thần phù hộ, chiến thần bút tráp.
+  - **Trần Tiến Phát**: aka FatNotPhat, "Để phát làm cho".
+  - **Nguyễn Trí Dũng**: aka "Kẻ không bao giờ ngủ", "lỗi XAMPP".
+  - **Ngô Hoàng Minh Trí**: aka "Tui hong mic được nha", "9 giờ tui mới vô được".
+  - **Trương Công Phúc**: aka "8 giờ họp hen mấy phen".
+
+
+
+
+
+
